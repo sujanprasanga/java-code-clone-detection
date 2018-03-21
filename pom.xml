@@ -1,0 +1,25 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>lk.ac.mrt.cse.mscresearch</groupId>
+  <artifactId>JavaCodeClonePrevention</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.commons</groupId>
+	    <artifactId>commons-exec</artifactId>
+	    <version>1.3</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.17</version>
+  	</dependency>
+  </dependencies>
+</project>
