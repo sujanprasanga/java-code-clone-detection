@@ -1,2 +1,10 @@
 no line numbers needed!
 when we need to find stuff to compare from the editor we can get line numbers from there!
+
+LOOP-> GOTO FOLOWED BY IF*
+
+IF-> IF FOLOWED BY GOTO
+
+cascaded if & loop ???
+
+variables are moved to top after compiling

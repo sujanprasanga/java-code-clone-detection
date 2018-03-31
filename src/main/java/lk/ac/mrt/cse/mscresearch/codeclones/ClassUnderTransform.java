@@ -9,7 +9,7 @@ public class ClassUnderTransform {
 	{
 		INITIAL,
 		DISASSEMBLED,
-		COMMENTS_AND_LV_TABLES_REMOVED,
+		FILTERED,
 		METHODS_SPLIT
 	}
 	
