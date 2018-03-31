@@ -16,7 +16,7 @@ public class Transformer {
 	
 	public void removeCommentsAndLVTable(ClassUnderTransform target)
 	{
-		target.setDisassembledCode(RegularExpressionUtil.filterNonEssential(target.getDisassembledCode()));
+		target.setDisassembledCode(RegularExpressionUtil.removeNonPublicMethodCode(target.getDisassembledCode()));
 //		String[] lines = target.getDisassembledCode().split("\n");
 //		for(int i=0; i<lines.length; i ++)
 //		{
@@ -63,8 +63,8 @@ public class Transformer {
 		c.setFullyQualifiedName("lk.clones.Example");
 		Transformer t = new Transformer();
 		t.disassemble(c);
-		System.out.println(c.getDisassembledCode());
-		t.removeCommentsAndLVTable(c);
 //		System.out.println(c.getDisassembledCode());
+		t.removeCommentsAndLVTable(c);
+		System.out.println(c.getDisassembledCode());
 	}
 }
