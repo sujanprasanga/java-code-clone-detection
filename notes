@@ -7,4 +7,10 @@ IF-> IF FOLOWED BY GOTO
 
 cascaded if & loop ???
 
+push ifs -> pop when jump to is reached!
+
 variables are moved to top after compiling
+
+need store & load to keep exception type & return for branches
+
+if->throw, return, goto
