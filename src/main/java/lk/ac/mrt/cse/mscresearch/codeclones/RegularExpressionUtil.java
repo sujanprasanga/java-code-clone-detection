@@ -61,7 +61,7 @@ public class RegularExpressionUtil {
 		
 		Map<String, String> instructions = new HashMap<>();
 		
-		instructions.put(INVOKE, "invoke((special)|(dynamic)|(interface)|(static)|(virtual)) #\\d+[ ]+// Method " + ICLASS_CG + "." + METHOD_CG	+ ":(.*)" + IRETURN_CG);
+		instructions.put(INVOKE, "invoke((special)|(dynamic)|(interface)|(static)|(virtual))[ ]+#\\d+[ ]+// Method " + ICLASS_CG + "." + METHOD_CG	+ ":\\(.*\\)" + IRETURN_CG);
 		instructions.put(GOTO, "goto(_w)?");
 		instructions.put(THROW, "athrow");
 		instructions.put(CHECKCAST, CHECKCAST);
