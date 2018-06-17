@@ -20,7 +20,8 @@ public abstract class Instruction {
 		LOAD,
 		POP, 
 		NEW_CLASS,
-		DUP
+		DUP,
+		CONST
 	}
 	
 	private final int label;

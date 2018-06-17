@@ -28,6 +28,7 @@ public class RegularExpressionUtil {
 	public static final String POP = "pop";
 	public static final String NEW = "new";
 	public static final String DUP = "dup";
+	public static final String CONST = "const";
 	
 	public static final String ICLASS_CG_NAME = "InvokedClass";
 	public static final String ICLASS_CG = "(?<" + ICLASS_CG_NAME	+ ">([\\w$]+[/\\w]*))";
@@ -83,7 +84,7 @@ public class RegularExpressionUtil {
 		instructions.put(STORE, ".store[ _]+" + STORE_CG);
 		instructions.put(LOAD, ".load[ _]+" + LOAD_CG);
 		instructions.put(RETURN, ".return");
-		instructions.put("const", ".const");
+		instructions.put(CONST, ".const");
 		instructions.put(POP, "pop");
 		instructions.put(NEW, "new [ ]+#\\d+[ ]+// class " + NEW_CLASS_CG);
 		instructions.put(DUP, "dup[_2]?_?x?" + DUP_CG);

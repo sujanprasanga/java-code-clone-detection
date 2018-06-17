@@ -20,15 +20,15 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 	private static final Logger log = Logger.getLogger(InstructionParserEventHandlerImpl.class);
 	
 	private List<Instruction> instructions = new ArrayList<>();
-	private List<Branch> branches = new ArrayList<>();
 	private Map<Integer, String> localVarTable = new HashMap<>();
 	private Deque<String> stack = new ArrayDeque<>();
-	private int branchDepth;
+	private Deque<InstructionDest> branchStack = new ArrayDeque<>();
 
 	public InstructionParserEventHandlerImpl(String[] params) {
 		for(int i=0; i<params.length; i++){
 			localVarTable.put(i, params[i].trim());
 		}
+		branchStack.push((Instruction i)-> instructions.add(i));
 	}
 
 	@Override
@@ -39,12 +39,11 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 
 	@Override
 	public void notifyBranchStart() {
-		branchDepth++;
 	}
 
 	@Override
 	public void notifyBranchEnd() {
-		branchDepth--;
+		branchStack.pop();
 	}
 
 	@Override
@@ -64,13 +63,6 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 		if(i.stackPush()){
 			stack.push(i.getLocalVar());
 		}
-		if(i.isBranching()){
-			branches.add((Branch)i);
-		} else if(branchDepth == 0){
-			instructions.add(i);
-		} else {
-			branches.get(branchDepth - 1).add(i);
-		}
 		if(i.duplicateStack()){
 			final int dupIndex = i.getDupIndex();
 			String[] tmp = new String[dupIndex];
@@ -83,6 +75,13 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 			}
 			stack.push(toDup);
 		}
+		
+		addInstruction(i);
+		
+		if(i.isBranching()){
+			final Branch b = (Branch)i;
+			branchStack.push((Instruction ii)-> b.add(ii));
+		}
 		log.debug(i);
 		log.debug(localVarTable);
 		log.debug(stack);
@@ -93,5 +92,13 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 		return instructions;
 	}
 	
+	private void addInstruction(Instruction i) {
+		InstructionDest peek = branchStack.peek();
+		peek.add(i);
+	}
 	
+	@FunctionalInterface
+	static interface InstructionDest{
+		void add(Instruction i);
+	}
 }

@@ -19,6 +19,7 @@ public class InstructionFactories {
 	public static final String POP = "pop";
 	public static final String NEW = "new";
 	public static final String DUP = "dup";
+	public static final String CONST = "const";
 	
 	private final static Map<String, InstructionFactory<? extends Instruction>> factories = build();
 	private static InstructionFactory<? extends Instruction> defualtFactory = (String arg, Matcher matcher, String tos)->{ return UnsortedInstruction.forInstruction(arg, matcher);};
@@ -43,6 +44,7 @@ public class InstructionFactories {
 		factories.put(POP, (String arg, Matcher matcher, String tos)->{ return Pop.from(matcher);});
 		factories.put(NEW, (String arg, Matcher matcher, String tos)->{ return New.forClazz(arg, matcher);});
 		factories.put(DUP, (String arg, Matcher matcher, String tos)->{ return Dup.from(arg, matcher);});
+		factories.put(CONST, (String arg, Matcher matcher, String tos)->{ return Const.from(arg, matcher);});
 		return factories;
 	}
 
