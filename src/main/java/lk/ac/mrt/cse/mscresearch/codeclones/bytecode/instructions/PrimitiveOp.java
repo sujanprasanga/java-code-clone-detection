@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 
 public class PrimitiveOp extends Instruction{
 
-	private final static ImmutableUtil<PrimitiveOp> immutableUtil = new ImmutableUtil<>((String arg, Matcher matcher)-> new PrimitiveOp(arg));
+	private final static ImmutableUtil<PrimitiveOp> immutableUtil = new ImmutableUtil<>((String arg, Matcher matcher, String tos)-> new PrimitiveOp(arg));
 	
 	private PrimitiveOp(String ops) {
 		super(0, TYPE.PRIMITIVE_OP);
