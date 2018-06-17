@@ -2,8 +2,12 @@ package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 public class InstructionPrinter {
 
+	private static final Logger log = Logger.getLogger(InstructionPrinter.class);
+	
 	private final List<Instruction> instructions;
     private int tabCount = 0;
     private final StringBuilder sb = new StringBuilder();
@@ -14,8 +18,8 @@ public class InstructionPrinter {
 	
 	public void print(){
 		print(instructions);
-		System.out.println(instructions);
-		System.out.println(sb.toString());
+		log.debug(instructions);
+		log.debug(sb.toString());
 	}
 	
 	public void print(List<Instruction> instructions){

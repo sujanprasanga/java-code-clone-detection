@@ -10,10 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import org.apache.log4j.Logger;
+
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Branch;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction;
 
 public class InstructionParserEventHandlerImpl implements InstructionParserEventHandler {
+	
+	private static final Logger log = Logger.getLogger(InstructionParserEventHandlerImpl.class);
 	
 	private List<Instruction> instructions = new ArrayList<>();
 	private List<Branch> branches = new ArrayList<>();
@@ -45,8 +49,8 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 
 	@Override
 	public void notifyMatch(String key, Matcher matcher) {
-		System.out.println("------------------------------------------");
-		System.out.println(stack);
+		log.debug("------------------------------------------");
+		log.debug(stack);
 		Instruction i = forInstruction(key).create(key, matcher, stack.peek());
 		if(i.localVarTableModifier()){
 			localVarTable.put(i.getLocalVarIndex() - 1, stack.peek());
@@ -67,9 +71,9 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 		} else {
 			branches.get(branchDepth - 1).add(i);
 		}
-		System.out.println(i);
-		System.out.println(localVarTable);
-		System.out.println(stack);
+		log.debug(i);
+		log.debug(localVarTable);
+		log.debug(stack);
 	}
 
 	@Override

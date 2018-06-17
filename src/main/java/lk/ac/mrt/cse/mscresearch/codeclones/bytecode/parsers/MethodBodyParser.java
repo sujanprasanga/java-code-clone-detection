@@ -11,7 +11,7 @@ public class MethodBodyParser extends AbstractInstructionParser{
 	public void parse() {
 //		while(index < body.length)
 //		{
-//			System.out.println("parsing: " + body[index]);
+//			log.debug("parsing: " + body[index]);
 //			doParse();
 //		}
 		new InstructionParser(body, params, 2).parse();

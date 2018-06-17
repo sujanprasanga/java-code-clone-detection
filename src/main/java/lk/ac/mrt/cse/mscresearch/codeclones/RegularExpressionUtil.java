@@ -8,8 +8,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 public class RegularExpressionUtil {
 
+	private static final Logger log = Logger.getLogger(RegularExpressionUtil.class);
+	
 	public static final String RETURN = "return";
 	public static final String STORE = "store";
 	public static final String LOAD = "load";
@@ -113,7 +117,7 @@ public class RegularExpressionUtil {
 		}
 		sb.setLength(sb.length() - 1);
 		sb.append("))").append(MATCH_TILL_NEW_LINE_REG_EX);
-		System.out.println(sb.toString());
+		log.debug(sb.toString());
 		return Pattern.compile(sb.toString());
 	}
 

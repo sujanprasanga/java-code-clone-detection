@@ -9,10 +9,14 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 
 public class InstructionParser {
 
+	private static final Logger log = Logger.getLogger(InstructionParser.class);
+	
 	protected final static Map<String, Pattern>  instructionPatterns = RegularExpressionUtil.getInstructionPatterns();
 	protected final String[] body;
 	protected final int startIndex;
@@ -27,8 +31,8 @@ public class InstructionParser {
 	
 	public void parse() {
 			doParse(startIndex, body.length - 1);
-			System.out.println("Dump start");
-			System.out.println(handler.get());
+			log.debug("Dump start");
+			log.debug(handler.get());
 	}
 	
 	protected void doParse(int start, int end) {
@@ -40,7 +44,7 @@ public class InstructionParser {
 			for(Entry<String, Pattern> entry : instructionPatterns.entrySet()){
 				Matcher matcher = entry.getValue().matcher(i);
 				if(matcher.find()){
-					System.out.println(i.trim());
+					log.debug(i.trim());
 					j = handleMatch(j, entry.getKey(), matcher, currentLabel);
 					matchFound = true;
 				}
@@ -81,7 +85,7 @@ public class InstructionParser {
 
 	private void createLoop(String label, int j) {
 		int i = findLabelReverse(j, label);
-		System.out.println("loop from :" + body[i] + "  to  " + body[j] );
+		log.debug("loop from :" + body[i] + "  to  " + body[j] );
 		notifyLoop(i, j);
 	}
 
@@ -91,11 +95,11 @@ public class InstructionParser {
 
 	private void branch(int start, int end) {
 		String u = UUID.randomUUID().toString();
-		System.out.println("branch start " + u);
+		log.debug("branch start " + u);
 		notifyBranchStart();
 		doParse(start, end);
 		notifyBranchEnd();
-		System.out.println("branch end " + u);
+		log.debug("branch end " + u);
 	}
 
 	private void notifyBranchEnd() {
