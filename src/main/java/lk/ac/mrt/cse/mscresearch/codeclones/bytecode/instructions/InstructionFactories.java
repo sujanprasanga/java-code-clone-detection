@@ -17,6 +17,8 @@ public class InstructionFactories {
 	public static final String GOTO = "goto";
 	public static final String INVOKE = "invoke";
 	public static final String POP = "pop";
+	public static final String NEW = "new";
+	public static final String DUP = "dup";
 	
 	private final static Map<String, InstructionFactory<? extends Instruction>> factories = build();
 	private static InstructionFactory<? extends Instruction> defualtFactory = (String arg, Matcher matcher, String tos)->{ return UnsortedInstruction.forInstruction(arg, matcher);};
@@ -39,6 +41,8 @@ public class InstructionFactories {
 		factories.put(IF, (String arg, Matcher matcher, String tos)->{ return Branch.forIf(arg, matcher);});
 		factories.put(THROW, (String arg, Matcher matcher, String tos)->{ return Throw.forException(tos);});
 		factories.put(POP, (String arg, Matcher matcher, String tos)->{ return Pop.from(matcher);});
+		factories.put(NEW, (String arg, Matcher matcher, String tos)->{ return New.forClazz(arg, matcher);});
+		factories.put(DUP, (String arg, Matcher matcher, String tos)->{ return Dup.from(arg, matcher);});
 		return factories;
 	}
 

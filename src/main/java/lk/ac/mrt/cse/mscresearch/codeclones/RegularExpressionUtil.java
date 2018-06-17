@@ -26,6 +26,8 @@ public class RegularExpressionUtil {
 	public static final String INVOKE = "invoke";
 	public static final String BRANCH_DEST = "branchDest";
 	public static final String POP = "pop";
+	public static final String NEW = "new";
+	public static final String DUP = "dup";
 	
 	public static final String ICLASS_CG_NAME = "InvokedClass";
 	public static final String ICLASS_CG = "(?<" + ICLASS_CG_NAME	+ ">([\\w$]+[/\\w]*))";
@@ -46,6 +48,10 @@ public class RegularExpressionUtil {
 	public static final String STORE_CG = "(?<" + STORE_CG_NAME	+ ">[\\d]*[0123456789]+)";
 	public static final String LOAD_CG_NAME = "aloadIndex";
 	public static final String LOAD_CG = "(?<" + LOAD_CG_NAME	+ ">[\\d]*[0123456789]+)";
+	public static final String NEW_CLASS_CG_NAME = "createdClass";
+	public static final String NEW_CLASS_CG = "(?<" + NEW_CLASS_CG_NAME	+ ">([\\w$]+[/\\w]*))";
+	public static final String DUP_CG_NAME = "dupIndex";
+	public static final String DUP_CG = "(?<" + DUP_CG_NAME	+ ">([\\d]*))";
 	
 	public static final String INSTRUCTION_LABEL_CG_NAME = "label";
 	public static final String PARAMETER_CG_NAME = "params";
@@ -79,6 +85,8 @@ public class RegularExpressionUtil {
 		instructions.put(RETURN, ".return");
 		instructions.put("const", ".const");
 		instructions.put(POP, "pop");
+		instructions.put(NEW, "new [ ]+#\\d+[ ]+// class " + NEW_CLASS_CG);
+		instructions.put(DUP, "dup[_2]?_?x?" + DUP_CG);
 //		instructions.put("", "");
 //		instructions.put("", "");
 //		instructions.put("", "");

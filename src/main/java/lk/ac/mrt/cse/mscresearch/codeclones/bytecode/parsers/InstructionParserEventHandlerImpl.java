@@ -71,6 +71,18 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 		} else {
 			branches.get(branchDepth - 1).add(i);
 		}
+		if(i.duplicateStack()){
+			final int dupIndex = i.getDupIndex();
+			String[] tmp = new String[dupIndex];
+			for(int j=0; j<dupIndex; j++){
+				tmp[j] = stack.pop();
+			}
+			String toDup = stack.peek();
+			for(int j=dupIndex - 1; j>0; j--){
+				stack.push(tmp[j]);
+			}
+			stack.push(toDup);
+		}
 		log.debug(i);
 		log.debug(localVarTable);
 		log.debug(stack);

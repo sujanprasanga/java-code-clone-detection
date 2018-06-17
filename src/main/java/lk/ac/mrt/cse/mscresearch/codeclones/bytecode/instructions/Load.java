@@ -9,7 +9,7 @@ public class Load extends Instruction {
 	private final int index;
 	
 	public Load(int label, int index) {
-		super(label, TYPE.STORE);
+		super(label, TYPE.LOAD);
 		this.index = index;
 	}
 

@@ -17,7 +17,10 @@ public abstract class Instruction {
 		PRIMITIVE_OP,
 		RAW,
 		STORE,
-		POP
+		LOAD,
+		POP, 
+		NEW_CLASS,
+		DUP
 	}
 	
 	private final int label;
@@ -76,6 +79,14 @@ public abstract class Instruction {
 	}
 	
 	public String getLocalVar() {
+		throw new UnsupportedOperationException("Not Implemented");
+	}
+	
+	public boolean duplicateStack(){
+		return false;
+	}
+	
+	public int getDupIndex(){
 		throw new UnsupportedOperationException("Not Implemented");
 	}
 }
