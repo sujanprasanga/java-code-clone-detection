@@ -21,7 +21,7 @@ public class Branch extends Instruction{
 	}
 	
 	public String toString(){
-		return "Branches" + branchIns.toString();
+		return "Branch" + branchIns.toString();
 	}
 	
 	public boolean isBranching(){

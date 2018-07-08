@@ -16,7 +16,9 @@ public class RegularExpressionUtil {
 	
 	public static final String RETURN = "return";
 	public static final String STORE = "store";
+	public static final String ARRAY_STORE = "arraystore";
 	public static final String LOAD = "load";
+	public static final String ARRAY_LOAD = "arrayload";
 	public static final String IF = "if";
 	public static final String PUT = "put";
 	public static final String GET = "get";
@@ -29,6 +31,26 @@ public class RegularExpressionUtil {
 	public static final String NEW = "new";
 	public static final String DUP = "dup";
 	public static final String CONST = "const";
+	public static final String PUSH_NULL = "aconst_null";
+	public static final String NEW_ARRAY = "anewarray";
+	public static final String ARRAY_LENGTH = "arraylength";
+	public static final String PRIMITIVE_CONVERSION = "primetiveConversion";
+	public static final String ADD = "add";
+	public static final String PRIMITIVE_COMPARISON = "cmp";
+	public static final String DIV = "div";
+	public static final String MUL = "mul";
+	public static final String NEG = "neg";
+	public static final String REM = "rem";
+	public static final String SUB = "sub";
+	public static final String INC = "inc";
+	public static final String TYPE_CHECK = "instanceOf";
+	public static final String LOGIC_OP = "logicOperation";
+	public static final String JSR = "jumpSubroutine";
+	public static final String LDC = "ldc";
+	public static final String MONITOR_ACCESS = "monitorAccess";
+	public static final String NOP = "nop";
+	public static final String SWAP = "swap";
+	public static final String WIDE = "wide";
 	
 	public static final String ICLASS_CG_NAME = "InvokedClass";
 	public static final String ICLASS_CG = "(?<" + ICLASS_CG_NAME	+ ">([\\w$]+[/\\w]*))";
@@ -59,7 +81,7 @@ public class RegularExpressionUtil {
 	private final static String METHOD_DEFINITION_REG_EX = "public .+ .+\\((?<" + PARAMETER_CG_NAME + ">.*)\\) ?(throws .+)?;";
 	private final static Pattern METHOD_DEFINITION_REG_EX_PATTERN = Pattern.compile(METHOD_DEFINITION_REG_EX);
 	private final static String INSTRUCTION_START_REG_X = "[ ]*(?<" + INSTRUCTION_LABEL_CG_NAME + ">([\\d]*[0123456789]+)): ";
-//	private final static String PRIMITIVE_REG_X = "[dfil]";
+	private final static String PRIMITIVE_REG_X = "[dfil]";
 	private final static String MATCH_TILL_NEW_LINE_REG_EX = ".*";
 	private final static String NEW_LINE = "\\r?\\n";
 	private final static String PUBLIC_METHOD_BODY_REG_EX_STRING = METHOD_DEFINITION_REG_EX + NEW_LINE + ".*" + NEW_LINE + "("+ INSTRUCTION_START_REG_X +".+" + NEW_LINE + ")+";
@@ -67,33 +89,65 @@ public class RegularExpressionUtil {
 	private final static Map<String, String> INSTRUCTION_REG_X = createInstructionSet();
 	private final static Pattern FILTER_REG_EX = createFinalRegEx();
 	private static final Map<String, Pattern> INSTRUCTION_PATTERNS = createInstructionPatterns();
-	
+
 	private static Map<String, String> createInstructionSet() {
 		
 		Map<String, String> instructions = new HashMap<>();
 		
 		instructions.put(INVOKE, "invoke((special)|(dynamic)|(interface)|(static)|(virtual))[ ]+#\\d+[ ]+// Method " + ICLASS_CG + "." + METHOD_CG	+ ":\\(.*\\)" + IRETURN_CG);
 		instructions.put(GOTO, "goto(_w)?");
+		instructions.put(JSR, "jsr(_w)?");
 		instructions.put(THROW, "athrow");
 		instructions.put(CHECKCAST, CHECKCAST);
-//		instructions.put("add", PRIMITIVE_REG_X+"add");
+		instructions.put(ADD, PRIMITIVE_REG_X + "add");
+		instructions.put(DIV, PRIMITIVE_REG_X + "div");
+		instructions.put(MUL, PRIMITIVE_REG_X + "mul");
+		instructions.put(NEG, PRIMITIVE_REG_X + "neg");
+		instructions.put(REM, PRIMITIVE_REG_X + "rem");
+		instructions.put(SUB, PRIMITIVE_REG_X + "sub");
 		instructions.put(GET, "get((field)|(static))[ ]+#\\d+[ ]+// Field " + GFCLASS_CG + "." + GFIELD_CG	+ ":");
 		instructions.put(PUT, "put((field)|(static))[ ]+#\\d+[ ]+// Field " + PFCLASS_CG + "." + PFIELD_CG	+ ":");
 		instructions.put(IF, "if((_[ai]cmp((eq)|(gt)|(lt)|(ne)|(ge)|(le)))|((eq)|(ge)|(gt)|(le)|(lt)|(ne)|(nonnull)|(null)))");
 		instructions.put(LOAD, ".load");
 		instructions.put(STORE, ".store[ _]+" + STORE_CG);
-		instructions.put(LOAD, ".load[ _]+" + LOAD_CG);
+		instructions.put(ARRAY_STORE, "a[abcdfils]store");
+		instructions.put(LOAD, "[abcdfils]load[ _]+" + LOAD_CG);
+		instructions.put(ARRAY_LOAD, "a[abcdfils]load");
+		instructions.put(MONITOR_ACCESS, "monitor((enter)|(exit))");
 		instructions.put(RETURN, ".return");
 		instructions.put(CONST, ".const");
-		instructions.put(POP, "pop");
+		instructions.put(INC, "iinc");
+		instructions.put(LDC, "ldc2?(_w)?");
+		instructions.put(PUSH_NULL, "aconst_null");
+		instructions.put(NEW_ARRAY, "(multi)?a?newarray");
+		instructions.put(PRIMITIVE_COMPARISON, PRIMITIVE_REG_X + "cmp[gl]");
+		instructions.put(PRIMITIVE_CONVERSION, PRIMITIVE_REG_X + "2[fildbcs]");
+		instructions.put(POP, "pop2?");
+		instructions.put(NOP, "nop");
+		instructions.put(SWAP, "swap");
+		instructions.put(WIDE, "wide");
+		instructions.put(ARRAY_LENGTH, "arraylength");
+		instructions.put(TYPE_CHECK, "instanceof");
+		instructions.put(LOGIC_OP, "[il]((x?or)|(u?sh[lr])|(and))");
 		instructions.put(NEW, "new [ ]+#\\d+[ ]+// class " + NEW_CLASS_CG);
 		instructions.put(DUP, "dup[_2]?_?x?" + DUP_CG);
+		instructions.put("push", "[bs][i]push");
 //		instructions.put("", "");
 //		instructions.put("", "");
 //		instructions.put("", "");
 //		instructions.put("", "");
 //		instructions.put("", "");
 //		instructions.put("", "");
+//		https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html
+//icmp
+//ldc
+//swap
+//aconst_null
+//type conversions i2b i2c **
+//
+//switches
+//tableswitch 
+//lookupswitch
 
 		return instructions;
 	}

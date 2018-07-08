@@ -1,7 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers;
 
 import static lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil.BRANCH_DEST;
-import static lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.InstructionFactories.IF;
+import static lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil.IF;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,6 +31,7 @@ public class InstructionParser {
 	
 	public void parse() {
 			doParse(startIndex, body.length - 1);
+			handler.notifyEnd();
 			log.debug("Dump start");
 			log.debug(handler.get());
 	}
@@ -72,25 +73,23 @@ public class InstructionParser {
 			}
 			else
 			{
-				createLoop(dest+ ":", index);
+				createLoop(dest, currentLabel);
 				return index + 1;
 			}
 		}
 		else{
 			notifyMatch(key, matcher);
-			return index+1;
 		}
+		return index+1;
 		
 	}
 
-	private void createLoop(String label, int j) {
-		int i = findLabelReverse(j, label);
-		log.debug("loop from :" + body[i] + "  to  " + body[j] );
-		notifyLoop(i, j);
+	private void createLoop(int loopStartLabel, int loopEndLabel) {
+		notifyLoop(loopStartLabel, loopEndLabel);
 	}
 
-	private void notifyLoop(int i, int j) {
-		handler.notifyLoop(i, j);
+	private void notifyLoop(int loopStartLabel, int loopEndLabel) {
+		handler.notifyLoop(loopStartLabel, loopEndLabel);
 	}
 
 	private void branch(int start, int end) {
@@ -119,15 +118,6 @@ public class InstructionParser {
 		throw new RuntimeException("label not found :" + group);//TODO proper exception
 	}
 	
-	private int findLabelReverse(int index, String group){
-		for(int i = index+1; i>=0; i--){
-			if(body[i].trim().startsWith(group)){
-				return i;
-			}
-		}
-		throw new RuntimeException("label not found :" + group);//TODO proper exception
-	}
-
 	private void notifyMatch(String key, Matcher matcher) {
 		handler.notifyMatch(key, matcher);
 	}

@@ -14,3 +14,12 @@ variables are moved to top after compiling
 need store & load to keep exception type & return for branches
 
 if->throw, return, goto
+
+not recording stack and local vars since we do not need to know the exception type! - at least for the moment
+
+for finally - there is an Exception table!
+
+    Exception table:
+       from    to  target type
+           0    11    14   Class java/lang/Exception ; if exception occurs between 0-11 handled by 14
+           0    21    27   any

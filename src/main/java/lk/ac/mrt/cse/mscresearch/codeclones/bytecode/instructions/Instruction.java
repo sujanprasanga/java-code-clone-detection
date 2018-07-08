@@ -1,13 +1,15 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions;
 
+import java.util.Deque;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 
 public abstract class Instruction {
 
-	enum TYPE{
+	public enum TYPE{
 		METHOD_CALL,
 		GET_FIELD,
 		SET_FIELD,
@@ -21,7 +23,9 @@ public abstract class Instruction {
 		POP, 
 		NEW_CLASS,
 		DUP,
-		CONST
+		CONST, 
+		ARRAY_LOAD,
+		ARRAY_STORE, PUSH_NULL, NEW_ARRAY, RETURN, ARRAY_LENGH, CHECKCAST, PRIMITIVE_CONVERSION, ADD, PRIMITIVE_COMPARISON, DIV, MUL, NEG, REM, SUB, INC, TYPE_CHECK, LOGIC_OP, JSR, LDC, MONITOR_ACCESS, NOP, SWAP, WIDE
 	}
 	
 	private final int label;
@@ -59,35 +63,5 @@ public abstract class Instruction {
 		throw new UnsupportedOperationException("Not Implemented");
 	}
 	
-	public boolean localVarTableModifier(){
-		return false;
-	}
-	
-	public boolean localVarLoader(){
-		return false;
-	}
-	
-	public boolean stackPush(){
-		return false;
-	}
-	
-	public boolean stackPop(){
-		return false;
-	}
-	
-	public int getLocalVarIndex() {
-		throw new UnsupportedOperationException("Not Implemented");
-	}
-	
-	public String getLocalVar() {
-		throw new UnsupportedOperationException("Not Implemented");
-	}
-	
-	public boolean duplicateStack(){
-		return false;
-	}
-	
-	public int getDupIndex(){
-		throw new UnsupportedOperationException("Not Implemented");
-	}
+	public void modifyStackAndLocalVarTable(Map<Integer, String> localVars, Deque<String> stack){}
 }

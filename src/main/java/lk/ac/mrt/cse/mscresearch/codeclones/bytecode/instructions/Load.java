@@ -27,10 +27,6 @@ public class Load extends Instruction {
 		return false;
 	}
 	
-	public boolean stackPop(){
-		return false;
-	}
-	
 	public String toString(){
 		return "load-" + index;
 	}
