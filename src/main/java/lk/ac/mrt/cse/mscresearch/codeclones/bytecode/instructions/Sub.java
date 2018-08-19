@@ -14,6 +14,6 @@ public class Sub extends Instruction {
 	}
 
     public String toString(){
-		return "subsitute";
+		return "substract";
 	}
 }
