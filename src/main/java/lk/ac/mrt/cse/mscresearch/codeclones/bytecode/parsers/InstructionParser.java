@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction;
 
 public class InstructionParser {
 
@@ -34,6 +35,9 @@ public class InstructionParser {
 			handler.notifyEnd();
 			log.debug("Dump start");
 			log.debug(handler.get());
+			for(Instruction i : handler.get()){
+				log.debug(i.getLabel() + " : " + i.toString());
+			}
 	}
 	
 	protected void doParse(int start, int end) {

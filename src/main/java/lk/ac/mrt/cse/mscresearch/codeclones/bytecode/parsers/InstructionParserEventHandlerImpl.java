@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Branch;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction.TYPE;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Loop;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.LoopMarker;
 
 public class InstructionParserEventHandlerImpl implements InstructionParserEventHandler {
@@ -69,8 +71,46 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 
 	@Override
 	public void notifyEnd() {
-		// TODO Auto-generated method stub
-//		add bipush
+		replaceLoopMarkers(get());
+	}
+
+	protected void replaceLoopMarkers(List<Instruction> all) {
+		List<LoopMarker> loops = new ArrayList<>();
+		for(Instruction i : all){
+			if(i instanceof LoopMarker){
+				loops.add((LoopMarker)i);
+			}
+			if(i instanceof Branch){
+				replaceLoopMarkers(((Branch) i).getBranchInstructions());
+			}
+			
+		}
+		for(LoopMarker marker : loops){
+			replaceLoop(all, marker);
+		}
+	}
+
+	private void replaceLoop(List<Instruction> all, LoopMarker marker) {
+		int start = marker.getStart();
+		int end = marker.getEnd();
+		boolean startFound = false;
+		List<Instruction> loopInstructions = new ArrayList<>();
+		for(Instruction i : all){
+			if(start == i.getLabel()){
+				startFound = true;
+			}
+			if(startFound){
+				loopInstructions.add(i);
+				if(end == i.getLabel()){
+					break;
+				}
+			}
+			
+		}
+		int markerIndex = all.indexOf(loopInstructions.get(0));
+		all.removeAll(loopInstructions);
+		loopInstructions.remove(marker);
+		all.add(markerIndex, new Loop(start, loopInstructions.toArray(new Instruction[0])));
 	}
 
 }

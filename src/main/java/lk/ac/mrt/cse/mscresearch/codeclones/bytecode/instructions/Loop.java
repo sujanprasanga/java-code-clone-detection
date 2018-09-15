@@ -4,8 +4,17 @@ public class Loop extends Instruction{
 
 	private final Instruction[] loop;
 	
-	public Loop(Instruction[] loop) {
-		super(0, TYPE.LOOP);
+	public Loop(int start, Instruction[] loop) {
+		super(start, TYPE.LOOP);
 		this.loop = loop;
+	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder("loop [");
+		for(int i=0; i<loop.length-1; i++){
+			sb.append(loop[i].toString()).append(',');
+		}
+		sb.append(loop[loop.length - 1].toString()).append(']');
+		return sb.toString();
 	}
 }
