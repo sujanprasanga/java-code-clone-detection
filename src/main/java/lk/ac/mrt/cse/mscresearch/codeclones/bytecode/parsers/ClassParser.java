@@ -8,18 +8,19 @@ import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 public class ClassParser {
 
 	public void parse(ClassUnderTransform target){
-		extractMethods(target.getDisassembledCode());
+		extractMethods(target);
 	}
 
-	private void extractMethods(String disassembledCode) {
+	private void extractMethods(ClassUnderTransform target) {
+		String disassembledCode = target.getDisassembledCode();
 		Matcher m = RegularExpressionUtil.getMethodMatcher(disassembledCode);
 		while(m.find()){
-			extractMethod(disassembledCode.substring(m.start(), m.end()));
+			extractMethod(target, disassembledCode.substring(m.start(), m.end()));
 		}
 	}
 
-	private void extractMethod(String substring) {
-		new MethodParser().parse(substring);
+	private void extractMethod(ClassUnderTransform target, String substring) {
+		new MethodParser(target).parse(substring);
 	}
 
 }

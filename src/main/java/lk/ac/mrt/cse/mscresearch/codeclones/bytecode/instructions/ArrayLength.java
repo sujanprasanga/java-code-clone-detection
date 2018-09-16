@@ -8,6 +8,10 @@ public class ArrayLength extends Instruction {
 		super(label, TYPE.ARRAY_LENGH);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static ArrayLength from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new ArrayLength(label);

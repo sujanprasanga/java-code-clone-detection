@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction;
 
@@ -19,15 +20,17 @@ public class InstructionParser {
 	private static final Logger log = Logger.getLogger(InstructionParser.class);
 	
 	protected final static Map<String, Pattern>  instructionPatterns = RegularExpressionUtil.getInstructionPatterns();
+	protected final ClassUnderTransform target;
 	protected final String[] body;
 	protected final int startIndex;
 	
 	private final InstructionParserEventHandler handler;
 	
-	public InstructionParser(String[] body, String[] params, int startIndex) {
+	public InstructionParser(ClassUnderTransform target, String[] body, String[] params, int startIndex) {
+		this.target = target;
 		this.body = body;
 		this.startIndex = startIndex;
-		handler = new InstructionParserEventHandlerImpl(params);
+		handler = new InstructionParserEventHandlerImpl(target, params);
 	}
 	
 	public void parse() {

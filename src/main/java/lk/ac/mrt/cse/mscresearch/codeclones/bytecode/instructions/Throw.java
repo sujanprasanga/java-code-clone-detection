@@ -9,6 +9,10 @@ public class Throw extends Instruction{
 		super(label, TYPE.THROW);
 	}
 	
+	public static Throw from(InstructionCreateParam p) {
+		return forException(p.matcher, p.arg);
+	}
+	
 	public static Throw forException(Matcher m, String exception){
 		return new Throw(getLabelNumber(m));
 	}

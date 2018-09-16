@@ -8,6 +8,10 @@ public class Swap extends Instruction {
 		super(label, TYPE.SWAP);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Swap from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Swap(label);

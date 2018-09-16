@@ -8,6 +8,10 @@ public class Div extends Instruction {
 		super(label, TYPE.DIV);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Div from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Div(label);

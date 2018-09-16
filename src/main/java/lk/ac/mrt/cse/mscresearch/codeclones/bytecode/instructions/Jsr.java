@@ -8,6 +8,10 @@ public class Jsr extends Instruction {
 		super(label, TYPE.JSR);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Jsr from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Jsr(label);

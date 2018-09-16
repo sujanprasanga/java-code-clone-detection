@@ -8,6 +8,10 @@ public class ArrayStore extends Instruction {
 		super(label, TYPE.ARRAY_STORE);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static ArrayStore from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new ArrayStore(label);

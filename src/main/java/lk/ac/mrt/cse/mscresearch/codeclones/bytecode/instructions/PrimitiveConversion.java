@@ -6,8 +6,13 @@ public class PrimitiveConversion extends Instruction {
 
 	public PrimitiveConversion(int label) {
 		super(label, TYPE.PRIMITIVE_CONVERSION);
+	
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static PrimitiveConversion from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new PrimitiveConversion(label);

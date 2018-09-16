@@ -14,7 +14,7 @@ public class ImmutableUtil<E extends Instruction>{
 	
 	public synchronized E get(String arg){
 		if(!immutables.containsKey(arg)){
-			immutables.put(arg, factory.create(arg, null, arg));
+			immutables.put(arg, factory.create(new InstructionCreateParam(null, arg, null, null)));
 		}
 		return immutables.get(arg);
 	}

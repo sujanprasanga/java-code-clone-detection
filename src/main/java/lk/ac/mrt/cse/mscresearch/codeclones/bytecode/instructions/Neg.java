@@ -8,6 +8,10 @@ public class Neg extends Instruction {
 		super(label, TYPE.NEG);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Neg from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Neg(label);

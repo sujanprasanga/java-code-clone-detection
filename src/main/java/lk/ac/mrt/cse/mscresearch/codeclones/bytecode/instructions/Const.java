@@ -8,6 +8,10 @@ public class Const extends Instruction{
 		super(label, TYPE.CONST);
 	}
 	
+	public static Const from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Const from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Const(label);

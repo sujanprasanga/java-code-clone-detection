@@ -8,6 +8,10 @@ public class TypeCheck extends Instruction {
 		super(label, TYPE.TYPE_CHECK);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static TypeCheck from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new TypeCheck(label);

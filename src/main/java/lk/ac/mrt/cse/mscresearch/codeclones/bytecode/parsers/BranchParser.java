@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Branch;
 
@@ -15,8 +16,8 @@ public class BranchParser extends AbstractInstructionParser{
 	private final Branch branch;
 	private final String nextBranchLabel;
 	
-	public BranchParser(String[] body, int startIndex , Matcher matcher) {
-		super(body, new String[0], startIndex);
+	public BranchParser(ClassUnderTransform target, String[] body, int startIndex , Matcher matcher) {
+		super(target, body, new String[0], startIndex);
 		index = startIndex;
 		nextIndex = startIndex;
 		this.branch = (Branch)createInstruction(matcher, RegularExpressionUtil.IF);

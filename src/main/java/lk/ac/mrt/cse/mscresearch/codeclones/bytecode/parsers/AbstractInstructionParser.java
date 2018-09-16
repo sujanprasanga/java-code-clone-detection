@@ -7,13 +7,16 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.InstructionCreateParam;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.InstructionFactories;
 
 public abstract class AbstractInstructionParser {
 
 	protected final static Map<String, Pattern>  instructionPatterns = RegularExpressionUtil.getInstructionPatterns();
+	protected final ClassUnderTransform target;
 	protected List<Instruction> instructions = new ArrayList<>();
 	protected final String[] body;
 	protected final int startIndex;
@@ -21,7 +24,8 @@ public abstract class AbstractInstructionParser {
 	protected int nextIndex;
 	protected String[] params; 
 	
-	public AbstractInstructionParser(String[] body, String[] params, int startIndex) {
+	public AbstractInstructionParser(ClassUnderTransform target, String[] body, String[] params, int startIndex) {
+		this.target = target;
 		this.body = body;
 		this.startIndex = startIndex;
 		this.params = params;
@@ -64,7 +68,7 @@ public abstract class AbstractInstructionParser {
 	}
 
 	protected Instruction createInstruction(Matcher matcher, String key) {
-		return InstructionFactories.forInstruction(key).create(body[index], matcher, null);
+		return InstructionFactories.forInstruction(key).create(new InstructionCreateParam(target, body[index], matcher, null));
 	}
 
 	protected boolean isBranch(Matcher matcher, String key) {
@@ -73,13 +77,13 @@ public abstract class AbstractInstructionParser {
 	}
 
 	protected void parseBranch(Matcher matcher) {
-		BranchParser parser = new BranchParser(body, index, matcher);
+		BranchParser parser = new BranchParser(target, body, index, matcher);
 		parser.parse();
 		index = parser.getNextIndex();
 	}
 	
 	protected void extractSingle(Matcher matcher, String key) {
-		Instruction i = InstructionFactories.forInstruction(key).create(body[index], matcher, null);
+		Instruction i = InstructionFactories.forInstruction(key).create(new InstructionCreateParam(target, body[index], matcher, null));
 		i.resolvePreConditions(body, index);
 		instructions.add(i);
 	}

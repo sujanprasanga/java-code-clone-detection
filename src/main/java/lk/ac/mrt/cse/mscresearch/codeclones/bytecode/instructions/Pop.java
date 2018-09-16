@@ -10,6 +10,10 @@ public class Pop extends Instruction {
 		super(0, TYPE.POP);
 	}
 
+	public static Pop from(InstructionCreateParam p) {
+		return from(p.matcher);
+	}
+	
 	public static Pop from(Matcher m){
 		return instance;
 	}

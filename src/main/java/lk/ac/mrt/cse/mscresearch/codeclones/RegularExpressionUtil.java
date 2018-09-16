@@ -94,7 +94,7 @@ public class RegularExpressionUtil {
 		
 		Map<String, String> instructions = new HashMap<>();
 		
-		instructions.put(INVOKE, "invoke((special)|(dynamic)|(interface)|(static)|(virtual))[ ]+#\\d+[ ]+// Method " + ICLASS_CG + "." + METHOD_CG	+ ":\\(.*\\)" + IRETURN_CG);
+		instructions.put(INVOKE, "invoke((special)|(dynamic)|(interface)|(static)|(virtual))[ ]+#\\d+[ ]+// Method (" + ICLASS_CG + "\\.)?" + METHOD_CG	+ ":\\(.*\\)" + IRETURN_CG);
 		instructions.put(GOTO, "goto(_w)?");
 		instructions.put(JSR, "jsr(_w)?");
 		instructions.put(THROW, "athrow");
@@ -105,8 +105,8 @@ public class RegularExpressionUtil {
 		instructions.put(NEG, PRIMITIVE_REG_X + "neg");
 		instructions.put(REM, PRIMITIVE_REG_X + "rem");
 		instructions.put(SUB, PRIMITIVE_REG_X + "sub");
-		instructions.put(GET, "get((field)|(static))[ ]+#\\d+[ ]+// Field " + GFCLASS_CG + "." + GFIELD_CG	+ ":");
-		instructions.put(PUT, "put((field)|(static))[ ]+#\\d+[ ]+// Field " + PFCLASS_CG + "." + PFIELD_CG	+ ":");
+		instructions.put(GET, "get((field)|(static))[ ]+#\\d+[ ]+// Field (" + GFCLASS_CG + "\\.)?" + GFIELD_CG	+ ":");
+		instructions.put(PUT, "put((field)|(static))[ ]+#\\d+[ ]+// Field (" + PFCLASS_CG + "\\.)?" + PFIELD_CG	+ ":");
 		instructions.put(IF, "if((_[ai]cmp((eq)|(gt)|(lt)|(ne)|(ge)|(le)))|((eq)|(ge)|(gt)|(le)|(lt)|(ne)|(nonnull)|(null)))");
 		instructions.put(LOAD, ".load");
 		instructions.put(STORE, ".store[ _]+" + STORE_CG);
@@ -149,6 +149,7 @@ public class RegularExpressionUtil {
 //tableswitch 
 //lookupswitch
 
+		log.debug(instructions);
 		return instructions;
 	}
 	

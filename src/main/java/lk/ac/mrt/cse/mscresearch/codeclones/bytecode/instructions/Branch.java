@@ -12,7 +12,11 @@ public class Branch extends Instruction{
 		super(label, TYPE.BRANCH);
 	}
 	
-	public static Instruction forIf(String arg, Matcher matcher) {
+	public static Branch from(InstructionCreateParam p) {
+		return forIf(p.arg, p.matcher);
+	}
+	
+	public static Branch forIf(String arg, Matcher matcher) {
 		return new Branch(getLabelNumber(matcher));
 	}
 	

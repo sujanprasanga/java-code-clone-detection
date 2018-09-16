@@ -8,6 +8,10 @@ public class CheckCast extends Instruction {
 		super(label, TYPE.CHECKCAST);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static CheckCast from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new CheckCast(label);

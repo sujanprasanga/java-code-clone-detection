@@ -8,6 +8,10 @@ public class Mul extends Instruction {
 		super(label, TYPE.MUL);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+
 	public static Mul from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Mul(label);

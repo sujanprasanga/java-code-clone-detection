@@ -8,6 +8,10 @@ public class ArrayLoad extends Instruction {
 		super(label, TYPE.ARRAY_LOAD);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static ArrayLoad from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new ArrayLoad(label);

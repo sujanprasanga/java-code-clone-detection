@@ -8,6 +8,10 @@ public class Add extends Instruction {
 		super(label, TYPE.ADD);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Add from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Add(label);

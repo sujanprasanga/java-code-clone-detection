@@ -8,6 +8,10 @@ public class PrimitiveComparison extends Instruction {
 		super(label, TYPE.PRIMITIVE_COMPARISON);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static PrimitiveComparison from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new PrimitiveComparison(label);

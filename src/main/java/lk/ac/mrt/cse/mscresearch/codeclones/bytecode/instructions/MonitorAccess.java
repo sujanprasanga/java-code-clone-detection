@@ -8,6 +8,10 @@ public class MonitorAccess extends Instruction {
 		super(label, TYPE.MONITOR_ACCESS);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static MonitorAccess from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new MonitorAccess(label);

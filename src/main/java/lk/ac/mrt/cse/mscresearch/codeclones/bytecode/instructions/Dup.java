@@ -13,6 +13,10 @@ public class Dup extends Instruction{
 		this.dupIndex = dupIndex;
 	}
 	
+	public static Dup from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Dup from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		int dup = 0;

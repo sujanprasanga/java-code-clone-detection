@@ -6,17 +6,22 @@ import java.util.regex.Matcher;
 
 import org.apache.log4j.Logger;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction;
 
 public class MethodParser {
 
 	private static final Logger log = Logger.getLogger(MethodParser.class);
-	
+	private final ClassUnderTransform target;
 	private String signature;
 	private List<String> localVarTypes = new ArrayList<>();
 	private final List<Instruction> instructions = new ArrayList<>();
 	
+	public MethodParser(ClassUnderTransform target) {
+		this.target = target;
+	}
+
 	public void parse(String methodBody){
 		log.debug(methodBody);
 		Matcher m = RegularExpressionUtil.getMethodsignatureMatcher(methodBody);
@@ -31,7 +36,7 @@ public class MethodParser {
 	}
 
 	private void parseMethodBody(String[] body, String[] params) {
-		new MethodBodyParser(body, params).parse();
+		new MethodBodyParser(target, body, params).parse();
 	}
 
 //	private void buildLocalVarTable(String methodBody) {

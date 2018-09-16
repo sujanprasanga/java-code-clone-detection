@@ -8,6 +8,10 @@ public class NewArray extends Instruction {
 		super(label, TYPE.NEW_ARRAY);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static NewArray from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new NewArray(label);

@@ -2,6 +2,7 @@ package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions;
 
 import java.util.regex.Matcher;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.caches.ClassCache;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.caches.MethodCache;
@@ -31,10 +32,16 @@ public class MethodCall extends Instruction{
 		return method;
 	}
 
-	public static MethodCall forMethod(String code, Matcher m){
-		String c = ClassCache.getCachedId(m.group(RegularExpressionUtil.ICLASS_CG_NAME));
+	public static MethodCall from(InstructionCreateParam p) {
+		return forMethod(p.target, p.arg, p.matcher);
+	}
+	
+	public static MethodCall forMethod(ClassUnderTransform t, String code, Matcher m){
+		String clazzNameInSource = m.group(RegularExpressionUtil.ICLASS_CG_NAME);
+		String className = clazzNameInSource == null ? t.getFullyQualifiedName() : clazzNameInSource;
+		String c = ClassCache.getCachedId(className);
 		String methodName = m.group(RegularExpressionUtil.METHOD_CG_NAME);
-		String mId = MethodCache.getCachedId(c, methodName);
+//		String mId = MethodCache.getCachedId(c, methodName);
 		String r = null;
 		if(CONSTRUCTOR.equals(methodName)){
 			r = c;
@@ -42,8 +49,8 @@ public class MethodCall extends Instruction{
 			r = ClassCache.getCachedId(m.group(RegularExpressionUtil.IRETURN_CG_NAME));
 		}
 		int label = getLabelNumber(m);
-		String method = MethodCache.getCachedId(c, mId);
-		return new MethodCall(c, method, r, label);
+//		String method = MethodCache.getCachedId(c, mId);
+		return new MethodCall(c, methodName, r, label);
 	}
 	
 	public void resolvePreConditions(String[] body, int index){}

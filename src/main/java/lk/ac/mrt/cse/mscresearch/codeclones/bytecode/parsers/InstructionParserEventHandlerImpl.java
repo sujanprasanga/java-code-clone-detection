@@ -10,20 +10,24 @@ import java.util.regex.Matcher;
 
 import org.apache.log4j.Logger;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Branch;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction.TYPE;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.InstructionCreateParam;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Loop;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.LoopMarker;
 
 public class InstructionParserEventHandlerImpl implements InstructionParserEventHandler {
 	
 	private static final Logger log = Logger.getLogger(InstructionParserEventHandlerImpl.class);
-	
+	private final ClassUnderTransform target;
 	private List<Instruction> instructions = new ArrayList<>();
 	private Deque<InstructionDest> branchStack = new ArrayDeque<>();
+	
 
-	public InstructionParserEventHandlerImpl(String[] params) {
+	public InstructionParserEventHandlerImpl(ClassUnderTransform target, String[] params) {
+		this.target = target;
 		branchStack.push((Instruction i)-> instructions.add(i));
 	}
 
@@ -44,7 +48,7 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 	@Override
 	public void notifyMatch(String key, Matcher matcher) {
 		log.debug("------------------------------------------");
-		Instruction i = forInstruction(key).create(key, matcher, null);
+		Instruction i = forInstruction(key).create(new InstructionCreateParam(target, key, matcher, null));
 		addInstruction(i);
 		
 		if(i.isBranching()){

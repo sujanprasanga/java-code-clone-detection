@@ -14,6 +14,10 @@ public class New extends Instruction{
 		this.classid = classid;
 	}
 	
+	public static New from(InstructionCreateParam p) {
+		return forClazz(p.arg, p.matcher);
+	}
+	
 	public static New forClazz(String field, Matcher m){
 		int label = getLabelNumber(m);
 		String c = ClassCache.getCachedId(m.group(RegularExpressionUtil.NEW_CLASS_CG_NAME));

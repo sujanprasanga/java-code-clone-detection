@@ -8,6 +8,10 @@ public class Rem extends Instruction {
 		super(label, TYPE.REM);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Rem from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Rem(label);

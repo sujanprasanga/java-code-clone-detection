@@ -13,6 +13,10 @@ public class Store extends Instruction {
 		this.index = index;
 	}
 
+	public static Store from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Store from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		int index = Integer.parseInt(m.group(RegularExpressionUtil.STORE_CG_NAME));

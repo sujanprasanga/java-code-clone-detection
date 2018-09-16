@@ -8,6 +8,10 @@ public class Return extends Instruction {
 		super(label, TYPE.RETURN);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Return from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Return(label);

@@ -8,6 +8,10 @@ public class Nop extends Instruction {
 		super(label, TYPE.NOP);
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Nop from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		return new Nop(label);

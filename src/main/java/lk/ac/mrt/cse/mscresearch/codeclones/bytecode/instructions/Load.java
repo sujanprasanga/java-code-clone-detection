@@ -13,6 +13,10 @@ public class Load extends Instruction {
 		this.index = index;
 	}
 
+	public static Instruction from(InstructionCreateParam p) {
+		return from(p.arg, p.matcher);
+	}
+	
 	public static Load from(String field, Matcher m){
 		int label = getLabelNumber(m);
 		int index = Integer.parseInt(m.group(RegularExpressionUtil.LOAD_CG_NAME));
