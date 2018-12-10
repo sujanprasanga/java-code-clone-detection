@@ -84,7 +84,15 @@ public class RegularExpressionUtil {
 	private final static String PRIMITIVE_REG_X = "[dfil]";
 	private final static String MATCH_TILL_NEW_LINE_REG_EX = ".*";
 	private final static String NEW_LINE = "\\r?\\n";
-	private final static String PUBLIC_METHOD_BODY_REG_EX_STRING = METHOD_DEFINITION_REG_EX + NEW_LINE + ".*" + NEW_LINE + "("+ INSTRUCTION_START_REG_X +".+" + NEW_LINE + ")+";
+	public static final String LINE_NUMBER_TABLE_CG_NAME = "lineNumberTable";
+	public static final String LINE_NUMBER_CG_NAME = "line";
+	public static final String LABEL_NUMBER_CG_NAME = "lable";
+//	private final static String LINE_NUMBER_TABLE_ENTRY_REG_EX = " +(line +(?<" + LINE_NUMBER_CG_NAME + ">(\\d*[0123456789]+): +(?<" + LABEL_NUMBER_CG_NAME + ">(\\d*[0123456789]+)";
+	private final static String LINE_NUMBER_TABLE_ENTRY_REG_EX = "line +(?<" + LINE_NUMBER_CG_NAME + ">(\\d+)): +(?<" + LABEL_NUMBER_CG_NAME + ">(\\d+))";
+	public final static Pattern LINE_NUMBER_TABLE_ENTRY = Pattern.compile(LINE_NUMBER_TABLE_ENTRY_REG_EX);
+	private final static String LINE_NUMBER_TABLE_REG_EX = "( +LineNumberTable:\\r?\\n(?<" + LINE_NUMBER_TABLE_CG_NAME +">( +line.+\\r?\\n)+))?";
+//	private final static String LINE_NUMBER_TABLE_REG_EX = "[ ]*LineNumberTable:.*(" + LINE_NUMBER_TABLE_ENTRY + ")+";
+	private final static String PUBLIC_METHOD_BODY_REG_EX_STRING = "(?<" + METHOD_CG_NAME + ">(" + METHOD_DEFINITION_REG_EX + NEW_LINE + ".*" + NEW_LINE + "("+ INSTRUCTION_START_REG_X +".+" + NEW_LINE + ")+))" + LINE_NUMBER_TABLE_REG_EX;
 	private final static Pattern PUBLIC_METHOD_BODY_REG_EX = Pattern.compile(PUBLIC_METHOD_BODY_REG_EX_STRING);
 	private final static Map<String, String> INSTRUCTION_REG_X = createInstructionSet();
 	private final static Pattern FILTER_REG_EX = createFinalRegEx();
@@ -92,6 +100,8 @@ public class RegularExpressionUtil {
 
 	private static Map<String, String> createInstructionSet() {
 		
+//		Pattern.compile(LINE_NUMBER_TABLE_ENTRY);
+//		Pattern.compile(LINE_NUMBER_TABLE_REG_EX);
 		Map<String, String> instructions = new HashMap<>();
 		
 		instructions.put(INVOKE, "invoke((special)|(dynamic)|(interface)|(static)|(virtual))[ ]+#\\d+[ ]+// Method (" + ICLASS_CG + "\\.)?" + METHOD_CG	+ ":\\(.*\\)" + IRETURN_CG);
