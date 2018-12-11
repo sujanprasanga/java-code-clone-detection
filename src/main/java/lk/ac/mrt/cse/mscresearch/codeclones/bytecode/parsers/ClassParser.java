@@ -24,12 +24,13 @@ public class ClassParser {
 		String disassembledCode = target.getDisassembledCode();
 		Matcher m = RegularExpressionUtil.getMethodMatcher(disassembledCode);
 		while(m.find()){
-			Map<Integer, Integer> lineNumberMapping = extractLineNumbers(m.group(RegularExpressionUtil.LINE_NUMBER_TABLE_CG_NAME));
-			extractMethod(target, m.group(RegularExpressionUtil.METHOD_CG_NAME));
+			Map<Integer, Integer> lineNumberMapping = extractLineNumbers(m);
+			extractMethod(target, m.group(RegularExpressionUtil.METHOD_CG_NAME), lineNumberMapping);
 		}
 	}
 
-	private static Map<Integer, Integer> extractLineNumbers(String s) {
+	private static Map<Integer, Integer> extractLineNumbers(Matcher matcher) {
+		String s = matcher.group(RegularExpressionUtil.LINE_NUMBER_TABLE_CG_NAME);
 		List<Integer> lines = new ArrayList<>();
 		List<Integer> labels = new ArrayList<>();
 			Matcher m = RegularExpressionUtil.LINE_NUMBER_TABLE_ENTRY.matcher(s);
@@ -45,18 +46,14 @@ public class ClassParser {
 				labelToLineNumberMapping.put(j, lines.get(i-1));
 			}
 			labelToLineNumberMapping.put(current, lines.get(i));
+			prev = current;
 		}
+		labelToLineNumberMapping.put(Integer.MAX_VALUE, lines.get(lines.size()-1));
 		return labelToLineNumberMapping;
 	}
-	public static void main(String[] args)
-	{
-		String s = "      line 36: 0\r\n" + 
-				"      line 37: 9";
-		System.out.println(extractLineNumbers(s));
-	}
 	
-	private void extractMethod(ClassUnderTransform target, String substring) {
-		new MethodParser(target).parse(substring);
+	private void extractMethod(ClassUnderTransform target, String substring, Map<Integer, Integer> lineNumberMapping) {
+		new MethodParser(target, lineNumberMapping).parse(substring);
 	}
 
 }

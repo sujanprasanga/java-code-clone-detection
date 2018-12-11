@@ -2,6 +2,7 @@ package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 public class Branch extends Instruction{
@@ -34,5 +35,11 @@ public class Branch extends Instruction{
 	
 	public List<Instruction> getBranchInstructions() {
 		return branchIns;
+	}
+	
+	@Override
+	public void setLinNumber(Map<Integer, Integer> lineNumberMapping) {
+		super.setLinNumber(lineNumberMapping);
+		branchIns.forEach(i -> i.setLinNumber(lineNumberMapping));
 	}
 }

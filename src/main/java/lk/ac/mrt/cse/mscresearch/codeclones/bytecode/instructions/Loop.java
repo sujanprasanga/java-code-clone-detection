@@ -1,5 +1,8 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions;
 
+import java.util.Map;
+import java.util.stream.Stream;
+
 public class Loop extends Instruction{
 
 	private final Instruction[] loop;
@@ -16,5 +19,11 @@ public class Loop extends Instruction{
 		}
 		sb.append(loop[loop.length - 1].toString()).append(']');
 		return sb.toString();
+	}
+	
+	@Override
+	public void setLinNumber(Map<Integer, Integer> lineNumberMapping) {
+		super.setLinNumber(lineNumberMapping);
+		Stream.of(loop).forEach(i -> i.setLinNumber(lineNumberMapping));
 	}
 }

@@ -30,6 +30,7 @@ public abstract class Instruction {
 	
 	private final int label;
 	private final TYPE type;
+	private int lineNumber = -1;
 	
 	public TYPE getType(){
 		return type;
@@ -64,4 +65,16 @@ public abstract class Instruction {
 	}
 	
 	public void modifyStackAndLocalVarTable(Map<Integer, String> localVars, Deque<String> stack){}
+	
+	public void setLinNumber(Map<Integer, Integer> lineNumberMapping) {
+		Integer line = lineNumberMapping.get(label);
+		if(line == null) {
+			line = lineNumberMapping.get(Integer.MAX_VALUE);
+		}
+		this.lineNumber = line;
+	}
+
+	public int getLineNumber() {
+		return lineNumber;
+	}
 }

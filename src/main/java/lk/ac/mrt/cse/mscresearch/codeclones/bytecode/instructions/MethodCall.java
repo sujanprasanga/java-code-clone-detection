@@ -56,7 +56,7 @@ public class MethodCall extends Instruction{
 	public void resolvePreConditions(String[] body, int index){}
 	
 	public String toString(){
-		return classId + '#' + method;
+		return classId + '#' + method + getLineNumber();
 	}
 	
 	public boolean stackPush(){

@@ -88,5 +88,5 @@ public abstract class AbstractInstructionParser {
 		instructions.add(i);
 	}
 	
-	protected abstract void parse();
+	protected abstract List<Instruction> parse();
 }

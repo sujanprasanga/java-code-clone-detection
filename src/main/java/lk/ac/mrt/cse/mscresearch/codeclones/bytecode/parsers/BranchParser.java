@@ -1,6 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Branch;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.instructions.Instruction;
 
 public class BranchParser extends AbstractInstructionParser{
 
@@ -29,12 +31,12 @@ public class BranchParser extends AbstractInstructionParser{
 	}
 
 	@Override
-	protected void parse() {
+	protected List<Instruction> parse() {
 		while(index < body.length)
 		{
 			doParse();
 		}
-		
+		return branch.getBranchInstructions();
 	}
 
 	@Override

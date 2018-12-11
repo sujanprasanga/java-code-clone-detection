@@ -3,6 +3,7 @@ package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers;
 import static lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil.BRANCH_DEST;
 import static lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil.IF;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -33,7 +34,7 @@ public class InstructionParser {
 		handler = new InstructionParserEventHandlerImpl(target, params);
 	}
 	
-	public void parse() {
+	public List<Instruction> parse() {
 			doParse(startIndex, body.length - 1);
 			handler.notifyEnd();
 			log.debug("Dump start");
@@ -41,6 +42,7 @@ public class InstructionParser {
 			for(Instruction i : handler.get()){
 				log.debug(i.getLabel() + " : " + i.toString());
 			}
+			return handler.get();
 	}
 	
 	protected void doParse(int start, int end) {
