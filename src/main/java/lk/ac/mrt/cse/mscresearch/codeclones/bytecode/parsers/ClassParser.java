@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-
-import javax.sound.sampled.Line;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 
 public class ClassParser {
 
+	private static final Map<Integer, Integer> defaultLabelToLineNumberMapping = new HashMap<>();
+	static {
+		defaultLabelToLineNumberMapping.put(Integer.MAX_VALUE, -1);
+	}
+	
 	public void parse(ClassUnderTransform target){
 		extractMethods(target);
 	}
@@ -31,6 +31,9 @@ public class ClassParser {
 
 	private static Map<Integer, Integer> extractLineNumbers(Matcher matcher) {
 		String s = matcher.group(RegularExpressionUtil.LINE_NUMBER_TABLE_CG_NAME);
+		if(s == null || s.isEmpty()) {
+			return noLineNUmbers();
+		}
 		List<Integer> lines = new ArrayList<>();
 		List<Integer> labels = new ArrayList<>();
 			Matcher m = RegularExpressionUtil.LINE_NUMBER_TABLE_ENTRY.matcher(s);
@@ -52,6 +55,10 @@ public class ClassParser {
 		return labelToLineNumberMapping;
 	}
 	
+	private static Map<Integer, Integer> noLineNUmbers() {
+		return defaultLabelToLineNumberMapping;
+	}
+
 	private void extractMethod(ClassUnderTransform target, String substring, Map<Integer, Integer> lineNumberMapping) {
 		new MethodParser(target, lineNumberMapping).parse(substring);
 	}
