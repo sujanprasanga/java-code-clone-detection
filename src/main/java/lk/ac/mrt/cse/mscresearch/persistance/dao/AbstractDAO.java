@@ -1,0 +1,78 @@
+package lk.ac.mrt.cse.mscresearch.persistance.dao;
+
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import lk.ac.mrt.cse.mscresearch.persistance.entities.EntityId;
+
+public abstract class AbstractDAO<T extends EntityId> implements DAO<T> {
+
+	private final Session session;
+	
+	protected AbstractDAO(Session session) {
+		this.session = session;
+	}
+	
+	@Override
+	public T save(T entity) {
+		session.persist(entity);
+		return session.get(getEntityClass(), entity.getPrimaryKey());
+	}
+
+	@Override
+	public List<T> saveAll(List<T> entities) {
+		return entities.stream().map(this::save).collect(Collectors.toList());
+	}
+
+//	@Override
+//	public T update(T entity) {
+//		return null;
+//	}
+//
+//	@Override
+//	public List<T> updateAll(List<T> entities) {
+//		return null;
+//	}
+
+	@Override
+	public List<T> getByHashOf(String hash) {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<T> criteria = builder.createQuery(getEntityClass());
+		Root<T> root = criteria.from(getEntityClass());
+		Path<T> hashColumn = root.<T> get(getHashQuarryValueColumn());
+		Predicate predicate = builder.equal(hashColumn, hash);
+		criteria.select(root).where(predicate);
+		Query<T> quarry = session.createQuery(criteria);
+		return quarry.getResultList();
+	}
+
+	@Override
+	public List<T> getByIds(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T createIfNotExists(T entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+//	protected <R,P> R inTransaction(Function<P, R> function){
+//		Transaction transaction = session.beginTransaction();
+//		R r = function.apply(t)
+//	}
+}
