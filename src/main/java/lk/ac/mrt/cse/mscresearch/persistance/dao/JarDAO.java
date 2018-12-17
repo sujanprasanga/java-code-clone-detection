@@ -21,7 +21,7 @@ public class JarDAO extends AbstractDAO<JarIndex> {
 	}
 
 	@Override
-	public String getHashQuarryValueColumn() {
+	public String getHashQuarryValueField() {
 		return "jarHash";
 	}
 

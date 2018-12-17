@@ -12,6 +12,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Criteria;
+import org.hibernate.MultiIdentifierLoadAccess;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -29,9 +30,15 @@ public abstract class AbstractDAO<T extends EntityId> implements DAO<T> {
 	@Override
 	public T save(T entity) {
 		session.persist(entity);
-		return session.get(getEntityClass(), entity.getPrimaryKey());
+		session.flush();
+		return getById(entity.getPrimaryKey());
 	}
 
+	@Override
+	public T getById(int id){
+		return session.get(getEntityClass(), id);
+	}
+	
 	@Override
 	public List<T> saveAll(List<T> entities) {
 		return entities.stream().map(this::save).collect(Collectors.toList());
@@ -52,7 +59,7 @@ public abstract class AbstractDAO<T extends EntityId> implements DAO<T> {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<T> criteria = builder.createQuery(getEntityClass());
 		Root<T> root = criteria.from(getEntityClass());
-		Path<T> hashColumn = root.<T> get(getHashQuarryValueColumn());
+		Path<T> hashColumn = root.<T> get(getHashQuarryValueField());
 		Predicate predicate = builder.equal(hashColumn, hash);
 		criteria.select(root).where(predicate);
 		Query<T> quarry = session.createQuery(criteria);
@@ -61,18 +68,31 @@ public abstract class AbstractDAO<T extends EntityId> implements DAO<T> {
 
 	@Override
 	public List<T> getByIds(List<Integer> ids) {
-		// TODO Auto-generated method stub
-		return null;
+		MultiIdentifierLoadAccess<T> multiLoadAccess = session.byMultipleIds(getEntityClass());
+		return multiLoadAccess.multiLoad(ids);
 	}
 
 	@Override
 	public T createIfNotExists(T entity) {
-		// TODO Auto-generated method stub
-		return null;
+		List<T> byHashOf = getByHashOf(getHashQuarryValue(entity));
+		if(byHashOf.isEmpty()){
+			return save(entity);
+		}
+		else{
+			return byHashOf.get(0);
+		}
 	}
 
 //	protected <R,P> R inTransaction(Function<P, R> function){
 //		Transaction transaction = session.beginTransaction();
 //		R r = function.apply(t)
 //	}
+	
+	protected String getPrimaryKeyField(){
+		return "primaryKey";
+	}
+	
+	protected abstract String getHashQuarryValueField();
+	
+	protected abstract String getHashQuarryValue(T entity);
 }

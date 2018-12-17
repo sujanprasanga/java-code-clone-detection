@@ -7,6 +7,7 @@ import lk.ac.mrt.cse.mscresearch.persistance.entities.EntityId;
 public interface DAO<T extends EntityId> {
 
 	T save(T entity);
+	T getById(int id);
 	List<T> saveAll(List<T> entities);
 //	T update(T entity);
 //	List<T> updateAll(List<T> entities);
@@ -14,6 +15,4 @@ public interface DAO<T extends EntityId> {
 	List<T> getByIds(List<Integer> ids);
 	T createIfNotExists(T entity);
 	Class<T> getEntityClass();
-	String getHashQuarryValue(T entity);
-	String getHashQuarryValueColumn();
 }

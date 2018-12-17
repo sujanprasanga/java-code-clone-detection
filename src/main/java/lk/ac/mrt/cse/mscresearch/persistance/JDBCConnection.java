@@ -34,9 +34,14 @@ public class JDBCConnection {
 		Session se = factory.getCurrentSession();
 		
 		JarIndex ji = new JarIndex();
-		ji.setArtifact("artifact");
-		ji.setName("test");
-		ji.setJarHash("jar".hashCode()+"");
+		ji.setArtifact("artifact2");
+		ji.setName("test2");
+		ji.setJarHash("jar2".hashCode()+"");
+		
+		JarIndex j2 = new JarIndex();
+		j2.setArtifact("artifact2asdasd");
+		j2.setName("testasdasd2");
+		j2.setJarHash("jar2".hashCode()+"");
 //		
 //		ClassIndex ci = new ClassIndex();
 //		ci.setClassName("className");
@@ -60,6 +65,8 @@ public class JDBCConnection {
 //		d.save(ji);
 		JarIndex ji2 = d.getByHashOf("104987                          ").get(0);
 		System.out.println(ji2.getName());
+		d.createIfNotExists(ji);
+		System.out.println(d.createIfNotExists(j2).getName());
 //		EntityManager em = se.getEntityManagerFactory().createEntityManager();
 		
 //		em.persist(mi);
