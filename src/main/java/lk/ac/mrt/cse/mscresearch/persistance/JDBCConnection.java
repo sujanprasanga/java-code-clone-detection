@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -63,15 +65,33 @@ public class JDBCConnection {
 		
 		JarDAO d = new JarDAO(se);
 //		d.save(ji);
-		JarIndex ji2 = d.getByHashOf("104987                          ").get(0);
-		System.out.println(ji2.getName());
+//		JarIndex ji2 = d.getByHashOf("104987                          ").get(0);
+//		System.out.println(ji2.getName());
 		d.createIfNotExists(ji);
-		System.out.println(d.createIfNotExists(j2).getName());
+//		System.out.println(d.createIfNotExists(j2).getName());
+		
+		ClassIndex ci = new ClassIndex();
+		ci.setClassName("class1");
+		Set<JarIndex> jars = new HashSet<>();jars.add(ji);
+		ci.setJar(jars);
+		
+		ji.getClasses().add(se.load(ClassIndex.class, 1));
+		se.persist(ji);
 //		EntityManager em = se.getEntityManagerFactory().createEntityManager();
 		
 //		em.persist(mi);
 //		EntityTransaction transaction = em.getTransaction();
 		//if(transaction.isActive())
+		JarIndex j = se.load(JarIndex.class, 2);
+		for(ClassIndex c : j.getClasses()){
+			System.out.println("Classes"  + c.getPrimaryKey() + ":" + c.getClassName());
+		}
+		ClassIndex c = se.load(ClassIndex.class, 1);
+		c.getJars().add(j);
+		se.persist(c);
+		for(JarIndex jj : c.getJars()){
+			System.out.println("jars"  + jj.getPrimaryKey() + ":" + jj.getName());
+		}
 		transaction.commit();
 		
 //		se.persist(mi);

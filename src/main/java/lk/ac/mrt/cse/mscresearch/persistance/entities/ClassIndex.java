@@ -1,5 +1,8 @@
 package lk.ac.mrt.cse.mscresearch.persistance.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,9 +24,8 @@ public class ClassIndex implements EntityId {
 	@Column(name="primaryKey")
 	private int primaryKey;
 	
-	@JoinColumn(name="jar_index")
-	@ManyToOne(targetEntity=JarIndex.class,fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private JarIndex jar;
+	@ManyToMany(mappedBy = "classes")
+	private Set<JarIndex> jars = new HashSet<>();
 	
 	@Column(name="class_name")
 	private String className;
@@ -43,11 +46,11 @@ public class ClassIndex implements EntityId {
 		this.className = className;
 	}
 
-	public JarIndex getJar() {
-		return jar;
+	public Set<JarIndex> getJars() {
+		return jars;
 	}
 
-	public void setJar(JarIndex jar) {
-		this.jar = jar;
+	public void setJar(Set<JarIndex> jars) {
+		this.jars = jars;
 	}
 }
