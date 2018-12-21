@@ -2,12 +2,16 @@ package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
+import lk.ac.mrt.cse.mscresearch.persistance.entities.ClassIndex;
+import lk.ac.mrt.cse.mscresearch.persistance.entities.MethodIndex;
 
 public class ClassParser {
 
@@ -16,11 +20,19 @@ public class ClassParser {
 		defaultLabelToLineNumberMapping.put(Integer.MAX_VALUE, -1);
 	}
 	
-	public void parse(ClassUnderTransform target){
-		extractMethods(target);
+	private final ClassUnderTransform target;
+	private final String className;
+	private final String md5Hash;
+	
+	public ClassParser(ClassUnderTransform target, String className, String md5Hash){
+		this.target = target;
+		this.className = className;
+		this.md5Hash = md5Hash;
 	}
-
-	private void extractMethods(ClassUnderTransform target) {
+	
+	private final Set<MethodIndex> methods = new HashSet<>();
+	
+	public void extractMethods() {
 		String disassembledCode = target.getDisassembledCode();
 		Matcher m = RegularExpressionUtil.getMethodMatcher(disassembledCode);
 		while(m.find()){
@@ -60,7 +72,19 @@ public class ClassParser {
 	}
 
 	private void extractMethod(ClassUnderTransform target, String substring, Map<Integer, Integer> lineNumberMapping) {
-		new MethodParser(target, lineNumberMapping).parse(substring);
+		MethodParser methodParser = new MethodParser(target, lineNumberMapping);
+		methodParser.parse(substring);
+		synchronized (this) {
+			methods.addAll(methodParser.getMethods());
+		}
+	}
+	
+	public ClassIndex getClassIndex(){
+		ClassIndex classIndex = new ClassIndex();
+		classIndex.setClassName(className);
+		classIndex.setClassHash(md5Hash);
+		classIndex.setMethods(methods);
+		return classIndex;
 	}
 
 }

@@ -41,6 +41,6 @@ public class Transformer {
 		t.disassemble(c);
 		log.debug(c.getDisassembledCode());
 		t.removeCommentsAndLVTable(c);
-		new ClassParser().parse(c);
+//		new ClassParser().parse(c);
 	}
 }

@@ -1,14 +1,14 @@
 package lk.ac.mrt.cse.mscresearch.persistance.entities;
 
-import javax.persistence.CascadeType;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,10 +20,6 @@ public class MethodIndex  implements EntityId {
 	@Column(name="primaryKey")
 	private int primaryKey;
 	
-	@JoinColumn(name="class_index")
-	@ManyToOne(targetEntity=ClassIndex.class,fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private ClassIndex classIndex;
-	
 	@Column(name="body")
 	private String body;
 	
@@ -32,6 +28,12 @@ public class MethodIndex  implements EntityId {
 	
 	@Column(name="pluginid")
 	private int pluginid;
+	
+	@Column(name="methodsignature")
+	private String signature;
+	
+	@ManyToMany(mappedBy = "methods")
+	private Set<ClassIndex> classes = new HashSet<>();
 
 	public int getPrimaryKey() {
 		return primaryKey;
@@ -65,11 +67,19 @@ public class MethodIndex  implements EntityId {
 		this.pluginid = pluginid;
 	}
 
-	public ClassIndex getClassIndex() {
-		return classIndex;
+	public Set<ClassIndex> getClasses() {
+		return classes;
 	}
 
-	public void setClassIndex(ClassIndex classIndex) {
-		this.classIndex = classIndex;
+	public void setClasses(Set<ClassIndex> classes) {
+		this.classes = classes;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 }

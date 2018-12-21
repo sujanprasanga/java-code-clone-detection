@@ -1,20 +1,16 @@
 package lk.ac.mrt.cse.mscresearch.persistance.dao;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
 import org.hibernate.MultiIdentifierLoadAccess;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import lk.ac.mrt.cse.mscresearch.persistance.entities.EntityId;

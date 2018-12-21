@@ -111,10 +111,14 @@ public class InstructionParserEventHandlerImpl implements InstructionParserEvent
 			}
 			
 		}
-		int markerIndex = all.indexOf(loopInstructions.get(0));
-		all.removeAll(loopInstructions);
-		loopInstructions.remove(marker);
-		all.add(markerIndex, new Loop(start, loopInstructions.toArray(new Instruction[0])));
+		try{
+			int markerIndex = all.indexOf(loopInstructions.get(0));
+			all.removeAll(loopInstructions);
+			loopInstructions.remove(marker);
+			all.add(markerIndex, new Loop(start, loopInstructions.toArray(new Instruction[0])));
+		}catch(Exception e){
+			e.getMessage();
+		}
 	}
 
 }
