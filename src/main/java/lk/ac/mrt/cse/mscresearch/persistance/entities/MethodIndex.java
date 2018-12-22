@@ -5,11 +5,16 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import lk.ac.mrt.cse.mscresearch.util.MD5Hasher;
 
 @Entity
 @Table(name="method_index")
@@ -20,11 +25,15 @@ public class MethodIndex  implements EntityId {
 	@Column(name="primaryKey")
 	private int primaryKey;
 	
-	@Column(name="body")
-	private String body;
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "body")
+	private MethodBody body;
 	
 	@Column(name="bodyhash")
 	private String bodyhash;
+	
+	@Column(name="body_signature_hash")
+	private String uniqueHash;
 	
 	@Column(name="pluginid")
 	private int pluginid;
@@ -44,11 +53,18 @@ public class MethodIndex  implements EntityId {
 	}
 
 	public String getBody() {
-		return body;
+		return body == null ? "" : body.getBody();
 	}
 
-	public void setBody(String body) {
+	public void setBody(MethodBody body) {
 		this.body = body;
+	}
+	
+	public void setBody(String body) {
+		if(this.body == null){
+			this.body = new MethodBody();
+		}
+		this.body.setBody(body);
 	}
 
 	public String getBodyhash() {
@@ -57,6 +73,14 @@ public class MethodIndex  implements EntityId {
 
 	public void setBodyhash(String bodyhash) {
 		this.bodyhash = bodyhash;
+	}
+
+	public String getUniqueHash() {
+		return uniqueHash;
+	}
+
+	public void setUniqueHash(String uniqueHash) {
+		this.uniqueHash = uniqueHash;
 	}
 
 	public int getPluginid() {
@@ -81,5 +105,13 @@ public class MethodIndex  implements EntityId {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	public MethodBody getBodyEntity() {
+		return this.body;
+	}
+
+	public void calculateUniqueHash() {
+		setUniqueHash(MD5Hasher.md5(bodyhash + signature));
 	}
 }

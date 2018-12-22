@@ -55,11 +55,16 @@ public abstract class AbstractDAO<T extends EntityId> implements DAO<T> {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<T> criteria = builder.createQuery(getEntityClass());
 		Root<T> root = criteria.from(getEntityClass());
-		Path<T> hashColumn = root.<T> get(getHashQuarryValueField());
-		Predicate predicate = builder.equal(hashColumn, hash);
+		Predicate predicate = getPredicateForHashCompare(hash, builder, root);
 		criteria.select(root).where(predicate);
 		Query<T> quarry = session.createQuery(criteria);
 		return quarry.getResultList();
+	}
+
+	protected Predicate getPredicateForHashCompare(String hash, CriteriaBuilder builder, Root<T> root) {
+		Path<T> hashColumn = root.<T> get(getHashQuarryValueField());
+		Predicate predicate = builder.equal(hashColumn, hash);
+		return predicate;
 	}
 
 	@Override

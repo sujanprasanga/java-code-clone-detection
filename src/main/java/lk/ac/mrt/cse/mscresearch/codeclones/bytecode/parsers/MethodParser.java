@@ -66,6 +66,7 @@ public class MethodParser {
 		m.setBody(i);
 		m.setBodyhash(MD5Hasher.md5(i));
 		m.setSignature(signature);
+		m.calculateUniqueHash();
 		methodIndexes.add(m);
 		return methodIndexes;
 	}

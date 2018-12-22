@@ -21,6 +21,7 @@ import lk.ac.mrt.cse.mscresearch.persistance.dao.JarDAO;
 import lk.ac.mrt.cse.mscresearch.persistance.dao.MethodDAO;
 import lk.ac.mrt.cse.mscresearch.persistance.entities.ClassIndex;
 import lk.ac.mrt.cse.mscresearch.persistance.entities.JarIndex;
+import lk.ac.mrt.cse.mscresearch.persistance.entities.MethodBody;
 import lk.ac.mrt.cse.mscresearch.persistance.entities.MethodIndex;
 import lk.ac.mrt.cse.mscresearch.persistance.indexer.ClassIndexer;
 import lk.ac.mrt.cse.mscresearch.persistance.indexer.JarIndexer;
@@ -95,6 +96,7 @@ public class IndexBuilder {
 				.addAnnotatedClass(JarIndex.class)
 				.addAnnotatedClass(ClassIndex.class)
 				.addAnnotatedClass(MethodIndex.class)
+				.addAnnotatedClass(MethodBody.class)
 				                                    .buildSessionFactory();
 		
 		Session se = factory.getCurrentSession();
