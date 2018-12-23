@@ -1,0 +1,66 @@
+public class lk.clones.SingleM {
+  public lk.clones.SingleM();
+    Code:
+       0: aload_0
+       1: invokespecial #8                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public void loop(java.util.List<java.lang.String>, int, int) throws java.lang.Exception;
+    Code:
+       0: iconst_0
+       1: istore        4
+       3: goto          51
+       6: iload_2
+       7: iload_3
+       8: if_icmple     39
+      11: iconst_0
+      12: istore        5
+      14: goto          29
+      17: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      20: iload_2
+      21: iload_3
+      22: iadd
+      23: invokevirtual #27                 // Method java/io/PrintStream.println:(I)V
+      26: iinc          5, 1
+      29: iload         5
+      31: bipush        99
+      33: if_icmplt     17
+      36: goto          48
+      39: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      42: iload_2
+      43: iload_3
+      44: isub
+      45: invokevirtual #27                 // Method java/io/PrintStream.println:(I)V
+      48: iinc          4, 1
+      51: iload         4
+      53: bipush        10
+      55: if_icmplt     6
+      58: iload_2
+      59: lookupswitch  { // 4
+
+                     1: 100
+
+                     2: 107
+
+                  5555: 116
+
+                  6666: 122
+               default: 131
+          }
+     100: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     103: invokevirtual #33                 // Method java/io/PrintStream.println:()V
+     106: return
+     107: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     110: invokevirtual #33                 // Method java/io/PrintStream.println:()V
+     113: goto          137
+     116: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     119: invokevirtual #33                 // Method java/io/PrintStream.println:()V
+     122: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     125: invokevirtual #33                 // Method java/io/PrintStream.println:()V
+     128: goto          137
+     131: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     134: invokevirtual #33                 // Method java/io/PrintStream.println:()V
+     137: getstatic     #35                 // Field java/lang/System.err:Ljava/io/PrintStream;
+     140: invokevirtual #33                 // Method java/io/PrintStream.println:()V
+     143: return
+}

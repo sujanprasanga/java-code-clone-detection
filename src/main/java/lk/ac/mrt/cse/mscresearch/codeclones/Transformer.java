@@ -20,27 +20,18 @@ public class Transformer {
 		target.setStage(STAGE.DISASSEMBLED);
 	}
 	
-	public void removeCommentsAndLVTable(ClassUnderTransform target)
-	{
-		target.setDisassembledCode(target.getDisassembledCode());
-	}
-	
-	public void splitMethods(ClassUnderTransform target)
-	{
-		
-	}
-	
 	public static void main(String[] args) {
 		
 		PropertyConfigurator.configure("log4j.properties");
 		ClassUnderTransform c = new ClassUnderTransform();
-		c.setClassPath("D:\\workspace\\personal\\msc-research\\java-code-clone-detection\\target\\classes");
-		String fullyQualifiedClassName = "lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.InstructionParserEventHandlerImpl";
-		c.setFullyQualifiedName(fullyQualifiedClassName);
+		c.setClassPath("D:\\development\\msc-research\\ExampleClasses\\bin");
+		c.setFullyQualifiedName("lk.clones.AllKindsOfMethods");
+//		c.setClassPath("D:\\workspace\\personal\\msc-research\\java-code-clone-detection\\target\\classes");
+//		String fullyQualifiedClassName = "lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.InstructionParserEventHandlerImpl";
+//		c.setFullyQualifiedName(fullyQualifiedClassName);
 		Transformer t = new Transformer();
 		t.disassemble(c);
 		log.debug(c.getDisassembledCode());
-		t.removeCommentsAndLVTable(c);
-//		new ClassParser().parse(c);
+//		new ClassParser(c,"name", "hash").extractMethods();
 	}
 }

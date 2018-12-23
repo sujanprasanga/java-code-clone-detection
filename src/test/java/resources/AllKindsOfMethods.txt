@@ -1,0 +1,262 @@
+public abstract class lk.clones.AllKindsOfMethods {
+  static java.util.List<java.lang.String> list;
+
+  static int a;
+
+  static int b;
+
+  static java.lang.String asd;
+
+  java.lang.String s;
+
+  public lk.clones.AllKindsOfMethods();
+    Code:
+       0: aload_0
+       1: invokespecial #18                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  static void foo();
+    Code:
+       0: iconst_0
+       1: istore_0
+       2: goto          60
+       5: getstatic     #25                 // Field a:I
+       8: getstatic     #27                 // Field b:I
+      11: if_icmple     44
+      14: iconst_0
+      15: istore_1
+      16: goto          35
+      19: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      22: getstatic     #25                 // Field a:I
+      25: getstatic     #27                 // Field b:I
+      28: iadd
+      29: invokevirtual #35                 // Method java/io/PrintStream.println:(I)V
+      32: iinc          1, 1
+      35: iload_1
+      36: bipush        99
+      38: if_icmplt     19
+      41: goto          57
+      44: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      47: getstatic     #25                 // Field a:I
+      50: getstatic     #27                 // Field b:I
+      53: isub
+      54: invokevirtual #35                 // Method java/io/PrintStream.println:(I)V
+      57: iinc          0, 1
+      60: iload_0
+      61: bipush        10
+      63: if_icmplt     5
+      66: return
+
+  public static final synchronized void fooS();
+    Code:
+       0: iconst_0
+       1: istore_0
+       2: goto          60
+       5: getstatic     #25                 // Field a:I
+       8: getstatic     #27                 // Field b:I
+      11: if_icmple     44
+      14: iconst_0
+      15: istore_1
+      16: goto          35
+      19: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      22: getstatic     #25                 // Field a:I
+      25: getstatic     #27                 // Field b:I
+      28: iadd
+      29: invokevirtual #35                 // Method java/io/PrintStream.println:(I)V
+      32: iinc          1, 1
+      35: iload_1
+      36: bipush        99
+      38: if_icmplt     19
+      41: goto          57
+      44: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      47: getstatic     #25                 // Field a:I
+      50: getstatic     #27                 // Field b:I
+      53: isub
+      54: invokevirtual #35                 // Method java/io/PrintStream.println:(I)V
+      57: iinc          0, 1
+      60: iload_0
+      61: bipush        10
+      63: if_icmplt     5
+      66: return
+
+  abstract java.lang.Object fooA(int...) throws java.lang.Exception;
+
+  protected abstract java.lang.Object fooAP(int...) throws java.lang.Exception;
+
+  public final int fooFIA(java.util.List<java.lang.String>, int, int) throws java.lang.Exception;
+    Code:
+       0: iconst_0
+       1: istore        4
+       3: goto          50
+       6: iload_2
+       7: iload_3
+       8: if_icmple     39
+      11: iconst_0
+      12: istore        5
+      14: goto          29
+      17: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      20: iload_2
+      21: iload_3
+      22: iadd
+      23: invokevirtual #35                 // Method java/io/PrintStream.println:(I)V
+      26: iinc          5, 1
+      29: iload         5
+      31: bipush        99
+      33: if_icmplt     17
+      36: goto          47
+      39: new           #48                 // class java/lang/Exception
+      42: dup
+      43: invokespecial #54                 // Method java/lang/Exception."<init>":()V
+      46: athrow
+      47: iinc          4, 1
+      50: iload         4
+      52: bipush        10
+      54: if_icmplt     6
+      57: iload_2
+      58: iload_3
+      59: iadd
+      60: ireturn
+
+  public static java.lang.Object fooPOE2(int...) throws java.io.IOException, java.lang.InterruptedException;
+    Code:
+       0: iconst_0
+       1: istore_1
+       2: goto          38
+       5: aload_0
+       6: iload_1
+       7: iaload
+       8: getstatic     #27                 // Field b:I
+      11: if_icmple     22
+      14: new           #59                 // class java/lang/InterruptedException
+      17: dup
+      18: invokespecial #61                 // Method java/lang/InterruptedException."<init>":()V
+      21: athrow
+      22: iload_1
+      23: iconst_3
+      24: if_icmple     35
+      27: new           #57                 // class java/io/IOException
+      30: dup
+      31: invokespecial #62                 // Method java/io/IOException."<init>":()V
+      34: athrow
+      35: iinc          1, 1
+      38: iload_1
+      39: bipush        10
+      41: if_icmplt     5
+      44: new           #3                  // class java/lang/Object
+      47: dup
+      48: invokespecial #18                 // Method java/lang/Object."<init>":()V
+      51: areturn
+
+  protected native java.lang.Object fooN(int...) throws java.lang.Exception;
+
+  protected static native java.lang.Object fooNS(int...) throws java.lang.Exception;
+
+  protected static final native java.lang.Object fooNSF(int...) throws java.lang.Exception;
+
+  public <T> java.lang.Object fooG1(java.util.List<T>, int...) throws java.lang.Exception;
+    Code:
+       0: iconst_0
+       1: istore_3
+       2: iload_3
+       3: bipush        10
+       5: if_icmpge     33
+       8: aload_2
+       9: iconst_0
+      10: iaload
+      11: getstatic     #27                 // Field b:I
+      14: if_icmple     25
+      17: aload_1
+      18: iload_3
+      19: invokeinterface #70,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      24: areturn
+      25: new           #48                 // class java/lang/Exception
+      28: dup
+      29: invokespecial #54                 // Method java/lang/Exception."<init>":()V
+      32: athrow
+      33: new           #3                  // class java/lang/Object
+      36: dup
+      37: invokespecial #18                 // Method java/lang/Object."<init>":()V
+      40: areturn
+
+  public void loop(java.util.List<java.lang.String>, int, int) throws java.lang.Exception;
+    Code:
+       0: iconst_0
+       1: istore        4
+       3: goto          51
+       6: iload_2
+       7: iload_3
+       8: if_icmple     39
+      11: iconst_0
+      12: istore        5
+      14: goto          29
+      17: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      20: iload_2
+      21: iload_3
+      22: iadd
+      23: invokevirtual #35                 // Method java/io/PrintStream.println:(I)V
+      26: iinc          5, 1
+      29: iload         5
+      31: bipush        99
+      33: if_icmplt     17
+      36: goto          48
+      39: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      42: iload_2
+      43: iload_3
+      44: isub
+      45: invokevirtual #35                 // Method java/io/PrintStream.println:(I)V
+      48: iinc          4, 1
+      51: iload         4
+      53: bipush        10
+      55: if_icmplt     6
+      58: iload_2
+      59: lookupswitch  { // 4
+
+                     1: 100
+
+                     2: 107
+
+                  5555: 116
+
+                  6666: 122
+               default: 131
+          }
+     100: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     103: invokevirtual #80                 // Method java/io/PrintStream.println:()V
+     106: return
+     107: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     110: invokevirtual #80                 // Method java/io/PrintStream.println:()V
+     113: goto          137
+     116: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     119: invokevirtual #80                 // Method java/io/PrintStream.println:()V
+     122: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     125: invokevirtual #80                 // Method java/io/PrintStream.println:()V
+     128: goto          137
+     131: getstatic     #29                 // Field java/lang/System.out:Ljava/io/PrintStream;
+     134: invokevirtual #80                 // Method java/io/PrintStream.println:()V
+     137: getstatic     #82                 // Field java/lang/System.err:Ljava/io/PrintStream;
+     140: invokevirtual #80                 // Method java/io/PrintStream.println:()V
+     143: return
+
+  public synchronized <T, R> java.util.Map<T, R> fooGS1(java.util.List<T>[], java.util.List<R>) throws java.lang.InterruptedException, java.io.IOException;
+    Code:
+       0: iconst_0
+       1: istore_3
+       2: iload_3
+       3: bipush        10
+       5: if_icmpge     33
+       8: getstatic     #25                 // Field a:I
+      11: getstatic     #27                 // Field b:I
+      14: if_icmple     25
+      17: new           #59                 // class java/lang/InterruptedException
+      20: dup
+      21: invokespecial #61                 // Method java/lang/InterruptedException."<init>":()V
+      24: athrow
+      25: new           #57                 // class java/io/IOException
+      28: dup
+      29: invokespecial #62                 // Method java/io/IOException."<init>":()V
+      32: athrow
+      33: new           #88                 // class java/util/HashMap
+      36: dup
+      37: invokespecial #90                 // Method java/util/HashMap."<init>":()V
+      40: areturn
+}

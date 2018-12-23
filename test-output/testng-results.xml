@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="14" passed="14">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="216" started-at="2018-12-23T16:03:46Z" finished-at="2018-12-23T16:03:46Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="216" started-at="2018-12-23T16:03:46Z" finished-at="2018-12-23T16:03:46Z">
+      <class name="lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest">
+        <test-method status="PASS" signature="testMethodExtrat(java.lang.String)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="testMethodExtrat" duration-ms="82" started-at="2018-12-23T16:03:46Z" data-provider="fileNames" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[AllKindsOfMethods-withLineNumbers.txt]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testMethodExtrat -->
+        <test-method status="PASS" signature="testMethodExtrat(java.lang.String)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="testMethodExtrat" duration-ms="26" started-at="2018-12-23T16:03:46Z" data-provider="fileNames" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[AllKindsOfMethods.txt]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testMethodExtrat -->
+        <test-method status="PASS" signature="testSplitMethods(java.lang.String)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="testSplitMethods" duration-ms="18" started-at="2018-12-23T16:03:46Z" data-provider="fileNames" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[AllKindsOfMethods-withLineNumbers.txt]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSplitMethods -->
+        <test-method status="PASS" signature="testSplitMethods(java.lang.String)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="testSplitMethods" duration-ms="18" started-at="2018-12-23T16:03:46Z" data-provider="fileNames" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[AllKindsOfMethods.txt]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSplitMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="2" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public lk.clones.AllKindsOfMethods();]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="3" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[static void foo();]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="1" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[static int[] foo();]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="1" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public static synchronized void fo_oS();]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="1" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public final int fooFIA(java.util.List<java.lang.String>, int, int) throws java.lang.Exception;]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="1" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[protected native java.lang.Object fooN(int...) throws java.lang.Exception;]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="1" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public native java.lang.Object fooN(int...) throws java.lang.Exception;]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="0" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public abstract java.lang.Object fooA(int...) throws java.lang.Exception;]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="2" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public <T> java.lang.Object fooG1(java.util.List<T>, int...) throws java.lang.Exception;]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+        <test-method status="PASS" signature="test_byte_code_accessibleMethods(java.lang.String, boolean)[pri:0, instance:lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest@6767c1fc]" name="test_byte_code_accessibleMethods" duration-ms="2" started-at="2018-12-23T16:03:46Z" data-provider="methodSignatures" finished-at="2018-12-23T16:03:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public synchronized <T, R> java.util.Map<T, R> fooGS1(java.util.List<T>, java.util.List<R>) throws java.lang.InterruptedException, java.io.IOException;]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- test_byte_code_accessibleMethods -->
+      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

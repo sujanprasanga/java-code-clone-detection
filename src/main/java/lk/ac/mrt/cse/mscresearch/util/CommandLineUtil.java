@@ -23,7 +23,7 @@ public class CommandLineUtil {
 
 	public String disassembleClass(String className, String classpath){
 		CommandLine cmdLine = new CommandLine("javap");
-//		cmdLine.addArgument("-l");
+		cmdLine.addArgument("-l");
 		cmdLine.addArgument("-c");
 		cmdLine.addArgument("-classpath");
 		cmdLine.addArgument(classpath);

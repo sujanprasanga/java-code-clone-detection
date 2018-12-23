@@ -78,7 +78,7 @@ public class RegularExpressionUtil {
 	
 	public static final String INSTRUCTION_LABEL_CG_NAME = "label";
 	public static final String PARAMETER_CG_NAME = "params";
-	private final static String METHOD_DEFINITION_REG_EX = "public .+ .+\\((?<" + PARAMETER_CG_NAME + ">.*)\\) ?(throws .+)?;";
+	public final static String METHOD_DEFINITION_REG_EX = "public .+ .+\\((?<" + PARAMETER_CG_NAME + ">.*)\\) ?(throws .+)?;";
 	private final static Pattern METHOD_DEFINITION_REG_EX_PATTERN = Pattern.compile(METHOD_DEFINITION_REG_EX);
 	private final static String INSTRUCTION_START_REG_X = "[ ]*(?<" + INSTRUCTION_LABEL_CG_NAME + ">([\\d]*[0123456789]+)): ";
 	private final static String PRIMITIVE_REG_X = "[dfil]";
@@ -92,8 +92,8 @@ public class RegularExpressionUtil {
 	public final static Pattern LINE_NUMBER_TABLE_ENTRY = Pattern.compile(LINE_NUMBER_TABLE_ENTRY_REG_EX);
 	private final static String LINE_NUMBER_TABLE_REG_EX = "( +LineNumberTable:\\r?\\n(?<" + LINE_NUMBER_TABLE_CG_NAME +">( +line.+\\r?\\n)+))?";
 //	private final static String LINE_NUMBER_TABLE_REG_EX = "[ ]*LineNumberTable:.*(" + LINE_NUMBER_TABLE_ENTRY + ")+";
-	private final static String PUBLIC_METHOD_BODY_REG_EX_STRING = "(?<" + METHOD_CG_NAME + ">(" + METHOD_DEFINITION_REG_EX + NEW_LINE + ".*" + NEW_LINE + "("+ INSTRUCTION_START_REG_X +".+" + NEW_LINE + ")+))" + LINE_NUMBER_TABLE_REG_EX;
-	private final static Pattern PUBLIC_METHOD_BODY_REG_EX = Pattern.compile(PUBLIC_METHOD_BODY_REG_EX_STRING);
+	private final static String PUBLIC_METHOD_BODY_REG_EX_STRING = "(?<" + METHOD_CG_NAME + ">(" + METHOD_DEFINITION_REG_EX + NEW_LINE + ".*" + NEW_LINE + "("+ INSTRUCTION_START_REG_X +"(.+)|(lookupswitch  \\{((.+)?\\r?\\n)+.+\\})" + NEW_LINE + ")+))" + LINE_NUMBER_TABLE_REG_EX;
+	public final static Pattern PUBLIC_METHOD_BODY_REG_EX = Pattern.compile(PUBLIC_METHOD_BODY_REG_EX_STRING);
 	private final static Map<String, String> INSTRUCTION_REG_X = createInstructionSet();
 	private final static Pattern FILTER_REG_EX = createFinalRegEx();
 	private static final Map<String, Pattern> INSTRUCTION_PATTERNS = createInstructionPatterns();

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
+  <test thread-count="5" name="Default test(failed)">
+    <classes>
+      <class name="lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest">
+        <methods>
+          <include name="test_byte_code_accessibleMethods" invocation-numbers="3 4 8 9"/>
+        </methods>
+      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest -->
+    </classes>
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->
