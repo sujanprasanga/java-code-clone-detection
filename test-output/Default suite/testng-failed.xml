@@ -3,11 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest">
+      <class name="lk.ac.mrt.cse.mscresearch.codeclones.NewArrayDecodeRegExTest">
         <methods>
-          <include name="test_byte_code_accessibleMethods" invocation-numbers="3 4 8 9"/>
+          <include name="testinvoke"/>
         </methods>
-      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest -->
+      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.NewArrayDecodeRegExTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

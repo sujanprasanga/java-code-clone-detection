@@ -25,7 +25,7 @@ public class Transformer {
 		PropertyConfigurator.configure("log4j.properties");
 		ClassUnderTransform c = new ClassUnderTransform();
 		c.setClassPath("D:\\development\\msc-research\\ExampleClasses\\bin");
-		c.setFullyQualifiedName("lk.clones.AllKindsOfMethods");
+		c.setFullyQualifiedName("lk.clones.Primitives");
 //		c.setClassPath("D:\\workspace\\personal\\msc-research\\java-code-clone-detection\\target\\classes");
 //		String fullyQualifiedClassName = "lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.InstructionParserEventHandlerImpl";
 //		c.setFullyQualifiedName(fullyQualifiedClassName);

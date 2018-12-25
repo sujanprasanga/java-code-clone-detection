@@ -1,0 +1,17 @@
+  to do for all other than invoke static\virtual\interface
+  0: aload_1
+  1: invokevirtual #19                 // Method java/lang/String.length:()I
+  4: pop
+  7: invokevirtual #25                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+  20: invokespecial #29                 // Method "<init>":()V
+  28: invokespecial #8                  // Method java/lang/Object."<init>":()V
+  31: invokevirtual #30                 // Method java/lang/Object.hashCode:()I		 
+  39: invokevirtual #39                 // Method java/io/PrintStream.println:(Ljava/lang/Object;)V 
+  47: invokespecial #47                 // Method java/io/FileOutputStream."<init>":(Ljava/io/File;)V	 
+  59: invokestatic  #53                 // Method java/util/ServiceLoader.load:(Ljava/lang/Class;)Ljava/util/ServiceLoader;
+  75: invokedynamic #70,  0             // InvokeDynamic #0:accept:()Ljava/util/function/Consumer;
+  85: invokeinterface #71,  2           // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+  100: invokevirtual #78                 // Method java/lang/String.toCharArray:()[C
+  103: invokestatic  #82                 // InterfaceMethod java/util/stream/Stream.of:(Ljava/lang/Object;)Ljava/util/stream/Stream;	
+  108: invokedynamic #90,  0             // InvokeDynamic #1:accept:(Ljava/lang/StringBuilder;)Ljava/util/function/Consumer;
+  113: invokeinterface #91,  2           // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V

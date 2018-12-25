@@ -32,7 +32,31 @@ public class PropertyUtil {
 		return get("native") + get("returnType") + get("methodNameAndParam");
 	}
 	
+	public String getRegExForInvoke(){
+		return get("invoke");
+	}
+	
+	public String getRegExForConstructorInvoke(){
+		return get("invokeConstructor");
+	}
+	
 	private String get(String p){
 		return properties.getProperty(p);
+	}
+
+	public String getRegExForInvokeDynamic() {
+		return get("invokeDynamic");
+	}
+
+	public String getRegExForFieldOperations() {
+		return get("fieldOp");
+	}
+
+	public String getRegExForPrimitiveOperations() {
+		return get("primitiveOp");
+	}
+
+	public String getRegExForNewArrayOp() {
+		return get("newArray");
 	}
 }
