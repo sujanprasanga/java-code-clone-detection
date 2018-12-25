@@ -1,3 +1,27 @@
+       4: return
+       4: ireturn
+       4: lreturn
+       4: freturn
+       4: dreturn
+       4: areturn
+}      
+      
+      
+       7: checkcast     #16                 // class lk/clones/Other$A$
+      12: instanceof    #16                 // class lk/clones/Other$A$
+       7: checkcast     #16                 // class java/lang/String
+      12: instanceof    #16                 // class java/lang/String
+      64: new           #34                 // class java/lang/RuntimeException
+      54: new           #29                 // class lk/clones/Other$A$
+      17: dup
+      20: monitorenter
+      28: iconst_0
+      29: dup2
+      39: arraylength
+      44: monitorexit
+      51: athrow
+
+
 public class lk.clones.Conditinals {
   public lk.clones.Conditinals();
     Code:

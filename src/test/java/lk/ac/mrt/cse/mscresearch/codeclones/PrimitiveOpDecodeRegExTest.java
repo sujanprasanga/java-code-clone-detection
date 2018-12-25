@@ -24,7 +24,7 @@ public class PrimitiveOpDecodeRegExTest {
 		assertEquals(matcher.group("op"), op );
 		assertEquals(matcher.group("type").charAt(0), type );
 		assertEquals(Integer.parseInt(matcher.group("label")), label);
-		assertEquals(!matcher.group("arrayOp").isEmpty() || type == 'a', arrayOp );
+		assertEquals((!matcher.group("arrayOp").isEmpty() || type == 'a') && !"const_null".equals(op), arrayOp );
 	}
 	
 	@DataProvider(name = "bytecode")
@@ -108,6 +108,7 @@ public class PrimitiveOpDecodeRegExTest {
 	  	        {"  38: fcmpg                   ",  38, 'f', false,"cmpg"},
 	  	        {"  27: dcmpl                   ",  27, 'd', false,"cmpl"},
 	  	        {"  38: dcmpg                   ",  38, 'd', false,"cmpg"},
+	  		    {"	52: aconst_null             ",  52, 'a', false,"const_null"},
 	        };
 	  }
 	

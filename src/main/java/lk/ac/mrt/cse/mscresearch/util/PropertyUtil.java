@@ -63,4 +63,16 @@ public class PropertyUtil {
 	public String getRegExForConditionalOperations() {
 		return get("conditionals");
 	}
+
+	public String getRegExForOtherOperations() {
+		return get("other");
+	}
+
+	public String getRegExForInstanceOp() {
+		return get("instanceOp");
+	}
+
+	public String getRegExForReturnOp() {
+		return get("return");
+	}
 }

@@ -23,6 +23,9 @@ public class NonMatchingDataProvider {
 		classesWithData.add(PrimitiveOpDecodeRegExTest.class);
 		classesWithData.add(InvokeDynamicRegExTest.class);
 		classesWithData.add(ConditionalOpDecodeRegExTest.class);
+		classesWithData.add(OtherOpDecodeRegExTest.class);
+		classesWithData.add(InstanceRegExTest.class);
+		classesWithData.add(ReturnRegExTest.class);
 	}
 	
 	private final Object[][] code;
