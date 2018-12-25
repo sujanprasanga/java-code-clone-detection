@@ -1,6 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.regex.Matcher;
@@ -42,4 +43,15 @@ public class FieldOpDecodeRegExTest {
 {"  52: putfield      #47                 // Field ar2:[[Ljava/lang/Object; ",  52 , "put", "[[Ljava/lang/Object;"},
 	        };
 	  }
+	
+	@Test(dataProvider="nonMatching")
+	public void test_other_code_is_not_matched(String code) {
+		Matcher matcher = p.matcher(code);
+		assertFalse(matcher.find());
+	}
+	
+	@DataProvider(name = "nonMatching")
+	public Object[][] nonMatchingDataSet(){
+		return new NonMatchingDataProvider(getClass()).getCode();
+	}
 }

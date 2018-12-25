@@ -59,4 +59,8 @@ public class PropertyUtil {
 	public String getRegExForNewArrayOp() {
 		return get("newArray");
 	}
+
+	public String getRegExForConditionalOperations() {
+		return get("conditionals");
+	}
 }

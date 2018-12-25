@@ -1,6 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.regex.Matcher;
@@ -23,6 +24,17 @@ public class ConstructorDecodeRegExTest {
 		assertEquals(Integer.parseInt(matcher.group("label")), label);
 		assertEquals(matcher.group("class"), clazz );
 		assertEquals(matcher.group("constructorSignature"), constructorSignature );
+	}
+	
+	@Test(dataProvider = NonMatchingDataProvider.DATA_PROVIDER_NAME)
+	public void test_other_code_is_not_matched(String code) {
+		Matcher matcher = p.matcher(code);
+		assertFalse(matcher.find());
+	}
+	
+	@DataProvider(name = NonMatchingDataProvider.DATA_PROVIDER_NAME)
+	public Object[][] nonMatchingDataSet(){
+		return new NonMatchingDataProvider(getClass()).getCode();
 	}
 	
 	@DataProvider(name = "invokeDataSet")

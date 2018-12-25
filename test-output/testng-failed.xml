@@ -3,11 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="lk.ac.mrt.cse.mscresearch.codeclones.NewArrayDecodeRegExTest">
+      <class name="lk.ac.mrt.cse.mscresearch.codeclones.ConditionalOpDecodeRegExTest">
         <methods>
-          <include name="testinvoke"/>
+          <include name="test_other_code_is_not_matched"/>
         </methods>
-      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.NewArrayDecodeRegExTest -->
+      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.ConditionalOpDecodeRegExTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

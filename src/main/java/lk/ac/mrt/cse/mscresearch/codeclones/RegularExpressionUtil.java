@@ -131,14 +131,14 @@ public class RegularExpressionUtil {
 		instructions.put(PUSH_NULL, "aconst_null");
 //		instructions.put(NEW_ARRAY, "(multi)?a?newarray");
 		instructions.put(PRIMITIVE_COMPARISON, PRIMITIVE_REG_X + "cmp[gl]");
-		instructions.put(PRIMITIVE_CONVERSION, PRIMITIVE_REG_X + "2[fildbcs]");
+//		instructions.put(PRIMITIVE_CONVERSION, PRIMITIVE_REG_X + "2[fildbcs]");
 		instructions.put(POP, "pop2?");
 		instructions.put(NOP, "nop");
 		instructions.put(SWAP, "swap");
 		instructions.put(WIDE, "wide");
 		instructions.put(ARRAY_LENGTH, "arraylength");
 		instructions.put(TYPE_CHECK, "instanceof");
-		instructions.put(LOGIC_OP, "[il]((x?or)|(u?sh[lr])|(and))");
+//		instructions.put(LOGIC_OP, "[il]((x?or)|(u?sh[lr])|(and))");
 		instructions.put(NEW, "new [ ]+#\\d+[ ]+// class " + NEW_CLASS_CG);
 		instructions.put(DUP, "dup[_2]?_?x?" + DUP_CG);
 		instructions.put("push", "[bs][i]push");

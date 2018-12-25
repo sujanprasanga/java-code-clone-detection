@@ -1,0 +1,188 @@
+public class lk.clones.Conditinals {
+  public lk.clones.Conditinals();
+    Code:
+       0: aload_0
+       1: invokespecial #8                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  void foo(java.lang.Object);
+    Code:
+       0: aload_1
+       4: return
+       5: aload_0
+       6: aconst_null
+       7: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      10: return
+
+  int foow(java.lang.Object);
+    Code:
+       0: aload_1
+       1: ifnonnull     8
+       4: iconst_1
+       8: bipush        8
+      10: ireturn
+
+  void foo(int);
+    Code:
+       0: iload_1
+       4: return
+       5: aload_0
+       6: aconst_null
+       7: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      10: iload_1
+      14: return
+      15: aload_0
+      16: aconst_null
+      17: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      20: iload_1
+      24: aload_0
+      25: aconst_null
+      26: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      29: return
+
+  void foo(short);
+    Code:
+       0: iload_1
+       4: return
+       5: aload_0
+       6: aconst_null
+       7: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      10: iload_1
+      14: return
+      15: aload_0
+      16: aconst_null
+      17: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      20: iload_1
+      24: aload_0
+      25: aconst_null
+      26: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      29: return
+
+  void foo(byte);
+    Code:
+       4: return
+       5: aload_0
+       6: aconst_null
+       7: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      10: iload_1
+       0: iload_1
+      14: return
+      15: aload_0
+      16: aconst_null
+      17: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      20: iload_1
+      24: aload_0
+      25: aconst_null
+      26: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      29: return
+
+  void foo(long);
+    Code:
+       0: lload_1
+       1: lconst_0
+       2: lcmp
+       6: return
+       7: aload_0
+       8: aconst_null
+       9: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      12: lload_1
+      13: lconst_0
+      14: lcmp
+      18: return
+      19: aload_0
+      20: aconst_null
+      21: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      24: lload_1
+      25: lconst_0
+      26: lcmp
+      30: aload_0
+      31: aconst_null
+      32: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      35: return
+
+  void foo(float);
+    Code:
+       0: fload_1
+       1: fconst_0
+       2: fcmpl
+       6: return
+       7: aload_0
+       8: aconst_null
+       9: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      12: fload_1
+      13: fconst_0
+      18: return
+      19: aload_0
+      20: aconst_null
+      21: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      24: fload_1
+      25: fconst_0
+      26: fcmpl
+      14: fcmpg
+      30: aload_0
+      31: aconst_null
+      32: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      35: return
+
+  void foo(double);
+    Code:
+       0: dload_1
+       1: dconst_0
+       2: dcmpl
+       6: return
+       7: aload_0
+       8: aconst_null
+       9: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      12: dload_1
+      13: dconst_0
+      14: dcmpg
+      18: return
+      19: aload_0
+      20: aconst_null
+      21: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      24: dload_1
+      25: dconst_0
+      26: dcmpl
+      30: aload_0
+      31: aconst_null
+      32: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      35: return
+
+  void foo(char);
+    Code:
+       0: iload_1
+       4: return
+       5: aload_0
+       6: aconst_null
+       7: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      10: iload_1
+      11: ifgt          15
+      14: return
+      15: aload_0
+      16: aconst_null
+      17: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      20: iload_1
+
+      24: aload_0
+      25: aconst_null
+      26: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      29: return
+
+  void foo(boolean);
+    Code:
+       0: iload_1
+       4: return
+       5: aload_0
+       6: aconst_null
+       7: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      10: iload_1
+      14: return
+      15: aload_0
+      16: aconst_null
+      17: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      20: iload_1
+      24: aload_0
+      25: aconst_null
+      26: invokevirtual #16                 // Method foo:(Ljava/lang/Object;)V
+      29: return
+}

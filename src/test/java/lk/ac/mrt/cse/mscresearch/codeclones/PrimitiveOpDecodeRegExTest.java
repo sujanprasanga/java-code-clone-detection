@@ -1,6 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.regex.Matcher;
@@ -101,7 +102,24 @@ public class PrimitiveOpDecodeRegExTest {
 	    	    {"  20: dastore                 ",  20, 'd', true, "store"},
 	    	    {"  19: baload                  ",  19, 'b', true, "load"},
 	    	    {"  20: bastore                 ",  20, 'b', true, "store"},
+	    	    {"  27: lcmp                    ",  27, 'l', false,"cmp"},
+	  	        {"  38: lcmp                    ",  38, 'l', false,"cmp"},
+	  	        {"  27: fcmpl                   ",  27, 'f', false,"cmpl"},
+	  	        {"  38: fcmpg                   ",  38, 'f', false,"cmpg"},
+	  	        {"  27: dcmpl                   ",  27, 'd', false,"cmpl"},
+	  	        {"  38: dcmpg                   ",  38, 'd', false,"cmpg"},
 	        };
 	  }
+	
+	@Test(dataProvider = NonMatchingDataProvider.DATA_PROVIDER_NAME)
+	public void test_other_code_is_not_matched(String code) {
+		Matcher matcher = p.matcher(code);
+		assertFalse(matcher.find());
+	}
+	
+	@DataProvider(name = NonMatchingDataProvider.DATA_PROVIDER_NAME)
+	public Object[][] nonMatchingDataSet(){
+		return new NonMatchingDataProvider(getClass()).getCode();
+	}
 }
     

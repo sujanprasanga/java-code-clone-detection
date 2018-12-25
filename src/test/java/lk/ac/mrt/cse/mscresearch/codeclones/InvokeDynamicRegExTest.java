@@ -1,6 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.regex.Matcher;
@@ -30,4 +31,15 @@ public class InvokeDynamicRegExTest {
 {"  111: invokedynamic #92,  0             // InvokeDynamic #1:accept:(Ljava/lang/StringBuilder;)Ljava/util/function/Consumer; ", 111},
 	        };
 	  }
+	
+	@Test(dataProvider = NonMatchingDataProvider.DATA_PROVIDER_NAME)
+	public void test_other_code_is_not_matched(String code) {
+		Matcher matcher = p.matcher(code);
+		assertFalse(matcher.find());
+	}
+	
+	@DataProvider(name = NonMatchingDataProvider.DATA_PROVIDER_NAME)
+	public Object[][] nonMatchingDataSet(){
+		return new NonMatchingDataProvider(getClass()).getCode();
+	}
 }
