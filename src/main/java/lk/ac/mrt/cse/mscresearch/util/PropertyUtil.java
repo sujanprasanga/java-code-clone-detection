@@ -75,4 +75,8 @@ public class PropertyUtil {
 	public String getRegExForReturnOp() {
 		return get("return");
 	}
+
+	public String getRegExForSwitch() {
+		return get("switch");
+	}
 }

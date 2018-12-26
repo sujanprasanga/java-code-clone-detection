@@ -1,0 +1,43 @@
+       0: iload_1
+       1: tableswitch   { // 1 to 3
+
+                     1: 28
+
+                     2: 34
+
+                     3: 37
+               default: 40
+          }
+      28: iinc          1, 1
+	       0: iload_1
+       1: lookupswitch  { // 3
+
+                     1: 36
+
+              22342342: 42
+
+             234234343: 45
+               default: 48
+          }
+      36: iinc          1, 1
+		       6: lookupswitch  { // 3
+
+                 96321: 40
+
+                 97314: 52
+
+                 98307: 64
+               default: 94
+          }
+			 
+	    7: iaload
+       8: tableswitch   { // 1 to 3
+
+                     1: 36
+
+                     2: 46
+
+                     3: 53
+               default: 60
+          }
+      36: getstatic     #49   
