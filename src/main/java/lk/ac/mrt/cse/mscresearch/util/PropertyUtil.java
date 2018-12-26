@@ -79,4 +79,8 @@ public class PropertyUtil {
 	public String getRegExForSwitch() {
 		return get("switch");
 	}
+
+	public String getRegExForInstructionSplitter() {
+		return get("instructionSplitter");
+	}
 }

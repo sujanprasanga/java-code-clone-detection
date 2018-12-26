@@ -1,0 +1,19 @@
+   21: ifne          29
+  154: invokespecial #110                // Method lk/clones/Invoke$A."<init>":(Llk/clones/Invoke;Llk/clones/Invoke$A;)V
+  39: putfield      #38                 // Field a$2:Llk/clones/Field$A$
+  54: new           #29                 // class lk/clones/Other$A$
+  1: tableswitch   { // 1 to 3
+
+                     1: 28
+
+                     2: 34
+
+                     3: 37
+               default: 40
+          }
+  155: invokevirtual #111                // Method lk/clones/Invoke$A.foo$:(Llk/clones/Invoke$A;)Llk/clones/Invoke$A;
+  111: invokedynamic #92,  0             // InvokeDynamic #1:accept:(Ljava/lang/StringBuilder;)Ljava/util/function/Consumer;
+  6: anewarray     #15                 // class "[Ljava/lang/Object;"
+  20: monitorenter
+  4: lreturn
+  
