@@ -5,15 +5,14 @@ import static org.testng.Assert.assertEquals;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.MethodTokenizer;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class RegularExpressionUtilTest {
@@ -51,16 +50,9 @@ public class RegularExpressionUtilTest {
 	 @Test(dataProvider="fileNames")
 	 public void testSplitMethods(String file) throws IOException{
 		 String disassembledClass = readFile(file);
-		 Matcher m = allM.matcher(disassembledClass);
-		 Queue<Integer> que = new LinkedList<>();
-		 while(m.find()){
-			 que.add(m.start());
-		 }
-		 que.add(disassembledClass.length()-2);
-		 while(que.size() > 1){
-			System.out.println("<<<<<<<");
-			System.out.println(disassembledClass.substring(que.poll(), que.peek()).trim());
-			System.out.println(">>>>>>>");
+		 MethodTokenizer tokenizer = MethodTokenizer.getMethodTokenizer(disassembledClass);
+		 while(tokenizer.hasNext()) {
+			 System.out.println(tokenizer.getNext());
 		 }
 	 }
 	 

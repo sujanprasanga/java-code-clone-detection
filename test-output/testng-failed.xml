@@ -3,11 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="lk.ac.mrt.cse.mscresearch.codeclones.InstructionSplitterRegExTest">
+      <class name="lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest">
         <methods>
-          <include name="testinvoke"/>
+          <include name="testSplitMethods" invocation-numbers="0 1"/>
         </methods>
-      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.InstructionSplitterRegExTest -->
+      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtilTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
