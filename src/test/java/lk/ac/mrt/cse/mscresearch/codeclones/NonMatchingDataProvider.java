@@ -16,7 +16,7 @@ public class NonMatchingDataProvider {
 	
 	public static Set<Class<?>> classesWithData = new HashSet<>();
 	static {
-		classesWithData.add(ConstructorDecodeRegExTest.class);
+//		classesWithData.add(ConstructorDecodeRegExTest.class);
 		classesWithData.add(FieldOpDecodeRegExTest.class);
 		classesWithData.add(InvokeDecodeRegExTest.class);
 		classesWithData.add(NewArrayDecodeRegExTest.class);
@@ -80,9 +80,5 @@ public class NonMatchingDataProvider {
 		} catch (Exception e) {
 			throw new RuntimeException("Error invoking " + m.toString(), e);
 		}};
-	}
-	
-	public static void main(String[] a) {
-		new NonMatchingDataProvider(ConstructorDecodeRegExTest.class);
 	}
 }

@@ -35,7 +35,8 @@ public class InstanceRegExTest {
 {"     12: instanceof    #16                 // class java/lang/String           ",12 , "instanceof", "java/lang/String"},
 {"     64: new           #34                 // class java/lang/RuntimeException ",64 , "new", "java/lang/RuntimeException"},
 {"     54: new           #29                 // class lk/clones/Other$A$         ",54 , "new", "lk/clones/Other$A$"},
-{"     16: checkcast     #3                  // class \"[B\"                     ", 16, "checkcast", "[B"}
+{"     16: checkcast     #3                  // class \"[B\"                     ", 16, "checkcast", "[B"},
+
 	        };                                                                                      
 	  }
 	

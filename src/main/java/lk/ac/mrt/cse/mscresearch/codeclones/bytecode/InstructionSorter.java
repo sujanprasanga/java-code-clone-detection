@@ -26,7 +26,6 @@ public class InstructionSorter {
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForConditionalOperations()), InstructionSorter::mapConditionalOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForFieldOperations()), InstructionSorter::mapFieldOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForReturnOp()), InstructionSorter::mapReturnOp);
-		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForConstructorInvoke()), InstructionSorter::mapConstructorCallOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForInstanceOp()), InstructionSorter::mapInstanceOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForInvokeDynamic()), InstructionSorter::mapInvokeDynamicOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForNewArrayOp()), InstructionSorter::mapNewArrayOp);
@@ -39,7 +38,6 @@ public class InstructionSorter {
 		typeCounter.put("mapInvokeOp",         new AtomicInteger() );
 		typeCounter.put("mapConditionalOp",    new AtomicInteger());
 		typeCounter.put("mapFieldOp",          new AtomicInteger());
-		typeCounter.put("mapConstructorCallOp",new AtomicInteger());
 		typeCounter.put("mapInstanceOp",       new AtomicInteger()  );
 		typeCounter.put("mapInvokeDynamicOp",  new AtomicInteger() );
 		typeCounter.put("mapNewArrayOp",       new AtomicInteger() );
@@ -74,14 +72,6 @@ public class InstructionSorter {
 		m.extractLabel();
 		m.extractTarget();
 		m.extractOp();
-		return m.op;
-	}
-	
-	private static OpCodeBuilder mapConstructorCallOp(InstrcutionMatcher m) {
-		typeCounter.get("mapConstructorCallOp").incrementAndGet();
-		m.extractLabel();
-		m.extractType();
-		m.extractMethodSignature();
 		return m.op;
 	}
 	

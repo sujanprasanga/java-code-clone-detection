@@ -41,6 +41,11 @@ public class InvokeDecodeRegExTest {
 {"  75: invokevirtual #67                 // Method foo:(Ljava/lang/String;)V", 75, null,"foo:(Ljava/lang/String;)V"},
 {"  155: invokevirtual #111                // Method lk/clones/Invoke$A.foo$:(Llk/clones/Invoke$A;)Llk/clones/Invoke$A;", 155, "lk/clones/Invoke$A",  "foo$:(Llk/clones/Invoke$A;)Llk/clones/Invoke$A;"},
 {"    5: invokestatic  #3                  // Method org/apache/commons/codec/digest/Sha2Crypt.sha512Crypt:([B)Ljava/lang/String;", 5, "org/apache/commons/codec/digest/Sha2Crypt", "sha512Crypt:([B)Ljava/lang/String;"},
+{"  20: invokespecial #29                 // Method \"<init>\":()V                                                           ",20 ,null,"\"<init>\":()V"},
+{"  28: invokespecial #8                  // Method java/lang/Object.\"<init>\":()V                                          ",28 ,"java/lang/Object","\"<init>\":()V"},
+{"  47: invokespecial #47                 // Method java/io/FileOutputStream.\"<init>\":(Ljava/io/File;)V			         ",47 ,"java/io/FileOutputStream","\"<init>\":(Ljava/io/File;)V"},
+{"  154: invokespecial #110                // Method lk/clones/Invoke$A.\"<init>\":(Llk/clones/Invoke;Llk/clones/Invoke$A;)V ",154,"lk/clones/Invoke$A","\"<init>\":(Llk/clones/Invoke;Llk/clones/Invoke$A;)V"},
+{" 1143: invokespecial #22                 // Method regionMatch:(Ljava/lang/StringBuilder;ILjava/lang/String;)Z             ", 1143, null, "regionMatch:(Ljava/lang/StringBuilder;ILjava/lang/String;)Z"}
 	        };
 	  }
 	
