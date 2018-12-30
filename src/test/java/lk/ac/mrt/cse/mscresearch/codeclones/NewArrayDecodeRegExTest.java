@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class NewArrayDecodeRegExTest {
@@ -19,15 +21,9 @@ public class NewArrayDecodeRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, String arrayType){
-		Matcher matcher = p.matcher(code);
-		assertTrue(matcher.find());
-		assertEquals(Integer.parseInt(matcher.group("label")), label);
-		String type = matcher.group("primitivetype");
-		if(type != null && !type.isEmpty()) {
-			assertEquals(type, arrayType);
-		}else {
-			assertEquals(matcher.group("nonPrimitivetype"), arrayType);
-		}
+		OpCode opCode = InstructionSorter.decode(code).build();
+		assertEquals(opCode.getLabel(), label);
+		assertEquals(opCode.getTargetClass(), arrayType);
 	}
 	
 	@DataProvider(name = "bytecode")

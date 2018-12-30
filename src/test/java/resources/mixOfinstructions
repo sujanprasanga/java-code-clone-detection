@@ -1,3 +1,5 @@
+ public byte[] encode(byte[]); 
+  Code:
    21: ifne          29
   154: invokespecial #110                // Method lk/clones/Invoke$A."<init>":(Llk/clones/Invoke;Llk/clones/Invoke$A;)V
   39: putfield      #38                 // Field a$2:Llk/clones/Field$A$

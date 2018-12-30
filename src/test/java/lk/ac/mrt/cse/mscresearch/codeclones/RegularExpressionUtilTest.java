@@ -3,9 +3,6 @@ package lk.ac.mrt.cse.mscresearch.codeclones;
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,10 +21,7 @@ public class RegularExpressionUtilTest {
 	Pattern nativeM=Pattern.compile(propertyUtil.getNativeMethodRegEx());
 	
 	protected String readFile(String file) throws IOException {
-		List<String> decompiled = Files.readAllLines(Paths.get("src\\test\\java\\resources\\" + file));
-		StringBuilder sb = new StringBuilder();
-		decompiled.stream().forEach(s->sb.append(s).append('\n'));
-		return sb.toString();
+		return Util.readFile(file);
 	}
 	
 	@Test(dataProvider="fileNames")

@@ -2,7 +2,6 @@ package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +9,8 @@ import java.util.regex.Pattern;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class ConstructorDecodeRegExTest {
@@ -19,11 +20,10 @@ public class ConstructorDecodeRegExTest {
 	
 	@Test(dataProvider="invokeDataSet")
 	public void testinvoke(String code, int label, String clazz, String constructorSignature){
-		Matcher matcher = p.matcher(code);
-		assertTrue(matcher.find());
-		assertEquals(Integer.parseInt(matcher.group("label")), label);
-		assertEquals(matcher.group("class"), clazz );
-		assertEquals(matcher.group("constructorSignature"), constructorSignature );
+		OpCode opCode = InstructionSorter.decode(code).build();
+		assertEquals(opCode.getTargetClass(), clazz );
+		assertEquals(opCode.getTargetMethod(), constructorSignature );
+		assertEquals(opCode.getLabel(), label);
 	}
 	
 	@Test(dataProvider = NonMatchingDataProvider.DATA_PROVIDER_NAME)
@@ -44,6 +44,7 @@ public class ConstructorDecodeRegExTest {
 {"  28: invokespecial #8                  // Method java/lang/Object.\"<init>\":()V                                          ",28 ,"java/lang/Object","()V"},
 {"  47: invokespecial #47                 // Method java/io/FileOutputStream.\"<init>\":(Ljava/io/File;)V			         ",47 ,"java/io/FileOutputStream","(Ljava/io/File;)V"},
 {"  154: invokespecial #110                // Method lk/clones/Invoke$A.\"<init>\":(Llk/clones/Invoke;Llk/clones/Invoke$A;)V ",154,"lk/clones/Invoke$A","(Llk/clones/Invoke;Llk/clones/Invoke$A;)V"},
+{" 1143: invokespecial #22                 // Method regionMatch:(Ljava/lang/StringBuilder;ILjava/lang/String;)Z             ", 1143, null, "(Ljava/lang/StringBuilder;ILjava/lang/String;)Z"}
 	        };
 	  }
 }

@@ -2,7 +2,6 @@ package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +9,8 @@ import java.util.regex.Pattern;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class PrimitiveOpDecodeRegExTest {
@@ -19,12 +20,11 @@ public class PrimitiveOpDecodeRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, char type, boolean arrayOp, String op){
-		Matcher matcher = p.matcher(code);
-		assertTrue(matcher.find());
-		assertEquals(matcher.group("op"), op );
-		assertEquals(matcher.group("type").charAt(0), type );
-		assertEquals(Integer.parseInt(matcher.group("label")), label);
-		assertEquals((!matcher.group("arrayOp").isEmpty() || type == 'a') && !"const_null".equals(op), arrayOp );
+		OpCode opCode = InstructionSorter.decode(code).build();
+		assertEquals(opCode.getLabel(), label);
+		assertEquals(opCode.getCode(), op);
+		assertEquals(opCode.getTargetClass(), String.valueOf(type));
+		assertEquals(opCode.isArrayOp(), arrayOp);
 	}
 	
 	@DataProvider(name = "bytecode")
@@ -82,8 +82,8 @@ public class PrimitiveOpDecodeRegExTest {
 	    		{"   9: fneg                    ",   9, 'f', false, "neg" },
 	    		{"  10: dneg                    ",  10, 'd', false, "neg" },
 	    		{"  15: drem                    ",  15, 'd', false, "rem" },
-	    	    {"    9: astore_2               ",   9, 'a', true, "store"},
-	    	    {"   10: aload_2                ",  10, 'a', true, "load"},
+	    	    {"    9: astore_2               ",   9, 'a', false, "store"},
+	    	    {"   10: aload_2                ",  10, 'a', false, "load"},
 	    	    {"  13: aastore                 ",  13, 'a', true, "store"},
 	    	    {"  16: aaload                  ",  16, 'a', true, "load"},
 	    	    {"  19: saload                  ",  19, 's', true, "load"},

@@ -15,6 +15,7 @@ import org.hibernate.cfg.Configuration;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.Transformer;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.ClassParser;
 import lk.ac.mrt.cse.mscresearch.persistance.dao.ClassDAO;
 import lk.ac.mrt.cse.mscresearch.persistance.dao.JarDAO;
@@ -79,9 +80,9 @@ public class IndexBuilder {
 		c.setFullyQualifiedName(clazz);
 		Transformer t = new Transformer();
 		t.disassemble(c);
-		log.debug(c.getDisassembledCode());
-		ClassParser classParser = new ClassParser(c, clazz, classHash);
-		classParser.extractMethods();
+//		log.debug(c.getDisassembledCode());
+		ClassParser classParser = new ClassParser();
+		classParser.extractMethods(c.getDisassembledCode(), clazz, "gfhg");
 		return classParser.getClassIndex();
 	}
 
@@ -90,27 +91,29 @@ public class IndexBuilder {
 		File f = new File("C:\\Users\\Sujan\\.m2\\repository\\commons-codec\\commons-codec\\1.9\\commons-codec-1.9.jar");
 				//new File("C:\\Users\\Sujan\\.m2\\repository\\javax\\activation\\javax.activation-api\\1.2.0\\javax.activation-api-1.2.0.jar");
 		JarIndex jarIndex = new IndexBuilder().buildIndex(f);
-		jarIndex.getClasses();
-		
-		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-				.addAnnotatedClass(JarIndex.class)
-				.addAnnotatedClass(ClassIndex.class)
-				.addAnnotatedClass(MethodIndex.class)
-				.addAnnotatedClass(MethodBody.class)
-				                                    .buildSessionFactory();
-		
-		Session se = factory.getCurrentSession();
-		se.beginTransaction();
-		MethodDAO methodDAO =  new MethodDAO(se);
-		ClassDAO classDAO = new ClassDAO(se);
-		JarDAO jarDAO = new JarDAO(se);
-		
-		MethodIndexer methodIndexer = new MethodIndexer(methodDAO);
-		ClassIndexer classIndexer = new ClassIndexer(classDAO, methodIndexer);
-		JarIndexer jarIndexer = new JarIndexer(jarDAO, classIndexer);
-		
-		jarIndexer.createIndexFor(jarIndex);
-		se.getTransaction().commit();
+		System.out.println(ClassParser.unmappedCodes);
+		System.out.println(InstructionSorter.typeCounter);
+//		jarIndex.getClasses();
+//		
+//		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
+//				.addAnnotatedClass(JarIndex.class)
+//				.addAnnotatedClass(ClassIndex.class)
+//				.addAnnotatedClass(MethodIndex.class)
+//				.addAnnotatedClass(MethodBody.class)
+//				                                    .buildSessionFactory();
+//		
+//		Session se = factory.getCurrentSession();
+//		se.beginTransaction();
+//		MethodDAO methodDAO =  new MethodDAO(se);
+//		ClassDAO classDAO = new ClassDAO(se);
+//		JarDAO jarDAO = new JarDAO(se);
+//		
+//		MethodIndexer methodIndexer = new MethodIndexer(methodDAO);
+//		ClassIndexer classIndexer = new ClassIndexer(classDAO, methodIndexer);
+//		JarIndexer jarIndexer = new JarIndexer(jarDAO, classIndexer);
+//		
+//		jarIndexer.createIndexFor(jarIndex);
+//		se.getTransaction().commit();
 //		f = new File("C:\\Users\\Sujan\\.m2\\repository\\commons-codec\\commons-codec\\1.9\\commons-codec-1.9.jar");
 //		new IndexBuilder().buildIndex(f);
 	}

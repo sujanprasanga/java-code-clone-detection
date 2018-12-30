@@ -4,9 +4,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,14 +19,14 @@ public class SwitchOpcodeRegExTest {
 	
 	@Test
 	public void testinvoke() throws IOException{
-		String s = readFile();
+		String s = Util.readFile("switchTestWithOtherInstructions.txt");
 		Matcher matcher = p.matcher(s);
 		int i =0;
 		while(matcher.find()) {
 			i++;
 			System.out.println(s.substring(matcher.start(), matcher.end()));
 		}
-		assertEquals(4, i);
+		assertEquals(i, 5);
 		
 	}
 	
@@ -47,13 +44,6 @@ public class SwitchOpcodeRegExTest {
 	        			"          }"}
 	        };                                                                                      
 	  }
-	
-	protected String readFile() throws IOException {
-		List<String> decompiled = Files.readAllLines(Paths.get("src\\test\\java\\resources\\switchTestWithOtherInstructions.txt"));
-		StringBuilder sb = new StringBuilder();
-		decompiled.stream().forEach(s->sb.append(s).append('\n'));
-		return sb.toString();
-	}
 	
 	@Test(dataProvider = NonMatchingDataProvider.DATA_PROVIDER_NAME)
 	public void test_other_code_is_not_matched(String code) {

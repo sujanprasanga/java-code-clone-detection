@@ -1,15 +1,21 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode;
 
+import java.util.List;
+import java.util.Set;
+
 public class OpCode {
 
 	private final int label;
 	private final int lineNumber;
 	private final String code;
+	private final int[] targetInstructions;
 	private final String targetClass;
 	private final String targetMethod;
 	private final String targetField;
 	private final boolean optionallyExecuted;
 	private final boolean looped;
+	private final boolean isLooped;
+	private final boolean arrayOp;
 
 	private OpCode(OpCodeBuilder builder) {
 		label = builder.label;
@@ -20,6 +26,9 @@ public class OpCode {
 		targetField = builder.targetField;
 		optionallyExecuted = builder.optionallyExecuted;
 		looped = builder.looped;
+		targetInstructions = builder.targetInstructions;
+		isLooped = builder.isLooped;
+		arrayOp = builder.arrayOp;
 	}
 
 	public int getLabel() {
@@ -54,7 +63,16 @@ public class OpCode {
 		return looped;
 	}
 
+	public int[] getTargetInstructions() {
+		return targetInstructions;
+	}
+
+	public boolean isArrayOp() {
+		return arrayOp;
+	}
+
 	public static class OpCodeBuilder {
+		public boolean isLooped;
 		private int label;
 		private int lineNumber;
 		private String code;
@@ -63,13 +81,22 @@ public class OpCode {
 		private String targetField;
 		private boolean optionallyExecuted;
 		private boolean looped;
+		private boolean arrayOp;
+		private int[] targetInstructions;
 
-		public void setLabel(int label) {
+		public OpCodeBuilder setLabel(int label) {
 			this.label = label;
+			return this;
 		}
 
-		public void setLineNumber(int lineNumber) {
+		public OpCodeBuilder setLineNumber(int lineNumber) {
 			this.lineNumber = lineNumber;
+			return this;
+		}
+		
+		public OpCodeBuilder setTargetInstructions(int[] targetInstructions) {
+			this.targetInstructions = targetInstructions;
+			return this;
 		}
 
 		public OpCodeBuilder setCode(String code) {
@@ -101,6 +128,22 @@ public class OpCode {
 			this.looped = looped;
 			return this;
 		}
+		
+		public OpCodeBuilder setArrayOp(boolean arrayOp) {
+			this.arrayOp = arrayOp;
+			return this;
+		}
 
+		public String getTargetClass() {
+			return targetClass;
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public OpCode build() {
+			return new OpCode(this);
+		}
 	}
 }

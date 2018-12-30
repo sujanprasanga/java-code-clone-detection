@@ -2,7 +2,6 @@ package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +9,8 @@ import java.util.regex.Pattern;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class ReturnRegExTest {
@@ -19,9 +20,8 @@ public class ReturnRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label){
-		Matcher matcher = p.matcher(code);
-		assertTrue(matcher.find());
-		assertEquals(Integer.parseInt(matcher.group("label")), label);
+		OpCode opCode = InstructionSorter.decode(code).build();
+		assertEquals(opCode.getLabel(), label);
 	}
 	
 	@DataProvider(name = "bytecode")

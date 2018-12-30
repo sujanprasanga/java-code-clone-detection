@@ -2,7 +2,6 @@ package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +9,8 @@ import java.util.regex.Pattern;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class InstanceRegExTest {
@@ -19,11 +20,10 @@ public class InstanceRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, String op, String type){
-		Matcher matcher = p.matcher(code);
-		assertTrue(matcher.find());
-		assertEquals(Integer.parseInt(matcher.group("label")), label);
-		assertEquals(matcher.group("type"), type);
-		assertEquals(matcher.group("op"), op);
+		OpCode opCode = InstructionSorter.decode(code).build();
+		assertEquals(opCode.getCode(), op);
+		assertEquals(opCode.getTargetClass(), type);
+		assertEquals(opCode.getLabel(), label);
 	}
 	
 	@DataProvider(name = "bytecode")
@@ -35,6 +35,7 @@ public class InstanceRegExTest {
 {"     12: instanceof    #16                 // class java/lang/String           ",12 , "instanceof", "java/lang/String"},
 {"     64: new           #34                 // class java/lang/RuntimeException ",64 , "new", "java/lang/RuntimeException"},
 {"     54: new           #29                 // class lk/clones/Other$A$         ",54 , "new", "lk/clones/Other$A$"},
+{"     16: checkcast     #3                  // class \"[B\"                     ", 16, "checkcast", "[B"}
 	        };                                                                                      
 	  }
 	
