@@ -3,11 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="lk.ac.mrt.cse.mscresearch.codeclones.ConstructorDecodeRegExTest">
+      <class name="lk.ac.mrt.cse.mscresearch.codeclones.SwitchOpcodeRegExTest">
         <methods>
-          <include name="test_other_code_is_not_matched" invocation-numbers="81 86 95 97"/>
+          <include name="testinvoke"/>
         </methods>
-      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.ConstructorDecodeRegExTest -->
+      </class> <!-- lk.ac.mrt.cse.mscresearch.codeclones.SwitchOpcodeRegExTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

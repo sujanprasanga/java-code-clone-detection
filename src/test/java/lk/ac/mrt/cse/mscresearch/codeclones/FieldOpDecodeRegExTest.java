@@ -41,6 +41,7 @@ public class FieldOpDecodeRegExTest {
 {"  39: putfield      #38                 // Field a$2:Llk/clones/Field$A$; ",  39 , "put", "Llk/clones/Field$A$;"},
 {"  44: putfield      #44                 // Field ar1:[Ljava/lang/Object;  ",  44 , "put", "[Ljava/lang/Object;"},
 {"  52: putfield      #47                 // Field ar2:[[Ljava/lang/Object; ",  52 , "put", "[[Ljava/lang/Object;"},
+{"  41: getfield      #9                  // Field org/apache/commons/codec/binary/BaseNCodec$Context.readPos:I", 41, "get", "I"}
 	        };
 	  }
 	

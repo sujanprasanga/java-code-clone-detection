@@ -45,7 +45,8 @@ public class InvokeDecodeRegExTest {
 {"  28: invokespecial #8                  // Method java/lang/Object.\"<init>\":()V                                          ",28 ,"java/lang/Object","\"<init>\":()V"},
 {"  47: invokespecial #47                 // Method java/io/FileOutputStream.\"<init>\":(Ljava/io/File;)V			         ",47 ,"java/io/FileOutputStream","\"<init>\":(Ljava/io/File;)V"},
 {"  154: invokespecial #110                // Method lk/clones/Invoke$A.\"<init>\":(Llk/clones/Invoke;Llk/clones/Invoke$A;)V ",154,"lk/clones/Invoke$A","\"<init>\":(Llk/clones/Invoke;Llk/clones/Invoke$A;)V"},
-{" 1143: invokespecial #22                 // Method regionMatch:(Ljava/lang/StringBuilder;ILjava/lang/String;)Z             ", 1143, null, "regionMatch:(Ljava/lang/StringBuilder;ILjava/lang/String;)Z"}
+{" 1143: invokespecial #22                 // Method regionMatch:(Ljava/lang/StringBuilder;ILjava/lang/String;)Z             ", 1143, null, "regionMatch:(Ljava/lang/StringBuilder;ILjava/lang/String;)Z"},
+{"  3: invokevirtual #2                  // Method \"[Lorg/apache/commons/codec/language/bm/NameType;\".clone:()Ljava/lang/Object;", 3, "\"[Lorg/apache/commons/codec/language/bm/NameType;\"", "clone:()Ljava/lang/Object;" }
 	        };
 	  }
 	

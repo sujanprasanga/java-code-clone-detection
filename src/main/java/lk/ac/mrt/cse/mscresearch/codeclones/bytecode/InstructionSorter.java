@@ -39,10 +39,10 @@ public class InstructionSorter {
 		typeCounter.put("mapConditionalOp",    new AtomicInteger());
 		typeCounter.put("mapFieldOp",          new AtomicInteger());
 		typeCounter.put("mapInstanceOp",       new AtomicInteger()  );
-		typeCounter.put("mapInvokeDynamicOp",  new AtomicInteger() );
-		typeCounter.put("mapNewArrayOp",       new AtomicInteger() );
 		typeCounter.put("mapReturnOp",         new AtomicInteger()   );
+		typeCounter.put("mapNewArrayOp",       new AtomicInteger() );
 		typeCounter.put("mapSwitchOp",         new AtomicInteger()  );
+		typeCounter.put("mapInvokeDynamicOp",  new AtomicInteger() );
 		typeCounter.put("none",         new AtomicInteger()  );
 	}
 	
