@@ -26,7 +26,7 @@ public class SwitchOpcodeRegExTest {
 			i++;
 			System.out.println(s.substring(matcher.start(), matcher.end()));
 		}
-		assertEquals(i, 6);
+		assertEquals(i, 7);
 		
 	}
 	

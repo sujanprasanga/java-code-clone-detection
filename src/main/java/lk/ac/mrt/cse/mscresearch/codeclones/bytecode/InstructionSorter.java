@@ -20,8 +20,8 @@ public class InstructionSorter {
 		sorters = new LinkedHashMap<>();
 		PropertyUtil propertyUtil = new PropertyUtil();
 		
-		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForOtherOperations()), InstructionSorter::mapOtherOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForPrimitiveOperations()), InstructionSorter::mapPrimitiveOp);
+		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForOtherOperations()), InstructionSorter::mapOtherOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForInvoke()), InstructionSorter::mapInvokeOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForConditionalOperations()), InstructionSorter::mapConditionalOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForFieldOperations()), InstructionSorter::mapFieldOp);
@@ -33,8 +33,8 @@ public class InstructionSorter {
 		
 		typeCounter = new LinkedHashMap<>();
 		
-		typeCounter.put("mapOtherOp",          new AtomicInteger()   );
 		typeCounter.put("mapPrimitiveOp"      ,new AtomicInteger());
+		typeCounter.put("mapOtherOp",          new AtomicInteger()   );
 		typeCounter.put("mapInvokeOp",         new AtomicInteger() );
 		typeCounter.put("mapConditionalOp",    new AtomicInteger());
 		typeCounter.put("mapFieldOp",          new AtomicInteger());

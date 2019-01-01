@@ -20,7 +20,7 @@ public class OtherOpDecodeRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, String op){
-		OpCode opCode = InstructionSorter.decode(code).build();
+		OpCode opCode = InstructionSorter.decode(code.trim()).build();
 		assertEquals(opCode.getLabel(), label);
 		assertEquals(opCode.getCode(), op);
 	}
@@ -28,7 +28,7 @@ public class OtherOpDecodeRegExTest {
 	@DataProvider(name = "bytecode")
 	  public static Object[][] fields() {
 	        return new Object[][] { 
-	  {"        17: dup                ", 17  ,  "dup"},
+	  {"        17: dup", 17  ,  "dup"},
 	  {"        17: dup_x1             ", 17  ,  "dup_x1"},
 	  {"        17: dup_x2             ", 17  ,  "dup_x2"},
 	  {"        17: dup2               ", 17  ,  "dup2"},
@@ -52,6 +52,8 @@ public class OtherOpDecodeRegExTest {
 	  {"  		52: wide               ", 52  ,  "wide"},
 	  {"  		52: bipush             ", 52  ,  "bipush"},
 	  {"  		52: sipush             ", 52  ,  "sipush"},
+	  {"       334: ret           7    ", 334 ,  "ret "},
+	  {"     271: ldc           #13                 // String DIGEST-MD5: Invalid block size for cipher", 271, "ldc"}
 	        };
 	  }
 	

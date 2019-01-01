@@ -1,0 +1,15 @@
+com.sun.security.sasl.digest.DigestMD5Base$DigestPrivacy#5: Out of order sequencing of messages from server. Got:
+, com.sun.security.sasl.digest.DigestMD5Client#5: Client at illegal state
+, com.sun.security.sasl.digest.DigestMD5Server#5: Error generating challenge
+, com.sun.security.sasl.digest.DigestMD5Base$DigestPrivacy#5: invalid message type:
+, com.sun.security.sasl.CramMD5Server#5: username not found:
+, com.sun.security.sasl.digest.DigestMD5Server#5: Server at illegal state
+, com.sun.security.sasl.digest.DigestMD5Base$DigestPrivacy#5: Invalid block size for cipher
+, com.sun.security.sasl.digest.DigestMD5Server#5: Invalid digest response length. Got:
+, com.sun.security.sasl.digest.DigestMD5Server#5: Error encoding challenge
+, com.sun.security.sasl.CramMD5Server#5: Invalid response; space missing
+, com.sun.security.sasl.digest.DigestMD5Server#5: Error validating client response
+, com.sun.security.sasl.digest.DigestMD5Base$DigestIntegrity#5: invalid message type:
+, com.sun.security.sasl.CramMD5Server#5: user not authorized:
+, com.sun.security.sasl.digest.DigestMD5Base$DigestIntegrity#5: Out of order sequencing of messages from server. Got:
+, com.sun.security.sasl.digest.DigestMD5Base$DigestPrivacy#5: Illegal block sizes used with chosen cipher
