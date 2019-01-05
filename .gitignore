@@ -34,3 +34,5 @@ Thumbs.db
 
 traget
 /target/
+test-output
+/test-output/
