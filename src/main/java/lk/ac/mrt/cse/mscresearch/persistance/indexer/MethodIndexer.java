@@ -14,8 +14,8 @@ public class MethodIndexer {
 		this.dao = dao;
 	}
 
-	public Set<MethodIndex> createMethodIndexes(Set<MethodIndex> methods) {
-		return methods.stream().map(dao::createIfNotExists).collect(Collectors.toSet());
-	}
+//	public Set<MethodIndex> createMethodIndexes(Set<MethodIndex> methods) {
+//		return methods.stream().map(dao::createIfNotExists).collect(Collectors.toSet());
+//	}
 
 }

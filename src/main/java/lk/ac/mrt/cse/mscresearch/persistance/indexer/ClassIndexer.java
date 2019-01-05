@@ -28,11 +28,12 @@ public class ClassIndexer {
 //				                                       .flatMap(List::stream)
 //				                                       .collect(Collectors.toMap(ClassIndex::getClassHash, c->c, (a,b)->a));
 //		classes.stream().filter(c->!alreadyIndexed.containsKey(c.getClassHash())).map(dao::)
-		return classes.stream().map(this::createMethods).map(dao::createIfNotExists).collect(Collectors.toSet());
+//		return classes.stream().map(this::createMethods).map(dao::createIfNotExists).collect(Collectors.toSet());
+		return null;
 	}
 
-	private ClassIndex createMethods(ClassIndex classIndex){
-		classIndex.setMethods(methodIndexer.createMethodIndexes(classIndex.getMethods()));
-		return classIndex;
-	}
+//	private ClassIndex createMethods(ClassIndex classIndex){
+//		classIndex.setMethods(methodIndexer.createMethodIndexes(classIndex.getMethods()));
+//		return classIndex;
+//	}
 }

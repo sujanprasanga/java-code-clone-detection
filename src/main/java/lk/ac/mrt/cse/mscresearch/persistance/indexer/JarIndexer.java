@@ -16,13 +16,13 @@ public class JarIndexer {
 		this.classIndexer = classIndexer;
 	}
 	
-	public Set<String> filterJarsHashesToIndex(Set<String> jars){
-		return jars.stream().filter(s->dao.getByHashOf(s) == null)
-				            .collect(Collectors.toSet());
-	}
-	
-	public void createIndexFor(JarIndex jar){
-		jar.setClasses(classIndexer.createClassIndexes(jar.getClasses()));
-		dao.createIfNotExists(jar);
-	}
+//	public Set<String> filterJarsHashesToIndex(Set<String> jars){
+//		return jars.stream().filter(s->dao.getByHashOf(s) == null)
+//				            .collect(Collectors.toSet());
+//	}
+//	
+//	public void createIndexFor(JarIndex jar){
+//		jar.setClasses(classIndexer.createClassIndexes(jar.getClasses()));
+//		dao.createIfNotExists(jar);
+//	}
 }
