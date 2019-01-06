@@ -13,11 +13,10 @@ public class FileWriterTimerTask extends java.util.TimerTask {
 	
 	private final File file;
 	private final Timer timer;
-	private boolean cancel;
 	
 	public FileWriterTimerTask(File file) {
 		this.file = file;
-		timer = new Timer(false);
+		timer = new Timer(true);
 		timer.scheduleAtFixedRate(this, 10000, 10000);
 	}
 	
@@ -27,9 +26,8 @@ public class FileWriterTimerTask extends java.util.TimerTask {
 		tasks.add(s);
 	}
 	
-	public boolean scheduleCancel() {
-		
-		return true;
+	public boolean completed() {
+		return !tasks.isEmpty();
 	}
 	
 	@Override
@@ -50,9 +48,6 @@ public class FileWriterTimerTask extends java.util.TimerTask {
 			tasks.removeAll(tmpTasks);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		if(cancel) {
-			super.cancel();
 		}
 	}
 

@@ -1,6 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,29 +10,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
-import lk.ac.mrt.cse.mscresearch.codeclones.ClassUnderTransform;
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionTokenizer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.MethodTokenizer;
-import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.OpCodeBuilder;
-import lk.ac.mrt.cse.mscresearch.persistance.entities.ClassIndex;
-import lk.ac.mrt.cse.mscresearch.persistance.entities.MethodIndex;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCodeTransformer;
+import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
+import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
 
 public class ClassParser {
 
 	public static final Set<String> unmappedCodes = new HashSet<>();
 	
-	public void extractMethods(String target, String className, String md5Hash) {
-		final Set<MethodIndex> methods = new HashSet<>();
+	private final OpCodeTransformer opCodeTransformer = new OpCodeTransformer();
+	
+	public Set<MethodDTO> extractMethods(String target, String className, String md5Hash) {
+		final Set<MethodDTO> methods = new HashSet<>();
 		MethodTokenizer methodTokenizer = MethodTokenizer.getMethodTokenizer(target);
 		while(methodTokenizer.hasNext()){
 			String method = methodTokenizer.getNext(); 
 			Map<Integer, Integer> lineNumberMapping = extractLineNumbers(method);
-			MethodIndex methodIndex = extractMethod(method, lineNumberMapping, className);
+			methods.addAll(extractMethod(method, lineNumberMapping, className));
 		}
+		return methods;
 	}
 
 	private static Map<Integer, Integer> extractLineNumbers(String method) {
@@ -60,9 +64,9 @@ public class ClassParser {
 		return labelToLineNumberMapping;
 	}
 	
-	private MethodIndex extractMethod(String method, Map<Integer, Integer> lineNumberMapping, String className) {
+	private Set<MethodDTO> extractMethod(String method, Map<Integer, Integer> lineNumberMapping, String className) {
 		InstructionTokenizer instructionTokenizer = InstructionTokenizer.getInstructionTokenizer(method);  
-	String methodName = null;
+	String methodName = "someNme";
 		List<OpCodeBuilder> opcodes = new LinkedList<>();
 		if(lineNumberMapping.isEmpty()) {
 			while(instructionTokenizer.hasNext()) {
@@ -84,7 +88,7 @@ public class ClassParser {
 			}
 		}
 		
-		return toMethodIndex(methodName, opcodes);
+		return toMethodDTO(methodName, opcodes);
 	}
 	
 	private static synchronized void noDecoderFound(String next, String className) {
@@ -100,18 +104,7 @@ public class ClassParser {
 		return InstructionSorter.decode(next);
 	}
 
-	private MethodIndex toMethodIndex(String methodName, List<OpCodeBuilder> opcodes) {
-		// TODO Auto-generated method stub
-		return null;
+	private Set<MethodDTO> toMethodDTO(String signature, List<OpCodeBuilder> opcodes) {
+		return opCodeTransformer.transform(signature, opcodes.stream().map(OpCodeBuilder::build).collect(Collectors.toList()));
 	}
-
-
-	public ClassIndex getClassIndex(){
-		ClassIndex classIndex = new ClassIndex();
-//		classIndex.setClassName(className);
-//		classIndex.setClassHash(md5Hash);
-//		classIndex.setMethods(methods);
-		return classIndex;
-	}
-
 }

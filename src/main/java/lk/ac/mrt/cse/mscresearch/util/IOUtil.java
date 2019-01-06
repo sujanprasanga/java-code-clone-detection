@@ -121,7 +121,7 @@ public class IOUtil {
 		try(FileWriter w = new FileWriter(fileHashesSaved, false)){
 			fileHashes.forEach((k,v)-> {
 				try {
-					w.write(v + "=" + v);
+					w.write(v + "=" + k +'\n');
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -158,7 +158,10 @@ public class IOUtil {
 				fos.write(buffer, 0, len);
 			}
 		}
-		fileHashes.put(formatName(name), MD5Hasher.md5(file));
+		String formatedName = formatName(name);
+		if(!formatedName.isEmpty()) {
+			fileHashes.put(formatedName, MD5Hasher.md5(file));
+		}
 	}
 	
 	private String formatName(String name) {
