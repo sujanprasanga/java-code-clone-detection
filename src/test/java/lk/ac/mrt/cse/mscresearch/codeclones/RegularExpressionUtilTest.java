@@ -1,6 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -9,6 +10,7 @@ import java.util.regex.Pattern;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.AccessibleMethodIdentifier;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.MethodTokenizer;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
@@ -53,18 +55,13 @@ public class RegularExpressionUtilTest {
 	 @Test(dataProvider="methodSignatures")
 	 public void test_byte_code_accessibleMethods(String signature, boolean codeAvailable)
 	 {
-		 Matcher a = accessible.matcher(signature);
-		 Matcher abs = abstractM.matcher(signature);
-		 Matcher n = nativeM.matcher(signature);
-		 boolean isAccessible = a.find();
-		 boolean isAbstract = abs.find();
-		 boolean isNative = n.find();
-		 
-		 System.out.println(signature + " is" + (isAccessible ? " ":" not ") +"accssible");
-		 System.out.println(signature + " is" + (isAbstract ? " ":" not ") +"abstract");
-		 System.out.println(signature + " is" + (isNative ? " ":" not ") +"native");
-		 
-		assertEquals(isAccessible&& !isAbstract&& !isNative, codeAvailable);
+		 AccessibleMethodIdentifier accessibleMethodIdentifier = new AccessibleMethodIdentifier();
+		 String ret = accessibleMethodIdentifier.extractMethodSignature(signature);
+		 if(codeAvailable) {
+			 assertEquals(ret, signature); 
+		 }else {
+			 assertNull(ret);
+		 }
 	 }
 	 
 	 @DataProvider(name = "methodSignatures")

@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class PrimitiveOpDecodeRegExTest {
@@ -20,11 +21,12 @@ public class PrimitiveOpDecodeRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, char type, boolean arrayOp, String op){
-		OpCode opCode = InstructionSorter.decode(code).build();
+		OpCode opCode = InstructionSorter.decode(code);
 		assertEquals(opCode.getLabel(), label);
 		assertEquals(opCode.getCode(), op);
 		assertEquals(opCode.getTargetClass(), String.valueOf(type));
 		assertEquals(opCode.isArrayOp(), arrayOp);
+		assertEquals(opCode.getCategory(), Category.PRIMITIVE_OP);
 	}
 	
 	@DataProvider(name = "bytecode")

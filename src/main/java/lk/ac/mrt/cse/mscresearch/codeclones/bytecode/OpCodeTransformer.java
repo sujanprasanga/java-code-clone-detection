@@ -9,7 +9,7 @@ import lk.ac.mrt.cse.mscresearch.util.MD5Hasher;
 
 public class OpCodeTransformer {
 
-	public Set<MethodDTO> transform(String signature, List<OpCode> opcodes){
+	public Set<MethodDTO> transform(String signature, List<OpCode> opcodes, int size){
 		Set<MethodDTO> t = new HashSet<>();
 		StringBuilder sb = new StringBuilder();
 		MethodDTO m = new MethodDTO();
@@ -19,6 +19,7 @@ public class OpCodeTransformer {
 		m.setSignature(signature);
 		m.setBody(sb.toString());
 		m.setBodyhash(MD5Hasher.md5(m.getBody()));
+		m.setSize(size);
 		t.add(m);
 		return t;
 	}

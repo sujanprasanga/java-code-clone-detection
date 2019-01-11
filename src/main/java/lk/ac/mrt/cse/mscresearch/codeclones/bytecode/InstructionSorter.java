@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.OpCodeBuilder;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class InstructionSorter {
@@ -46,7 +46,7 @@ public class InstructionSorter {
 		typeCounter.put("none",         new AtomicInteger()  );
 	}
 	
-	public static OpCodeBuilder decode(String s) {
+	public static OpCode decode(String s) {
 		for(Entry<InstrcutionMatcherFactory, Mapper> e : sorters.entrySet()) {
 			InstrcutionMatcher matcher = e.getKey().create(s);
 			if(matcher.matches()) {
@@ -58,8 +58,9 @@ public class InstructionSorter {
 		return null;
 	}
 	
-	private static OpCodeBuilder mapPrimitiveOp(InstrcutionMatcher m) {
+	private static OpCode mapPrimitiveOp(InstrcutionMatcher m) {
 		typeCounter.get("mapPrimitiveOp").incrementAndGet();
+		m.setCategory(Category.PRIMITIVE_OP);
 		m.extractLabel();
 		m.extractType();
 		m.extractOp();
@@ -67,76 +68,86 @@ public class InstructionSorter {
 		return m.op;
 	}
 	
-	private static OpCodeBuilder mapConditionalOp(InstrcutionMatcher m) {
+	private static OpCode mapConditionalOp(InstrcutionMatcher m) {
 		typeCounter.get("mapConditionalOp").incrementAndGet();
+		m.setCategory(Category.CONDITIONAL);
 		m.extractLabel();
 		m.extractTarget();
 		m.extractOp();
 		return m.op;
 	}
 	
-	private static OpCodeBuilder mapFieldOp(InstrcutionMatcher m) {
+	private static OpCode mapFieldOp(InstrcutionMatcher m) {
 		typeCounter.get("mapFieldOp").incrementAndGet();
+		m.setCategory(Category.FIELD);
 		m.extractLabel();
 		m.extractOp();
 		m.extractFieldName();
 		return m.op;
 	}
 	
-	private static OpCodeBuilder mapInstanceOp(InstrcutionMatcher m) {
+	private static OpCode mapInstanceOp(InstrcutionMatcher m) {
 		typeCounter.get("mapInstanceOp").incrementAndGet();
+		m.setCategory(Category.TYPE_CHECK);
 		m.extractLabel();
 		m.extractType();
 		m.extractOp();
 		return m.op;
 	}
 	
-	private static OpCodeBuilder mapInvokeOp(InstrcutionMatcher m) {
+	private static OpCode mapInvokeOp(InstrcutionMatcher m) {
 		typeCounter.get("mapInvokeOp").incrementAndGet();
+		m.setCategory(Category.INVOKE);
+		m.extractOp();
 		m.extractLabel();
 		m.extractType();
 		m.extractMethodSignature();
 		return m.op;
 	}
 	
-	private static OpCodeBuilder mapInvokeDynamicOp(InstrcutionMatcher m) {
+	private static OpCode mapInvokeDynamicOp(InstrcutionMatcher m) {
 		typeCounter.get("mapInvokeDynamicOp").incrementAndGet();
+		m.setCategory(Category.INVOKE_DYNAMIC);
 		m.extractLabel();
 		return m.op;
 	}
 	
-	private static OpCodeBuilder mapNewArrayOp(InstrcutionMatcher m) {
+	private static OpCode mapNewArrayOp(InstrcutionMatcher m) {
 		typeCounter.get("mapNewArrayOp").incrementAndGet();
+		m.setCategory(Category.NEW_ARRAY);
 		m.extractLabel();
 		m.extractType();
-		OpCodeBuilder op = m.op;
+		OpCode op = m.op;
 		if(op.getTargetClass() == null) {
 			op.setTargetClass(m.m.group("primitivetype"));
 		}
 		return op;
 	}
 
-	private static OpCodeBuilder mapOtherOp(InstrcutionMatcher m) {
+	private static OpCode mapOtherOp(InstrcutionMatcher m) {
 		typeCounter.get("mapOtherOp").incrementAndGet();
+		m.setCategory(Category.OTHER);
 		m.extractLabel();
 		m.extractOp();
 		return m.op;
 	}
 	
-	private static OpCodeBuilder mapReturnOp(InstrcutionMatcher m) {
+	private static OpCode mapReturnOp(InstrcutionMatcher m) {
 		typeCounter.get("mapReturnOp").incrementAndGet();
+		m.setCategory(Category.RETURN);
+		m.extractOp();
 		m.extractLabel();
 		return m.op;
 	}
 	
-	private static OpCodeBuilder mapSwitchOp(InstrcutionMatcher m) {
+	private static OpCode mapSwitchOp(InstrcutionMatcher m) {
 		typeCounter.get("mapSwitchOp").incrementAndGet();
 		m.extractLabel();
 		return m.op;
 	}
 	
 	public static interface Mapper{
-		public OpCodeBuilder map(InstrcutionMatcher m);
+		public OpCode map(InstrcutionMatcher m);
 	}
 	
 	public static class InstrcutionMatcherFactory{
@@ -155,16 +166,20 @@ public class InstructionSorter {
 	public static class InstrcutionMatcher {
 		
 		protected final Matcher m;
-		private OpCodeBuilder op;
+		private OpCode op;
 		
 		protected InstrcutionMatcher( Matcher m) {
 			this.m = m;
 		}
 		
+		public void setCategory(Category category) {
+			op.setCategory(category);
+		}
+		
 		public boolean matches() {
 			boolean found = m.find();
 			if(found) {
-				op = new OpCodeBuilder();
+				op = new OpCode();
 			}
 			return found;
 		}

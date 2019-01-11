@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class SwitchOpcodeRegExTest {
@@ -27,6 +28,7 @@ public class SwitchOpcodeRegExTest {
 			System.out.println(s.substring(matcher.start(), matcher.end()));
 		}
 		assertEquals(i, 7);
+		//assertEquals(opCode.getCategory(), Category.SWITCH);
 		
 	}
 	

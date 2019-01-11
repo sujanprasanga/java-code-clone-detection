@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class InstanceRegExTest {
@@ -20,10 +21,11 @@ public class InstanceRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, String op, String type){
-		OpCode opCode = InstructionSorter.decode(code).build();
+		OpCode opCode = InstructionSorter.decode(code);
 		assertEquals(opCode.getCode(), op);
 		assertEquals(opCode.getTargetClass(), type);
 		assertEquals(opCode.getLabel(), label);
+		assertEquals(opCode.getCategory(), Category.TYPE_CHECK);
 	}
 	
 	@DataProvider(name = "bytecode")

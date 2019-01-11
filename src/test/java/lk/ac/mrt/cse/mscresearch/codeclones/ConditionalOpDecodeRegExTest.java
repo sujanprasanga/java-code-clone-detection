@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 
 public class ConditionalOpDecodeRegExTest {
 
@@ -20,10 +21,11 @@ public class ConditionalOpDecodeRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, int target, String op){
-		OpCode opCode = InstructionSorter.decode(code).build();
+		OpCode opCode = InstructionSorter.decode(code);
 		assertEquals(opCode.getCode(), op );
 		assertEquals(opCode.getTargetInstructions()[0], target);
 		assertEquals(opCode.getLabel(), label);
+		assertEquals(opCode.getCategory(), Category.CONDITIONAL);
 	}
 	
 	@DataProvider(name = "bytecode")

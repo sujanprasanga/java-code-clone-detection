@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
-import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.OpCodeBuilder;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class InstructionExtractor {
@@ -34,8 +33,8 @@ public class InstructionExtractor {
 	
 //	public OpCode extract(String)
 	
-	private OpCodeBuilder createBuilder(Matcher matcher) {
-		OpCodeBuilder builder = new OpCodeBuilder();
+	private OpCode createBuilder(Matcher matcher) {
+		OpCode builder = new OpCode();
 		builder.setLabel(Integer.parseInt(matcher.group("label")));
 		return builder;
 	}

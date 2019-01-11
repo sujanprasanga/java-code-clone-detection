@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class InvokeDecodeRegExTest {
@@ -20,10 +21,11 @@ public class InvokeDecodeRegExTest {
 	
 	@Test(dataProvider="invokeDataSet")
 	public void testinvoke(String code, int label, String clazz, String method){
-		OpCode opCode = InstructionSorter.decode(code).build();
+		OpCode opCode = InstructionSorter.decode(code);
 		assertEquals(opCode.getTargetMethod(), method);
 		assertEquals(opCode.getTargetClass(), clazz);
 		assertEquals(opCode.getLabel(), label);
+		assertEquals(opCode.getCategory(), Category.INVOKE);
 	}
 	
 	@DataProvider(name = "invokeDataSet")

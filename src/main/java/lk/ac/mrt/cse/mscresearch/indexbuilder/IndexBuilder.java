@@ -13,6 +13,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.ClassParser;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.MethodSplitter;
 import lk.ac.mrt.cse.mscresearch.remoting.ServerAdaptor;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.JarDTO;
@@ -79,7 +80,8 @@ public class IndexBuilder {
 		try {
 			
 		Set<ClassDTO> classes = classNames.stream().map(c->decompileAndindex(c, classPath, fileHashes.get(c), doneListener))
-				                          .collect(Collectors.toSet());
+												   .filter(c->c!=null)
+				                                   .collect(Collectors.toSet());
 		return classes;
 		} finally {
 		while(!timer.completed()) {
@@ -91,8 +93,11 @@ public class IndexBuilder {
 	private ClassDTO decompileAndindex(String clazz, String classPath, String classHash, Consumer<String> doneListener) {
 		ClassParser classParser = new ClassParser();
 		String byteCode = ioUtil.disassembleClass(clazz, classPath);
-		Set<MethodDTO> methods = classParser.extractMethods(byteCode, clazz, "gfhg");
+		Set<MethodDTO> methods = classParser.extractMethods(byteCode, clazz);
 		doneListener.accept(clazz);
+		if(methods.isEmpty()) {
+			return null;
+		}
 		ClassDTO dto = new ClassDTO();
 		dto.setClassHash(classHash);
 		dto.setClassName(clazz);
@@ -103,10 +108,10 @@ public class IndexBuilder {
 	public static void main(String[] arg) throws Exception{
 		PropertyConfigurator.configure("log4j.properties");
 		File f =// new File("D:\\development\\msc-research\\Temp\\rt.jar");
-				//new File("C:\\Users\\Sujan\\.m2\\repository\\commons-codec\\commons-codec\\1.9\\commons-codec-1.9.jar");
-				new File("C:\\Users\\Sujan\\.m2\\repository\\javax\\activation\\javax.activation-api\\1.2.0\\javax.activation-api-1.2.0.jar");
+				new File("C:\\Users\\Sujan\\.m2\\repository\\commons-codec\\commons-codec\\1.9\\commons-codec-1.9.jar");
+				//new File("C:\\Users\\Sujan\\.m2\\repository\\javax\\activation\\javax.activation-api\\1.2.0\\javax.activation-api-1.2.0.jar");
 		new IndexBuilder().buildIndex(f);
-		System.out.println(ClassParser.unmappedCodes);
+		System.out.println(MethodSplitter.unmappedCodes);
 		System.out.println(InstructionSorter.typeCounter);
 //		jarIndex.getClasses();
 //		

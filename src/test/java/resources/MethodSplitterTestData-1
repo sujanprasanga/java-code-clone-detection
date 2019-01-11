@@ -1,0 +1,16 @@
+  public com.sun.java_cup.internal.runtime.Symbol newSymbol(int, java.lang.Long);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: getfield      #274                // Field last:I
+       5: putfield      #273                // Field beforeLast:I
+       8: aload_0
+       9: iload_1
+      10: putfield      #274                // Field last:I
+      13: new           #166                // class com/sun/java_cup/internal/runtime/Symbol
+      16: dup
+      17: iload_1
+      18: aload_2
+      19: invokespecial #293                // Method com/sun/java_cup/internal/runtime/Symbol."<init>":(ILjava/lang/Object;)V
+      22: areturn
+

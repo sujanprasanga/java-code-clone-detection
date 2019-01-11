@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class NewArrayDecodeRegExTest {
@@ -21,9 +22,10 @@ public class NewArrayDecodeRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, String arrayType){
-		OpCode opCode = InstructionSorter.decode(code).build();
+		OpCode opCode = InstructionSorter.decode(code);
 		assertEquals(opCode.getLabel(), label);
 		assertEquals(opCode.getTargetClass(), arrayType);
+		assertEquals(opCode.getCategory(), Category.NEW_ARRAY);
 	}
 	
 	@DataProvider(name = "bytecode")

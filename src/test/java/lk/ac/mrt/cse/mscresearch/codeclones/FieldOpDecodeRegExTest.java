@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class FieldOpDecodeRegExTest {
@@ -20,10 +21,11 @@ public class FieldOpDecodeRegExTest {
 	
 	@Test(dataProvider="fieldDataSet")
 	public void testinvoke(String code, int label, String op, String fieldSignature){
-		OpCode opCode = InstructionSorter.decode(code).build();
+		OpCode opCode = InstructionSorter.decode(code);
 		assertEquals(opCode.getCode(), op);
 		assertEquals(opCode.getTargetField(), fieldSignature );
 		assertEquals(opCode.getLabel(), label);
+		assertEquals(opCode.getCategory(), Category.FIELD);
 	}
 	
 	@DataProvider(name = "fieldDataSet")

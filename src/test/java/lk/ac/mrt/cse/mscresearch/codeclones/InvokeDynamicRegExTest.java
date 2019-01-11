@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class InvokeDynamicRegExTest {
@@ -20,8 +21,9 @@ public class InvokeDynamicRegExTest {
 	
 	@Test(dataProvider="invokeDataSet")
 	public void testinvoke(String code, int label){
-		OpCode opCode = InstructionSorter.decode(code).build();
+		OpCode opCode = InstructionSorter.decode(code);
 		assertEquals(opCode.getLabel(), label);
+		assertEquals(opCode.getCategory(), Category.INVOKE_DYNAMIC);
 	}
 	
 	@DataProvider(name = "invokeDataSet")

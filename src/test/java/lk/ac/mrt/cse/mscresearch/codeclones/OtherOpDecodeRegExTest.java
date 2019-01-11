@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class OtherOpDecodeRegExTest {
@@ -20,9 +21,10 @@ public class OtherOpDecodeRegExTest {
 	
 	@Test(dataProvider="bytecode")
 	public void testinvoke(String code, int label, String op){
-		OpCode opCode = InstructionSorter.decode(code.trim()).build();
+		OpCode opCode = InstructionSorter.decode(code.trim());
 		assertEquals(opCode.getLabel(), label);
 		assertEquals(opCode.getCode(), op);
+		assertEquals(opCode.getCategory(), Category.OTHER);
 	}
 	
 	@DataProvider(name = "bytecode")

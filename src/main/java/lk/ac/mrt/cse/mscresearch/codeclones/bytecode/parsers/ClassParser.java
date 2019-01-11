@@ -1,33 +1,28 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.RegularExpressionUtil;
-import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
-import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionTokenizer;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.AccessibleMethodIdentifier;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.MethodTokenizer;
-import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.OpCodeBuilder;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCodeTransformer;
-import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
 
 public class ClassParser {
 
-	public static final Set<String> unmappedCodes = new HashSet<>();
-	
+	private MethodSplitter splitter = new MethodSplitter();
+	private final AccessibleMethodIdentifier accessibleMethodIdentifier = new AccessibleMethodIdentifier();
 	private final OpCodeTransformer opCodeTransformer = new OpCodeTransformer();
-	
-	public Set<MethodDTO> extractMethods(String target, String className, String md5Hash) {
+
+	public Set<MethodDTO> extractMethods(String target, String className) {
 		final Set<MethodDTO> methods = new HashSet<>();
 		MethodTokenizer methodTokenizer = MethodTokenizer.getMethodTokenizer(target);
 		while(methodTokenizer.hasNext()){
@@ -65,46 +60,15 @@ public class ClassParser {
 	}
 	
 	private Set<MethodDTO> extractMethod(String method, Map<Integer, Integer> lineNumberMapping, String className) {
-		InstructionTokenizer instructionTokenizer = InstructionTokenizer.getInstructionTokenizer(method);  
-	String methodName = "someNme";
-		List<OpCodeBuilder> opcodes = new LinkedList<>();
-		if(lineNumberMapping.isEmpty()) {
-			while(instructionTokenizer.hasNext()) {
-				String next = instructionTokenizer.getNext();
-				OpCodeBuilder opcode = toOpcode(next);
-				if(opcode == null) {
-					noDecoderFound(next, className);
-				}
-				opcodes.add(opcode);
-			}
-		} else {
-			while(instructionTokenizer.hasNext()) {
-				String next = instructionTokenizer.getNext();
-				OpCodeBuilder opcode = toOpcode(next, lineNumberMapping);
-				if(opcode == null) {
-					noDecoderFound(next, className);
-				}
-				opcodes.add(opcode);
-			}
-		}
-		
-		return toMethodDTO(methodName, opcodes);
+	    String methodName = accessibleMethodIdentifier.extractMethodSignature(method);
+	    if(methodName == null) {
+	    	return Collections.emptySet();
+	    }
+		List<OpCode> opcodes = splitter.extractMethod(method, lineNumberMapping, className);
+		return toMethodDTO(methodName, opcodes,method.length());
 	}
 	
-	private static synchronized void noDecoderFound(String next, String className) {
-		unmappedCodes.add(className+"#" + next);
-	}
-
-	private OpCodeBuilder toOpcode(String next, Map<Integer, Integer> lineNumberMapping) {
-		OpCodeBuilder builder = toOpcode(next);
-		return builder;
-	}
-
-	private OpCodeBuilder toOpcode(String next) {
-		return InstructionSorter.decode(next);
-	}
-
-	private Set<MethodDTO> toMethodDTO(String signature, List<OpCodeBuilder> opcodes) {
-		return opCodeTransformer.transform(signature, opcodes.stream().map(OpCodeBuilder::build).collect(Collectors.toList()));
+	private Set<MethodDTO> toMethodDTO(String signature, List<OpCode> opcodes, int size) {
+		return opCodeTransformer.transform(signature, opcodes, size);
 	}
 }
