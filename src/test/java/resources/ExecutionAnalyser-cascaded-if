@@ -1,0 +1,25 @@
+  public int intRet(int, int, int, int);
+    Code:
+       0: iload_1
+       1: iload_2
+       2: if_icmple     16
+       5: iload_3
+       6: iload         4
+       8: if_icmple     29
+      11: iload_3
+      12: iload         4
+      14: imul
+      15: ireturn
+      16: iload_2
+      17: iload_3
+      18: if_icmple     25
+      21: iload_1
+      22: iload_2
+      23: imul
+      24: ireturn
+      25: iload_1
+      26: iload_2
+      27: iadd
+      28: ireturn
+      29: iload_1
+      30: ireturn

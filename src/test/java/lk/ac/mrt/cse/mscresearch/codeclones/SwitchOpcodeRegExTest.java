@@ -10,13 +10,13 @@ import java.util.regex.Pattern;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class SwitchOpcodeRegExTest {
 
 	PropertyUtil propertyUtil = new PropertyUtil();
 	Pattern p = Pattern.compile(propertyUtil.getRegExForSwitch());
+	Pattern target = Pattern.compile(propertyUtil.getRegExForSwitchTargets());
 	
 	@Test
 	public void testinvoke() throws IOException{
@@ -28,8 +28,17 @@ public class SwitchOpcodeRegExTest {
 			System.out.println(s.substring(matcher.start(), matcher.end()));
 		}
 		assertEquals(i, 7);
-		//assertEquals(opCode.getCategory(), Category.SWITCH);
-		
+	}
+	
+	@Test(dataProvider="bytecode")
+	public void testSwitchTarget(String code, int[] targets) throws IOException{
+		Matcher matcher = target.matcher(code);
+		int i =0;
+		while(matcher.find()) {
+			assertEquals(targets[i], Integer.parseInt(matcher.group("target")));
+			i++;
+		}
+		assertEquals(i, targets.length);
 	}
 	
 	@DataProvider(name = "bytecode")
@@ -43,7 +52,7 @@ public class SwitchOpcodeRegExTest {
 	        			"\r\n" + 
 	        			"                     3: 53\r\n" + 
 	        			"               default: 60\r\n" + 
-	        			"          }"}
+	        			"          }", new int[] {36, 46, 53, 60}}
 	        };                                                                                      
 	  }
 	

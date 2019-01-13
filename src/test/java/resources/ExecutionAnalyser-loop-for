@@ -1,0 +1,16 @@
+  public int intRet(int, int, int, int);
+    Code:
+       0: iconst_0
+       1: istore        5
+       3: goto          14
+       6: iload_1
+       7: iload         5
+       9: iadd
+      10: istore_1
+      11: iinc          5, 1
+      14: iload         5
+      16: iload_1
+      17: if_icmplt     6
+      20: iload_1
+      21: ireturn
+

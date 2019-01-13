@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import lk.ac.mrt.cse.mscresearch.util.IOUtil;
+
 public class Util {
 
 	public static String readFile(String name)  throws IOException {
@@ -12,5 +14,11 @@ public class Util {
 		StringBuilder sb = new StringBuilder();
 		decompiled.stream().forEach(s->sb.append(s).append("\r\n"));
 		return sb.toString();
+	}
+	
+	public static void main(String[] args) {
+		String f = "D:\\workspace\\personal\\msc-research\\TEst\\bin\\as\\asdas\\asd\\TestCondintionals.class";
+		IOUtil ioUtil = new IOUtil();
+		System.out.println(ioUtil.disassembleClass("as.asdas.asd.TestCondintionals", "D:\\workspace\\personal\\msc-research\\TEst\\bin\\"));
 	}
 }

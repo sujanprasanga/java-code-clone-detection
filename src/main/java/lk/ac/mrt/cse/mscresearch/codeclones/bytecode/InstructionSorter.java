@@ -1,6 +1,8 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,6 +15,8 @@ import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 public class InstructionSorter {
 
 	private static final Map<InstrcutionMatcherFactory, Mapper> sorters;
+	
+	private static final Pattern switchTargets;
 
 	public static final Map<String, AtomicInteger> typeCounter; 
 	
@@ -30,6 +34,8 @@ public class InstructionSorter {
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForInvokeDynamic()), InstructionSorter::mapInvokeDynamicOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForNewArrayOp()), InstructionSorter::mapNewArrayOp);
 		sorters.put(new InstrcutionMatcherFactory(propertyUtil.getRegExForSwitch()), InstructionSorter::mapSwitchOp);
+		
+		switchTargets = Pattern.compile(propertyUtil.getRegExForSwitchTargets());
 		
 		typeCounter = new LinkedHashMap<>();
 		
@@ -142,7 +148,9 @@ public class InstructionSorter {
 	
 	private static OpCode mapSwitchOp(InstrcutionMatcher m) {
 		typeCounter.get("mapSwitchOp").incrementAndGet();
+		m.setCategory(Category.SWITCH);
 		m.extractLabel();
+		m.extractTargets();
 		return m.op;
 	}
 	
@@ -208,7 +216,16 @@ public class InstructionSorter {
 			op.setArrayOp((!m.group("arrayOp").isEmpty() || op.getTargetClass() == "a") && !"const_null".equals(op.getCode()));
 		}
 		public void extractTargets(){
-			op.setTargetInstructions(new int[] { Integer.parseInt(m.group("target"))});
+			Matcher targets = switchTargets.matcher(m.group("targets"));
+			List<Integer> l = new ArrayList<>();
+			while(targets.find()) {
+				l.add(Integer.parseInt(targets.group("target")));
+			}
+			int[] a = new int[l.size()];
+			for(int i=0; i<l.size(); i++) {
+				a[i] = l.get(i);
+			}
+			op.setTargetInstructions(a);
 		}
 	}
 }

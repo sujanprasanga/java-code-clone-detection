@@ -1,0 +1,9 @@
+  public int asd(int, int);
+    Code:
+       0: iload_1
+       1: ifle          6
+       4: iload_1
+       5: ireturn
+       6: iload_2
+       7: ireturn
+       
