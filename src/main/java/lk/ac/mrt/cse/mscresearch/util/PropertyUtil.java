@@ -87,4 +87,12 @@ public class PropertyUtil {
 	public String getRegExForSwitchTargets() {
 		return get("switchTargets");
 	}
+
+	public String getLineNumberTableStartRegEx() {
+		return get("lineNumberTable");
+	}
+
+	public String getLineNumberTableEntryRegEx() {
+		return get("lineNumberTableEntry");
+	}
 }

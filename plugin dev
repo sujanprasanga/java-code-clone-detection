@@ -1,0 +1,11 @@
+install SDK and platform from eclipse updates - https://download.eclipse.org/eclipse/updates/4.8/
+https://www.javacodegeeks.com/2012/05/writing-eclipse-plugins-tutorial-part-1.html
+
+
+https://www.eclipse.org/articles/Article-WorkbenchSelections/article.html
+
+http://www.vogella.com/tutorials/EclipsePlugin/article.html
+
+https://help.eclipse.org/mars/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2FresAdv_events.htm
+ResourcesPlugin.getWorkspace().addResourceChangeListener(null)
+org.eclipse.core.resources;bundle-version="3.13.200"

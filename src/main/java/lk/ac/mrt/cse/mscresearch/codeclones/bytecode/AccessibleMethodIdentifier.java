@@ -31,4 +31,21 @@ public class AccessibleMethodIdentifier {
 			 return null;
 		 }
 	}
+
+	public String extractLocalWSMethodSignature(String code) {
+		Matcher all = allM.matcher(code);
+		 if(!all.find()) {
+			 return null;
+		 }
+		 String signature = code.substring(all.start(), all.end());
+		 Matcher abs = abstractM.matcher(signature);
+		 Matcher n = nativeM.matcher(signature);
+		 boolean isAbstract = abs.find();
+		 boolean isNative = n.find();
+		 if(!isAbstract&& !isNative) {
+			 return signature;
+		 } else {
+			 return null;
+		 }
+	}
 }

@@ -9,11 +9,12 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.Util;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.analysers.ExecutionAnalyser;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.MethodSplitter;
 
 public class ExecutionAnalyserTest {
 
-	@Test(dataProvider="exec")
+//	@Test(dataProvider="exec")
 	public void test(String file, int[] optionalDepth, int[] loopDepth) throws IOException {
 		String s = Util.readFile(file);
 		List<OpCode> code = new MethodSplitter().extractMethod(s, "method");

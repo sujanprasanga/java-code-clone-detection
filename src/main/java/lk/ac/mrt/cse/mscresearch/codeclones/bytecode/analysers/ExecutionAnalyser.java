@@ -1,4 +1,4 @@
-package lk.ac.mrt.cse.mscresearch.codeclones.bytecode;
+package lk.ac.mrt.cse.mscresearch.codeclones.bytecode.analysers;
 
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 
 public class ExecutionAnalyser {
@@ -67,5 +68,40 @@ public class ExecutionAnalyser {
 	private void analyseTargets(OpCode opcode, boolean optional, boolean looped) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void analyse() {
+		analyse(opcodes.get(0));
+	}
+
+	private void analyse(OpCode opCode) {
+		int index = opcodes.indexOf(opCode);
+		
+		switch(opCode.getCategory()) {
+		case CONDITIONAL: analyseConditional(opCode);
+		case SWITCH: analyseSwitch(opCode);
+		}
+	}
+
+	private void analyseSwitch(OpCode opCode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void analyseConditional(OpCode opCode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	static int i;
+	public static void main(String[] a) {
+		i++;
+		try {
+			main(new String[] {"asdasdasdasdasdasdasdsdasdasasdasdasdsdccccccccccccccccccccccccccccccs"+i});
+		}catch(StackOverflowError s) {
+			
+			System.out.println(i);
+			System.exit(0);
+		}
 	}
 }

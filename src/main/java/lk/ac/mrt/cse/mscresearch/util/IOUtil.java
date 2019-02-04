@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,9 +31,18 @@ public class IOUtil {
 
 	private static final Pattern hashIndexFileFormat = Pattern.compile("(?<hash>[0-9A-F]{32})=(?<class>.+)");
 	
+	public String disassembleLocalClass(String className, String classpath){
+		CommandLine cmdLine = new CommandLine("javap");
+		cmdLine.addArgument("-l");
+		cmdLine.addArgument("-c");
+		cmdLine.addArgument("-classpath");
+		cmdLine.addArgument(classpath);
+		cmdLine.addArgument(className);
+		return excecuteAndGetOutputAsString(cmdLine);
+	}
+	
 	public String disassembleClass(String className, String classpath){
 		CommandLine cmdLine = new CommandLine("javap");
-//		cmdLine.addArgument("-l");
 		cmdLine.addArgument("-c");
 		cmdLine.addArgument("-classpath");
 		cmdLine.addArgument(classpath);

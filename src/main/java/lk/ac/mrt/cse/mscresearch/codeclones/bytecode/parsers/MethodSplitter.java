@@ -43,7 +43,12 @@ public class MethodSplitter {
 
 	private OpCode toOpcode(String next, Map<Integer, Integer> lineNumberMapping) {
 		OpCode builder = toOpcode(next);
-		builder.setLineNumber(lineNumberMapping.get(builder.getLabel()));
+		int label = builder.getLabel();
+		if(lineNumberMapping.containsKey(label)) {
+			builder.setLineNumber(lineNumberMapping.get(label));
+		}else {
+			builder.setLineNumber(lineNumberMapping.get(Integer.MAX_VALUE));
+		}
 		return builder;
 	}
 
