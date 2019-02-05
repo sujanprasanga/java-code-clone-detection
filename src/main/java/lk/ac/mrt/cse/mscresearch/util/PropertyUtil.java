@@ -9,7 +9,7 @@ public class PropertyUtil {
 	
 	public PropertyUtil(){
 		properties = new Properties();
-		try(FileInputStream fis = new FileInputStream("ReqularExpressions.properties")){
+		try(FileInputStream fis = new FileInputStream("D:\\development\\msc-research\\msc-research-git\\ReqularExpressions.properties")){
 			properties.load(fis);
 		} catch (Exception e) {
 			throw new RuntimeException();

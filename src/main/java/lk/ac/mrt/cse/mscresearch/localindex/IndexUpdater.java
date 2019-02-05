@@ -26,6 +26,10 @@ public class IndexUpdater {
 	private final IOUtil ioUtil = new IOUtil();
 	private final LocalClassParser classParser = new LocalClassParser();
 	
+	public static synchronized void update(String project, Set<String> dependencies, String outputLocation) {
+		new IndexUpdater(project, dependencies, outputLocation).update();
+	}
+	
 	public IndexUpdater(String project, Set<String> dependencies, String outputLocation) {
 		this.project = project;
 		this.dependencies = dependencies;
@@ -44,7 +48,8 @@ public class IndexUpdater {
 		System.out.println(classes);
 		for(ClassDTO cdto : classes) {
 			if(cdto == null) continue;
-			System.err.println(cdto.getClassName());
+//			System.err.println(cdto.getClassName());
+			updateLocalIndex(cdto);
 			for(MethodDTO mdto : cdto.getMethods()) {
 				LocalMethodDTO lmdto = (LocalMethodDTO)mdto;
 				String[] mbody = mdto.getBody().split("\n");
@@ -56,6 +61,10 @@ public class IndexUpdater {
 		}
 	}
 	
+	private void updateLocalIndex(ClassDTO cdto) {
+		LocalIndex.updateLocalIndex(project, cdto);
+	}
+
 	private ClassDTO decompileAndindex(Entry<String, String> cls) {
 		return decompileAndindex(cls.getKey(), cls.getValue());
 	}
