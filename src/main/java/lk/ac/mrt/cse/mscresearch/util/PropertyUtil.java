@@ -1,6 +1,6 @@
 package lk.ac.mrt.cse.mscresearch.util;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertyUtil {
@@ -9,7 +9,7 @@ public class PropertyUtil {
 	
 	public PropertyUtil(){
 		properties = new Properties();
-		try(FileInputStream fis = new FileInputStream("D:\\development\\msc-research\\msc-research-git\\ReqularExpressions.properties")){
+		try(InputStream fis = getClass().getClassLoader().getResourceAsStream("META-INF/ReqularExpressions.properties")){
 			properties.load(fis);
 		} catch (Exception e) {
 			throw new RuntimeException();

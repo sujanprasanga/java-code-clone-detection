@@ -17,7 +17,6 @@ public class ServerAdaptor {
 		return lookupByteCodePersistor().isJarIndexed(hash);
 	}
 	
-	
 	private static ByteCodePersistor lookupByteCodePersistor(){
         final Hashtable<Object,Object> jndiProperties = new Hashtable<Object,Object>();
         jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY,  "org.wildfly.naming.client.WildFlyInitialContextFactory");

@@ -1,47 +1,61 @@
 package lk.ac.mrt.cse.mscresearch.localindex;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import lk.ac.mrt.cse.mscresearch.persistance.entities.MethodIndex;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
 
 public class LocalIndex {
 
-	private static final Map<String, List<MethodIndex>> localIndex = new ConcurrentHashMap<>();
-	private static final Map<String, String> hashes = new ConcurrentHashMap<>();
 	private static final List<LocalIndexEntry> localIndexEntry = new ArrayList<>(10000);
 	
-	public List<MethodIndex> getMethods(String clz){
-		return localIndex.get(clz);
-	}
+	private static final Map<String, Set<String>> dependencyMapping = new ConcurrentHashMap<>();
 	
-	public void updateIndex(String clz, String hash, List<MethodIndex> methods) {
-		localIndex.put(clz, methods);
-		hashes.put(clz, hash);
-	}
-	
-	public Collection<String> getHashes(){
-		return hashes.values();
+	public Map<String, String> getHashes(){
+		return localIndexEntry.stream().collect(Collectors.toMap(LocalIndexEntry::getClazz, LocalIndexEntry::getClazzHash));
 	}
 
 	public static List<LocalIndexEntry> getLocalIndexes(){
 		return Collections.unmodifiableList(localIndexEntry);
 	}
 	
-	public static synchronized void updateLocalIndex(String project, ClassDTO cdto) {
+	public static synchronized void updateLocalIndex(String project, Map<String, File> fqnToFile, ClassDTO cdto, Map<String, String> fqnToMD5Hash) {
 		List<LocalIndexEntry> tmp = localIndexEntry.stream().filter(e->e.getClazz().equals(cdto.getClassName()) && 
 				                                                       e.getProject().equals(project))
 				                                            .collect(Collectors.toList());
 		localIndexEntry.removeAll(tmp);
 		String clazz = cdto.getClassName();
+		File f = fqnToFile.get(clazz);
+		String clazzHash = fqnToMD5Hash.get(clazz);
 		cdto.getMethods().forEach(m->{
-			localIndexEntry.add(new LocalIndexEntry(project, clazz, m.getSignature(), m.getBodyhash(), m.getPluginid()));
+			localIndexEntry.add(new LocalIndexEntry(project, f, clazz, clazzHash, m.getSignature(), m.getBodyhash(), m.getPluginid()));
 		});
+	}
+	
+
+	public static void removeDeleted() {
+		List<LocalIndexEntry> deleted = localIndexEntry.stream().filter(LocalIndex::isDeleted)
+				                                                .collect(Collectors.toList());
+		localIndexEntry.removeAll(deleted);
+	}
+
+	private static boolean isDeleted(LocalIndexEntry e) {
+		return e.getFile().exists();
+	}
+	
+	public static void updateDependecyMapping(String project, Set<String> dependencies) {
+		dependencies.add(project);
+		dependencyMapping.put(project, dependencies);
+	}
+	
+	public static boolean isValidDependency(String project, String target) {
+		Set<String> dependencies = dependencyMapping.get(project);
+		return dependencies != null && dependencies.contains(target);
 	}
 }

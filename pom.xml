@@ -45,6 +45,7 @@
 			<groupId>lk.ac.mrt.cse.mscresearch</groupId>
 			<artifactId>java-code-clone-prevention-server</artifactId>
 			<version>1.0.0</version>
+			<classifier>api</classifier>
 		</dependency>
 
 			<dependency>
@@ -66,23 +67,60 @@
 	
 	 <build>
     <plugins>
-      <!-- any other plugins -->
+<!--       any other plugins -->
+<!--       <plugin> -->
+<!--         <artifactId>maven-assembly-plugin</artifactId> -->
+<!--         <executions> -->
+<!--           <execution> -->
+<!--             <phase>package</phase> -->
+<!--             <goals> -->
+<!--               <goal>single</goal> -->
+<!--             </goals> -->
+<!--           </execution> -->
+<!--         </executions> -->
+<!--         <configuration> -->
+<!--           <descriptorRefs> -->
+<!--             <descriptorRef>jar-with-dependencies</descriptorRef> -->
+<!--           </descriptorRefs> -->
+<!--         </configuration> -->
+<!--       </plugin> -->
+      
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-dependency-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
             <goals>
-              <goal>single</goal>
+                <goal>copy-dependencies</goal>
             </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
-      </plugin>
+            <configuration>
+                <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                <overWriteReleases>false</overWriteReleases>
+                <overWriteSnapshots>false</overWriteSnapshots>
+                <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <configuration>
+        <archive>
+            <manifest>
+                <addClasspath>true</addClasspath>
+                <!-- <classpathPrefix>lib</classpathPrefix> -->
+                <mainClass>lk.ac.mrt.cse.mscresearch.codeclones.CloneFinder</mainClass>
+            </manifest>
+            <manifestEntries>
+                <Class-Path>lib/</Class-Path>
+            </manifestEntries>
+        </archive>
+    </configuration>
+</plugin>
+      
     </plugins>
   </build>
 	

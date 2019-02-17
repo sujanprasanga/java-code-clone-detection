@@ -1,4 +1,4 @@
-package lk.ac.mrt.cse.mscresearch.clones;
+package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import java.util.ArrayList;
 import java.util.List;

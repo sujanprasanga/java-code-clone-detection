@@ -19,7 +19,7 @@ public class IndexUpdaterTest {
 	@BeforeMethod
 	public void setUp() {
 		outPutLocation = System.getProperty("user.dir") + "\\src\\test\\java\\resources\\testOutPutLocation\\";
-		underTest = new IndexUpdater("test", Collections.emptySet(), outPutLocation);
+		underTest = new IndexUpdater("test", Collections.emptySet(), Collections.emptySet(), outPutLocation);
 	}
 	
 	@Test

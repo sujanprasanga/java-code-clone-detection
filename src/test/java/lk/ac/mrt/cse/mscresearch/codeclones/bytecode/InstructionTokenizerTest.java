@@ -1,12 +1,8 @@
 package lk.ac.mrt.cse.mscresearch.codeclones.bytecode;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 import org.testng.annotations.Test;
 

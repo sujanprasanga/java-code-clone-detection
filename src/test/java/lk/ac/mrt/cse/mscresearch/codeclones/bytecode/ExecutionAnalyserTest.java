@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.Util;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.analysers.ExecutionAnalyser;

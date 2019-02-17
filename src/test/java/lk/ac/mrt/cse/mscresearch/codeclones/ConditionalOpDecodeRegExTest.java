@@ -11,8 +11,8 @@ import org.testng.annotations.Test;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
-import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
+import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class ConditionalOpDecodeRegExTest {
 
