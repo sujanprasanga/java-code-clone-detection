@@ -12,6 +12,8 @@ import lk.ac.mrt.cse.mscresearch.remoting.CloneFinderAdaptor;
 
 public class CloneFinder {
 
+	public static Runnable callBack;
+	
 	public static void find() {
 		Map<String, List<LocalIndexEntry>> grouped = LocalIndex.getLocalIndexes().stream().collect(Collectors.groupingBy(LocalIndexEntry::getMethodHash));
 		List<List<LocalIndexEntry>> clones = grouped.values().stream().filter(l->l.size() > 1).collect(Collectors.toList());
@@ -25,19 +27,24 @@ public class CloneFinder {
 		collect.addAll(libClones);
 		CloneModel.getModel().clear();
 		CloneModel.getModel().addAll(collect);
+		
+		if(callBack != null) {
+			callBack.run();
+		}
 	}
 	
 	private static List<Clone> findLibClones() {
 		CloneFinderAdaptor a = new CloneFinderAdaptor();
 		List<CodeFragmentData> codeFragments = LocalIndex.getLocalIndexes().stream().map(CloneFinder::toCodeFragment).collect(Collectors.toList());
-		return a.find(codeFragments);
+		return a.find(codeFragments, LocalIndex.getDependencyMapping());
 	}
 
 	private static CodeFragmentData toCodeFragment(LocalIndexEntry localIndexEntry) {
 		CodeFragmentData c = new CodeFragmentData();
 		c.setProject(localIndexEntry.getProject());
 		c.setClazz(localIndexEntry.getClazz());
-		c.setMethod(localIndexEntry.getMethodHash());
+		c.setMethodHash(localIndexEntry.getMethodHash());
+		c.setMethodSignature(localIndexEntry.getMethodSignature());
 		c.setLineRange(localIndexEntry.getLineRange());
 		c.setTransformerType(localIndexEntry.getType());
 		return c;
@@ -48,13 +55,7 @@ public class CloneFinder {
 	}
 	
 	private static boolean isValidLibClone(Clone c) {
-		String project = c.getProject();
-		for(LibMapping l : c.getLibMapping()) {
-			if(LocalIndex.isValidDependency(project, l.getArchiveHash())) {
-				return true;
-			}
-		}
-		return false;
+		return LocalIndex.isValidDependency(c.getProject(), c.getLibMapping().getArchiveHash());
 	}
 	
 	private static List<Clone> toClone(List<LocalIndexEntry> clones){
@@ -80,34 +81,8 @@ public class CloneFinder {
 		return c;
 	}
 	
-	public static void main(String[] args) {
-		CloneFinderAdaptor a = new CloneFinderAdaptor();
-		List<CodeFragmentData> codeFragment = new ArrayList<>();
-		CodeFragmentData c1 = new CodeFragmentData();
-		c1.setProject("ap");
-		c1.setClazz("ac");
-		c1.setMethod("am");
-		c1.setLineRange("alr");
-		c1.setMethod("ABFDC5B1BDA51CE2F4E7DDF3639A620A");
-		CodeFragmentData c2 = new CodeFragmentData();
-		c2.setProject("bp");
-		c2.setClazz("bc");
-		c2.setMethod("bm");
-		c2.setLineRange("blr");
-		c2.setMethod("ABFDC5B1BDA51CE2F4E7DDF3639A620A");
-		CodeFragmentData c3 = new CodeFragmentData();
-		c3.setProject("bp");
-		c3.setClazz("bc");
-		c3.setMethod("bm");
-		c3.setLineRange("blr");
-		c3.setMethod("F5D7F4F5749C751D1D3BFDDDD301D05D");
-		codeFragment.add(c1);
-		codeFragment.add(c2);
-		codeFragment.add(c3);
-		List<Clone> find = a.find(codeFragment);
-		find.stream().forEach(c->{
-			System.out.println(c.getProject() + "#" + c.getClazz() + "#" +c.getMethod() + "#" + c.getLineRange() +
-					" => " + c.getLibMapping());
-		});;
+	public static void find(Runnable callBack) {
+		CloneFinder.callBack = callBack;
+		find();
 	}
 }

@@ -26,9 +26,11 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 
 public class IOUtil {
 
+	private static final Logger log = Logger.getLogger(IOUtil.class);
 	private static final Pattern hashIndexFileFormat = Pattern.compile("(?<hash>[0-9A-F]{32})=(?<class>.+)");
 	
 	public String disassembleLocalClass(String className, String classpath){
@@ -168,8 +170,9 @@ public class IOUtil {
 		}
 		String formatedName = formatName(name);
 		if(!formatedName.isEmpty()) {
-			fileHashes.put(formatedName, MD5Hasher.md5(file));
+			fileHashes.put(formatedName, Hashing.hash(file));
 		}
+		log.debug("file: " + formatedName + " created");
 	}
 	
 	private String formatName(String name) {

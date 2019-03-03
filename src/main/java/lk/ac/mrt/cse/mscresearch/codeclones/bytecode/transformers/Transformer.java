@@ -8,7 +8,7 @@ import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
 import lk.ac.mrt.cse.mscresearch.localindex.LocalMethodDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
-import lk.ac.mrt.cse.mscresearch.util.MD5Hasher;
+import lk.ac.mrt.cse.mscresearch.util.Hashing;
 
 public interface Transformer {
 
@@ -25,7 +25,7 @@ public interface Transformer {
 		MethodDTO m = new MethodDTO();
 		m.setSignature(signature);
 		m.setBody(sb.toString());
-		m.setBodyhash(MD5Hasher.md5(m.getBody()));
+		m.setBodyhash(Hashing.hash(m.getBody()));
 		m.setSize(size);
 		m.setPluginid(getPluginId());
 		return m;
@@ -103,7 +103,7 @@ public interface Transformer {
 		LocalMethodDTO m = new LocalMethodDTO();
 		m.setSignature(signature);
 		m.setBody(sb.toString());
-		m.setBodyhash(MD5Hasher.md5(m.getBody()));
+		m.setBodyhash(Hashing.hash(m.getBody()));
 		m.setSize(size);
 		m.setPluginid(getPluginId());
 		m.setLineNumbers(l);

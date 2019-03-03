@@ -1,20 +1,34 @@
 package lk.ac.mrt.cse.mscresearch.remoting;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import org.apache.log4j.Logger;
 
 import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.JarDTO;
 
 public class ServerAdaptor {
 
+	private static final Logger log = Logger.getLogger(ServerAdaptor.class);
+	
 	public boolean isJarIndexed(String hash) {
-		return lookupByteCodePersistor().isJarIndexed(hash);
+		try {
+			return lookupByteCodePersistor().isJarIndexed(hash);
+		}
+		catch(Exception e) {
+			log.error("", e);
+			return false;
+		}
 	}
 	
 	private static ByteCodePersistor lookupByteCodePersistor(){
@@ -32,16 +46,47 @@ public class ServerAdaptor {
     }
 
 	public void indexJar(JarDTO jarDTO) {
-		lookupByteCodePersistor().indexJar(jarDTO);
+		try {
+			lookupByteCodePersistor().indexJar(jarDTO);
+		}
+		catch(Exception e) {
+			log.error("", e);
+		}
 	}
 
 
 	public Map<String, ClassDTO> getIndexedClasses(Map<String, String> fileHashes) {
-		return lookupByteCodePersistor().getIndexedClasses(new HashSet<>(fileHashes.values()));
+		try {
+			return lookupByteCodePersistor().getIndexedClasses(new HashSet<>(fileHashes.values()));
+		}
+		catch(Exception e) {
+			log.error("", e);
+			return Collections.emptyMap();
+		}
 	}
 
 
 	public ClassDTO indexClass(ClassDTO classDTO) {
 		return lookupByteCodePersistor().indexClass(classDTO);
+	}
+	
+	public List<ClassDTO> indexClasses(List<ClassDTO> classDTO) {
+		try {
+			return lookupByteCodePersistor().indexClasses(classDTO);
+		} catch(Exception e) {
+			String classNames = classDTO.stream().map(ClassDTO::getClassName).collect(Collectors.toList()).toString();
+			log.error("Could not index :" + classNames, e);
+			return Collections.emptyList();
+		}
+	}
+
+	public Map<String, Boolean> isIndexed(Set<String> jarHashes) {
+		try {
+			return lookupByteCodePersistor().isIndexed(new HashSet<>(jarHashes));
+		}
+		catch(Exception e) {
+			log.error("", e);
+			return Collections.emptyMap();
+		}
 	}
 }

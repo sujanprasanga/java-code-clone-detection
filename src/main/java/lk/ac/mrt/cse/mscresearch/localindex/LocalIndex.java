@@ -17,22 +17,18 @@ public class LocalIndex {
 	
 	private static final Map<String, Set<String>> dependencyMapping = new ConcurrentHashMap<>();
 	
-	public Map<String, String> getHashes(){
-		return localIndexEntry.stream().collect(Collectors.toMap(LocalIndexEntry::getClazz, LocalIndexEntry::getClazzHash));
-	}
-
 	public static List<LocalIndexEntry> getLocalIndexes(){
 		return Collections.unmodifiableList(localIndexEntry);
 	}
 	
-	public static synchronized void updateLocalIndex(String project, Map<String, File> fqnToFile, ClassDTO cdto, Map<String, String> fqnToMD5Hash) {
+	public static synchronized void updateLocalIndex(String project, Map<String, File> fqnToFile, ClassDTO cdto, Map<String, String> fqnTohashValueHash) {
 		List<LocalIndexEntry> tmp = localIndexEntry.stream().filter(e->e.getClazz().equals(cdto.getClassName()) && 
 				                                                       e.getProject().equals(project))
 				                                            .collect(Collectors.toList());
 		localIndexEntry.removeAll(tmp);
 		String clazz = cdto.getClassName();
 		File f = fqnToFile.get(clazz);
-		String clazzHash = fqnToMD5Hash.get(clazz);
+		String clazzHash = fqnTohashValueHash.get(clazz);
 		cdto.getMethods().forEach(m->{
 			localIndexEntry.add(new LocalIndexEntry(project, f, clazz, clazzHash, m.getSignature(), m.getBodyhash(), m.getPluginid()));
 		});
@@ -46,12 +42,16 @@ public class LocalIndex {
 	}
 
 	private static boolean isDeleted(LocalIndexEntry e) {
-		return e.getFile().exists();
+		return !e.getFile().exists();
 	}
 	
 	public static void updateDependecyMapping(String project, Set<String> dependencies) {
 		dependencies.add(project);
 		dependencyMapping.put(project, dependencies);
+	}
+	
+	public static Map<String, Set<String>> getDependencyMapping(){
+		return dependencyMapping;
 	}
 	
 	public static boolean isValidDependency(String project, String target) {

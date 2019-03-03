@@ -55,7 +55,7 @@ public class OtherOpDecodeRegExTest {
 	  {"  		52: bipush             ", 52  ,  "bipush"},
 	  {"  		52: sipush             ", 52  ,  "sipush"},
 	  {"       334: ret           7    ", 334 ,  "ret "},
-	  {"     271: ldc           #13                 // String DIGEST-MD5: Invalid block size for cipher", 271, "ldc"}
+	  {"     271: ldc           #13                 // String DIGEST-hashValue: Invalid block size for cipher", 271, "ldc"}
 	        };
 	  }
 	

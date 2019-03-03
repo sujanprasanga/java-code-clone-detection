@@ -27,7 +27,7 @@ public class FileWriterTimerTask extends java.util.TimerTask {
 	}
 	
 	public boolean completed() {
-		return !tasks.isEmpty();
+		return tasks.isEmpty();
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class FileWriterTimerTask extends java.util.TimerTask {
 		}
 		List<String> tmpTasks = new ArrayList<>(tasks);
 		try(FileWriter w = new FileWriter(file, true)){
-			tasks.stream().forEach(
+			tmpTasks.stream().forEach(
 					s->{
 				try {
 					w.write(s+"\r\n");

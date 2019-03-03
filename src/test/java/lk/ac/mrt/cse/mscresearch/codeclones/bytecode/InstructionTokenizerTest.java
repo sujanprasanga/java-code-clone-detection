@@ -13,7 +13,7 @@ public class InstructionTokenizerTest {
 	private String method = " public byte[] encode(byte[]);\r\n" + 
 			"    Code:\r\n" + 
 			"       0: aload_1\r\n" + 
-			"     271: ldc           #13                 // String DIGEST-MD5: Invalid block size for cipher\r\n"+
+			"     271: ldc           #13                 // String DIGEST-hashValue: Invalid block size for cipher\r\n"+
 			"       1: invokestatic  #2                  // Method toAsciiBytes:([B)[B\r\n" + 
 			"       4: areturn\r\n";
 	

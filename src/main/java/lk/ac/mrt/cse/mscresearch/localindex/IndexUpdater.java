@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.LocalClassParser;
+import lk.ac.mrt.cse.mscresearch.remoteindex.RemoteIndex;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
+import lk.ac.mrt.cse.mscresearch.util.Executor;
+import lk.ac.mrt.cse.mscresearch.util.Hashing;
 import lk.ac.mrt.cse.mscresearch.util.IOUtil;
-import lk.ac.mrt.cse.mscresearch.util.MD5Hasher;
 
 public class IndexUpdater {
 
@@ -27,7 +29,7 @@ public class IndexUpdater {
 	private final IOUtil ioUtil = new IOUtil();
 	private final LocalClassParser classParser = new LocalClassParser();
 	private final LocalIndex li;
-	private final Map<String, String> currentIndex;
+	private final List<LocalIndexEntry> currentIndex;
 	
 	public static synchronized void update(String project, Set<String> dependentProjects, Set<String> dependencies, String outputLocation) {
 		new IndexUpdater(project ,dependentProjects, dependencies, outputLocation).update();
@@ -39,24 +41,27 @@ public class IndexUpdater {
 		this.dependencies = dependencies;
 		this.outputLocation = outputLocation;
 		li = new LocalIndex();
-		currentIndex = li.getHashes();
+		currentIndex = li.getLocalIndexes();
 	}
 
 	public void update() {
 		
+		Executor.executeConcurrent(()->RemoteIndex.indexDependencies(dependencies));
+//		RemoteIndex.indexDependencies(dependencies);
+		
 		Set<File> classFiles = getClassFiles();
 		Map<String, File> fqnToFile = getClassFiles().stream().collect(Collectors.toMap(this::toFQN, Function.identity()));
-		Map<String, String> fqnToMD5Hash = classFiles.stream().collect(Collectors.toMap(this::toFQN, MD5Hasher::md5));
-		Map<String, String> updatedFqnToMD5Hash = fqnToMD5Hash.entrySet().stream().filter(this::isUpdatedEntry)
+		Map<String, String> fqnTohashValueHash = classFiles.stream().collect(Collectors.toMap(this::toFQN, Hashing::hash));
+		Map<String, String> updatedFqnTohashValueHash = fqnTohashValueHash.entrySet().stream().filter(this::isUpdatedEntry)
 				                                                                  .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
-		List<ClassDTO> classes = updatedFqnToMD5Hash.entrySet().stream()
+		List<ClassDTO> classes = updatedFqnTohashValueHash.entrySet().stream()
                                                                .map(this::decompileAndindex)
 														       .collect(Collectors.toList());
 		System.out.println(classes);
 		for(ClassDTO cdto : classes) {
 			if(cdto == null) continue;
 //			System.err.println(cdto.getClassName());
-			updateLocalIndex(cdto, fqnToFile, updatedFqnToMD5Hash);
+			updateLocalIndex(cdto, fqnToFile, updatedFqnTohashValueHash);
 			for(MethodDTO mdto : cdto.getMethods()) {
 				LocalMethodDTO lmdto = (LocalMethodDTO)mdto;
 				String[] mbody = mdto.getBody().split("\n");
@@ -72,18 +77,23 @@ public class IndexUpdater {
 	
 	private void updateDependecyMapping() {
 		Set<String> dependencyMapping = new HashSet<>();
-		dependencies.stream().map(File::new).map(MD5Hasher::md5).forEach(dependencyMapping::add);
+		dependencies.stream().map(File::new).map(Hashing::hash).forEach(dependencyMapping::add);
 		dependentProjects.forEach(dependencyMapping::add);
 		LocalIndex.updateDependecyMapping(project, dependencyMapping);
 	}
 
 	private boolean isUpdatedEntry(Entry<String, String> e) {
-		String hash = currentIndex.get(e.getKey());
-		return hash == null || !hash.equals(e.getValue());
+		String fqn = e.getKey();
+		String hash = e.getValue();
+		return currentIndex.stream().filter(l->{
+			return project.equalsIgnoreCase(l.getProject()) &&
+				   fqn.equals(l.getClazz()) &&
+				   hash.equals(l.getClazzHash());
+		}).count() == 0;
 	}
 	
-	private void updateLocalIndex(ClassDTO cdto, Map<String, File> fqnToFile, Map<String, String> updatedFqnToMD5Hash) {
-		LocalIndex.updateLocalIndex(project, fqnToFile, cdto, updatedFqnToMD5Hash);
+	private void updateLocalIndex(ClassDTO cdto, Map<String, File> fqnToFile, Map<String, String> updatedFqnTohashValueHash) {
+		LocalIndex.updateLocalIndex(project, fqnToFile, cdto, updatedFqnTohashValueHash);
 	}
 
 	private ClassDTO decompileAndindex(Entry<String, String> cls) {

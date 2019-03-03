@@ -19,8 +19,8 @@ import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.JarDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
 import lk.ac.mrt.cse.mscresearch.util.FileWriterTimerTask;
+import lk.ac.mrt.cse.mscresearch.util.Hashing;
 import lk.ac.mrt.cse.mscresearch.util.IOUtil;
-import lk.ac.mrt.cse.mscresearch.util.MD5Hasher;
 import lk.ac.mrt.cse.mscresearch.util.ProgressTracker;
 
 public class IndexBuilder {
@@ -31,21 +31,25 @@ public class IndexBuilder {
 	private final IOUtil ioUtil = new IOUtil();
 	private final ServerAdaptor serverAdapter = new ServerAdaptor();
 	
-	public void buildIndex(File jar) throws Exception{
-		String md5 = MD5Hasher.md5(jar);
-		if(serverAdapter.isJarIndexed(md5)) {
-			return;
+	public void buildIndex(File jar, String hashValue) throws Exception{
+		try {
+//			String hashValue = hashValueHasher.hashValue(jar);
+//			if(serverAdapter.isJarIndexed(hashValue)) {
+//				return;
+//			}
+			JarDTO jarDTO = new JarDTO();
+			jarDTO.setName(jar.getName());
+			jarDTO.setArtifact("NOT IMPLEMENTED YET");
+			jarDTO.setJarHash(hashValue);
+			jarDTO.setClasses(buildClassIndex(hashValue, jar));
+			serverAdapter.indexJar(jarDTO);
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		JarDTO jarDTO = new JarDTO();
-		jarDTO.setName(jar.getName());
-		jarDTO.setArtifact("NOT IMPLEMENTED YET");
-		jarDTO.setJarHash(md5);
-		jarDTO.setClasses(buildClassIndex(md5, jar));
-		serverAdapter.indexJar(jarDTO);
 	}
 
-	private Set<ClassDTO> buildClassIndex(String md5, File jar) throws Exception {
-		File f = createTempDirectory(md5);
+	private Set<ClassDTO> buildClassIndex(String hashValue, File jar) throws Exception {
+		File f = createTempDirectory(hashValue);
 		File copy = ioUtil.copy(jar, f);
 		ioUtil.unzip(copy);
 		Set<ClassDTO> classes = buildClassIndexes(copy);
@@ -53,10 +57,13 @@ public class IndexBuilder {
 		return classes;
 	}
 	
-	private File createTempDirectory(String md5) throws IOException {
-		File f = new File(temp + md5);
+	private File createTempDirectory(String hashValue) throws IOException {
+		File f = new File(temp + hashValue);
 		if(!f.exists()){
 			f.mkdirs();
+			log.debug("deirectory: " + hashValue + " created");
+		}else {
+			log.debug("deirectory: " + hashValue + " exists");
 		}
 //		f.deleteOnExit();
 		return f;
@@ -79,10 +86,13 @@ public class IndexBuilder {
 		};
 		try {
 			
-		Set<ClassDTO> classes = classNames.stream().map(c->decompileAndindex(c, classPath, fileHashes.get(c), doneListener))
-												   .filter(c->c!=null)
-				                                   .collect(Collectors.toSet());
-		return classes;
+//		Set<ClassDTO> classes = classNames.stream().map(c->decompileAndindex(c, classPath, fileHashes.get(c), doneListener))
+//												   .filter(c->c!=null)
+//				                                   .collect(Collectors.toSet());
+//		return classes;
+		alreadyIndexed.keySet().forEach(fileHashes::remove);
+		return new BatchIndexer(fileHashes, classPath, doneListener).index();
+		
 		} finally {
 		while(!timer.completed()) {
 			Thread.sleep(1000);
@@ -90,27 +100,35 @@ public class IndexBuilder {
 		}
 	}
 
-	private ClassDTO decompileAndindex(String clazz, String classPath, String classHash, Consumer<String> doneListener) {
-		ClassParser classParser = new ClassParser();
-		String byteCode = ioUtil.disassembleClass(clazz, classPath);
-		Set<MethodDTO> methods = classParser.extractMethods(byteCode, clazz);
-		doneListener.accept(clazz);
-		if(methods.isEmpty()) {
-			return null;
-		}
-		ClassDTO dto = new ClassDTO();
-		dto.setClassHash(classHash);
-		dto.setClassName(clazz);
-		dto.setMethods(methods);
-		return serverAdapter.indexClass(dto);
-	}
+//	private ClassDTO decompileAndindex(String clazz, String classPath, String classHash, Consumer<String> doneListener) {
+//		ClassParser classParser = new ClassParser();
+//		String byteCode = ioUtil.disassembleClass(clazz, classPath);
+//		Set<MethodDTO> methods = classParser.extractMethods(byteCode, clazz);
+//		doneListener.accept(clazz);
+//		if(methods.isEmpty()) {
+//			return null;
+//		}
+//		ClassDTO dto = new ClassDTO();
+//		dto.setClassHash(classHash);
+//		dto.setClassName(clazz);
+//		dto.setMethods(methods);
+//		try{
+//			return serverAdapter.indexClass(dto);
+//		}catch(Exception e) {
+//			log.error("cannot index", e);
+//		}
+//		return null;
+//	}
 
 	public static void main(String[] arg) throws Exception{
 		PropertyConfigurator.configure("log4j.properties");
-		File f =// new File("D:\\development\\msc-research\\Temp\\rt.jar");
-				new File("C:\\Users\\Sujan\\.m2\\repository\\commons-codec\\commons-codec\\1.9\\commons-codec-1.9.jar");
+		File f =
+				new File("D:\\development\\msc-research\\Temp\\rt.jar");
+//				new File("D:\\development\\msc-research\\Temp\\resources.jar");
 				//new File("C:\\Users\\Sujan\\.m2\\repository\\javax\\activation\\javax.activation-api\\1.2.0\\javax.activation-api-1.2.0.jar");
-		new IndexBuilder().buildIndex(f);
+		String hash = Hashing.hash(f);
+		log.debug(f.getAbsolutePath() + " hash :" + hash);
+		new IndexBuilder().buildIndex(f, hash);
 		System.out.println(MethodSplitter.unmappedCodes);
 		System.out.println(InstructionSorter.typeCounter);
 //		jarIndex.getClasses();
