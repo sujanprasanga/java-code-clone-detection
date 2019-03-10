@@ -3,6 +3,7 @@ package lk.ac.mrt.cse.mscresearch.codeclones;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.Clone.CloneType;
@@ -24,9 +25,18 @@ public class CloneFinder {
                                                .collect(Collectors.toList());
 		collect.addAll(libClones);
 		CloneModel.getModel().clear();
-		CloneModel.getModel().addAll(collect);
+		CloneModel.getModel().addAll(removeDuplicates(collect));
 		
 		EventManager.get().fireUpdateView();
+	}
+	
+	private static List<Clone> removeDuplicates(List<Clone> collect) {
+		Map<Integer, List<Clone>> grouped = collect.stream().collect(Collectors.groupingBy(Clone::getCloneUniqueHash));
+		return grouped.entrySet().stream().map(CloneFinder::flatten).collect(Collectors.toList());
+	}
+
+	private static Clone flatten(Entry<Integer, List<Clone>> entry) {
+		return entry.getValue().stream().sorted((x,y) -> x.getPluginCode()-y.getPluginCode()).findFirst().get();
 	}
 	
 	private static List<Clone> findLibClones() {
