@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.AccessibleMethodIdentifier;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.MethodTokenizer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
@@ -19,6 +21,8 @@ import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class LocalClassParser {
 
+	private static final Logger log = Logger.getLogger(LocalClassParser.class);
+	
 	private static final Pattern LINE_NUMBER_TABLE_START;
 	private static final Pattern LINE_NUMBER_TABLE_ENTRY;
 	
@@ -81,6 +85,14 @@ public class LocalClassParser {
 	}
 	
 	private Set<MethodDTO> toMethodDTO(String signature, List<OpCode> opcodes, int size) {
-		return opCodeTransformer.transformForLocal(signature, opcodes, size);
+		Set<MethodDTO> transformForLocal = opCodeTransformer.transformForLocal(signature, opcodes, size);
+		log.debug("transform for:" + signature);
+		if(log.isDebugEnabled()) {
+			transformForLocal.forEach(t->{
+				log.debug("plugin-id:" + t.getPluginid());
+				log.debug(t.getBody());
+			});
+		}
+		return transformForLocal;
 	}
 }

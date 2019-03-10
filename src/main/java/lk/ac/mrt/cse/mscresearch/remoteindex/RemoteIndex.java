@@ -33,8 +33,9 @@ public class RemoteIndex {
 	}
 	
 	private static boolean skipJar(File jar) {
-		String jdkFiles = "\\jre\\lib\\".toLowerCase();
-		return jar.getAbsolutePath().toLowerCase().contains(jdkFiles);
+//		String jdkFiles = "\\jre\\lib\\".toLowerCase();
+//		return jar.getAbsolutePath().toLowerCase().contains(jdkFiles);
+		return false;
 	}
 
 	public static List<Clone> findClones(){

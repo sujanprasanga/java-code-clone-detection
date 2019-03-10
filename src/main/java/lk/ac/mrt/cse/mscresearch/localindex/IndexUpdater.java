@@ -11,6 +11,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Logger;
+
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.LocalClassParser;
 import lk.ac.mrt.cse.mscresearch.remoteindex.RemoteIndex;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
@@ -21,6 +23,9 @@ import lk.ac.mrt.cse.mscresearch.util.IOUtil;
 
 public class IndexUpdater {
 
+	
+	private static final Logger log = Logger.getLogger(IndexUpdater.class);
+			
 	private final String project;
 	private final Set<String> dependencies;
 	private final Set<String> dependentProjects;
@@ -45,7 +50,7 @@ public class IndexUpdater {
 	}
 
 	public void update() {
-		
+		updateDependecyMapping();
 		Executor.executeConcurrent(()->RemoteIndex.indexDependencies(dependencies));
 //		RemoteIndex.indexDependencies(dependencies);
 		
@@ -66,13 +71,12 @@ public class IndexUpdater {
 				LocalMethodDTO lmdto = (LocalMethodDTO)mdto;
 				String[] mbody = mdto.getBody().split("\n");
 				System.out.println("\t" + mdto.getSignature());
-				for(int i = 0; i<lmdto.getLineNumbers().length;i++) {
-					System.out.println("\t\t" + lmdto.getLineNumbers()[i]+ " : " + mbody[i]);
-				}
+//				for(int i = 0; i<lmdto.getLineNumbers().length;i++) {
+//					System.out.println("\t\t" + lmdto.getLineNumbers()[i]+ " : " + mbody[i]);
+//				}
 			}
 		}
 		LocalIndex.removeDeleted();
-		updateDependecyMapping();
 	}
 	
 	private void updateDependecyMapping() {
@@ -102,6 +106,8 @@ public class IndexUpdater {
 	
 	private ClassDTO decompileAndindex(String clazz, String classHash) {
 		String byteCode = ioUtil.disassembleLocalClass(clazz, outputLocation);
+		log.debug("byte code for:" + clazz);
+		log.debug(byteCode);
 		Set<MethodDTO> methods = classParser.extractMethods(byteCode, clazz);
 		if(methods.isEmpty()) {
 			return null;

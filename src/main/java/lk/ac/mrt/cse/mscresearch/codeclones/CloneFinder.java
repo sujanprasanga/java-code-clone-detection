@@ -12,8 +12,6 @@ import lk.ac.mrt.cse.mscresearch.remoting.CloneFinderAdaptor;
 
 public class CloneFinder {
 
-	public static Runnable callBack;
-	
 	public static void find() {
 		Map<String, List<LocalIndexEntry>> grouped = LocalIndex.getLocalIndexes().stream().collect(Collectors.groupingBy(LocalIndexEntry::getMethodHash));
 		List<List<LocalIndexEntry>> clones = grouped.values().stream().filter(l->l.size() > 1).collect(Collectors.toList());
@@ -28,9 +26,7 @@ public class CloneFinder {
 		CloneModel.getModel().clear();
 		CloneModel.getModel().addAll(collect);
 		
-		if(callBack != null) {
-			callBack.run();
-		}
+		EventManager.get().fireUpdateView();
 	}
 	
 	private static List<Clone> findLibClones() {
@@ -78,11 +74,7 @@ public class CloneFinder {
 		c.setTargetClass(e2.getClazz());
 		c.setTargetMethod(e2.getMethodSignature());
 		c.setType(CloneType.LOCAL);
+		c.setPluginCode(e1.getType());
 		return c;
-	}
-	
-	public static void find(Runnable callBack) {
-		CloneFinder.callBack = callBack;
-		find();
 	}
 }

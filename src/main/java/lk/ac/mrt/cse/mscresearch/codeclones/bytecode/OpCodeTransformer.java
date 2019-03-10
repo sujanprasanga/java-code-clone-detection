@@ -6,7 +6,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.DefaultTransformer;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.FilterPrimitivesTransformer;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.InstructionCountBasedTransformer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.Transformer;
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.TypeLeniantTransformer;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
 
 public class OpCodeTransformer {
@@ -15,6 +18,9 @@ public class OpCodeTransformer {
 	
 	static {
 		transformers.add(new DefaultTransformer());
+		transformers.add(new TypeLeniantTransformer());
+		transformers.add(new FilterPrimitivesTransformer());
+		transformers.add(new InstructionCountBasedTransformer());
 	}
 	
 	public Set<MethodDTO> transform(String signature, List<OpCode> opcodes, int size){

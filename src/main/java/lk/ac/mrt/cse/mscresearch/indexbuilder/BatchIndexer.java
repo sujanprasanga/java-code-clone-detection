@@ -65,6 +65,8 @@ public class BatchIndexer {
 	
 	private ClassDTO decompile(String clazz) {
 		String byteCode = ioUtil.disassembleClass(clazz, classPath);
+		log.debug("byte code for:" + clazz);
+		log.debug(byteCode);
 		Set<MethodDTO> methods = classParser.extractMethods(byteCode, clazz);
 		ClassDTO dto = new ClassDTO();
 		dto.setClassHash(clazzes.get(clazz));

@@ -14,11 +14,12 @@ public interface Transformer {
 
 	default MethodDTO transform(String signature, List<OpCode> opcodes, int size) {
 		StringBuilder sb = new StringBuilder();
-		opcodes.stream().filter(getFilter()).map(this::transformOpCode).forEach(sb::append);
-//		for(OpCode o : opcodes.stream().filter(getFilter()).collect(Collectors.toList())) {
-//			sb.append(transformOpCode(o));
-//		}
+		transformOpCodes(opcodes, sb);
 		return toMethodDTO(signature, size, sb);
+	}
+
+	default void transformOpCodes(List<OpCode> opcodes, StringBuilder sb) {
+		opcodes.stream().filter(getFilter()).map(this::transformOpCode).forEach(sb::append);
 	}
 
 	default MethodDTO toMethodDTO(String signature, int size, StringBuilder sb) {
@@ -83,7 +84,7 @@ public interface Transformer {
 
 	default MethodDTO transformForLocal(String signature, List<OpCode> opcodes, int size) {
 		StringBuilder sb = new StringBuilder();
-		opcodes.stream().filter(getFilter()).map(this::transformOpCode).forEach(sb::append);
+		transformOpCodes(opcodes, sb);
 		List<Integer> ln = opcodes.stream().filter(getFilter()).map(OpCode::getLineNumber).collect(Collectors.toList());
 //		for(OpCode o : opcodes.stream().filter(getFilter()).collect(Collectors.toList())) {
 //			sb.append(transformOpCode(o));
