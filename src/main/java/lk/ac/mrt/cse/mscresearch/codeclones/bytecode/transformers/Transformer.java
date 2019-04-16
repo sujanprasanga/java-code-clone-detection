@@ -82,7 +82,7 @@ public interface Transformer {
 		return o->o.getCategory() != Category.RETURN;
 	}
 
-	default MethodDTO transformForLocal(String signature, List<OpCode> opcodes, int size) {
+	default LocalMethodDTO transformForLocal(String signature, List<OpCode> opcodes, int size) {
 		StringBuilder sb = new StringBuilder();
 		transformOpCodes(opcodes, sb);
 		List<Integer> ln = opcodes.stream().filter(getFilter()).map(OpCode::getLineNumber).collect(Collectors.toList());
@@ -108,6 +108,12 @@ public interface Transformer {
 		m.setSize(size);
 		m.setPluginid(getPluginId());
 		m.setLineNumbers(l);
+		return m;
+	}
+
+	default MethodDTO transformForLocalSegment(String signature, List<OpCode> opcodes, int size) {
+		LocalMethodDTO m = transformForLocal(signature, opcodes, size);
+		m.setSegment(true);
 		return m;
 	}
 }

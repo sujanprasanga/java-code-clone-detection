@@ -14,6 +14,7 @@ import lk.ac.mrt.cse.mscresearch.remoting.CloneFinderAdaptor;
 public class CloneFinder {
 
 	public static void find() {
+		EventManager.get().setStatus("finding clones ...");
 		Map<String, List<LocalIndexEntry>> grouped = LocalIndex.getLocalIndexes().stream().collect(Collectors.groupingBy(LocalIndexEntry::getMethodHash));
 		List<List<LocalIndexEntry>> clones = grouped.values().stream().filter(l->l.size() > 1).collect(Collectors.toList());
 		List<Clone> collect = clones.stream().map(CloneFinder::toClone)
@@ -53,6 +54,7 @@ public class CloneFinder {
 		c.setMethodSignature(localIndexEntry.getMethodSignature());
 		c.setLineRange(localIndexEntry.getLineRange());
 		c.setTransformerType(localIndexEntry.getType());
+		c.setSegment(localIndexEntry.isSegment());
 		return c;
 	}
 	

@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode.Category;
+import lk.ac.mrt.cse.mscresearch.localindex.LocalMethodDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
 
 public class InstructionCountBasedTransformer implements Transformer {
@@ -90,7 +91,7 @@ public class InstructionCountBasedTransformer implements Transformer {
 	}
 
 	@Override
-	public MethodDTO transformForLocal(String signature, List<OpCode> opcodes, int size) {
+	public LocalMethodDTO transformForLocal(String signature, List<OpCode> opcodes, int size) {
 		StringBuilder sb = groupAndTransform(opcodes);
 		int[] lineNumberRange = {
 				opcodes.stream().map(OpCode::getLineNumber).min((x, y)->x-y).get(),

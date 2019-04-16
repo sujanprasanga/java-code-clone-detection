@@ -1,5 +1,7 @@
 package lk.ac.mrt.cse.mscresearch.codeclones;
 
+import java.util.function.Consumer;
+
 public class EventManager {
 
 	
@@ -7,6 +9,7 @@ public class EventManager {
 	
 	
 	private Runnable updateView;
+	private Consumer<String> updateStatus;
 	
 	public void fireUpdateView() {
 		updateView.run();
@@ -18,5 +21,13 @@ public class EventManager {
 
 	public void setUpdateView(Runnable updateView) {
 		this.updateView = updateView;
+	}
+	
+	public void setUpdateStatusConsumer(Consumer<String> updateStatus) {
+		this.updateStatus = updateStatus;
+	}
+	
+	public void setStatus(String status) {
+		this.updateStatus.accept(status);
 	}
 }

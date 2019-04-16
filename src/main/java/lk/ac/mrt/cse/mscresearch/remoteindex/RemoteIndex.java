@@ -54,7 +54,6 @@ public class RemoteIndex {
 			Map<String, Boolean> indexed = new ServerAdaptor().isIndexed(files.keySet());
 			System.out.println("indexed : " + indexed.toString());
 			files.entrySet().stream().filter(e->!indexed.get(e.getKey())).forEach(RemoteIndex::indexJars);
-			CloneFinder.find();
 		}
 	}
 	

@@ -15,6 +15,7 @@ import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
 public class OpCodeTransformer {
 
 	private static final List<Transformer> transformers = new LinkedList<>();
+	private static final List<Transformer> transformers_local_segment = new LinkedList<>();
 	
 	static {
 		transformers.add(new DefaultTransformer());
@@ -23,11 +24,21 @@ public class OpCodeTransformer {
 		transformers.add(new InstructionCountBasedTransformer());
 	}
 	
+	static {
+		transformers_local_segment.add(new DefaultTransformer());
+		transformers_local_segment.add(new TypeLeniantTransformer());
+		transformers_local_segment.add(new FilterPrimitivesTransformer());
+	}
+	
 	public Set<MethodDTO> transform(String signature, List<OpCode> opcodes, int size){
 		return transformers.stream().map(t->t.transform(signature, opcodes, size)).collect(Collectors.toSet());
 	}
 
 	public Set<MethodDTO> transformForLocal(String signature, List<OpCode> opcodes, int size) {
 		return transformers.stream().map(t->t.transformForLocal(signature, opcodes, size)).collect(Collectors.toSet());
+	}
+
+	public Set<MethodDTO> transformForLocalSegment(String signature, List<OpCode> opcodes, int size) {
+		return transformers_local_segment.stream().map(t->t.transformForLocalSegment(signature, opcodes, size)).collect(Collectors.toSet());
 	}
 }

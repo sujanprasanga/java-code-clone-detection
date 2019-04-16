@@ -1,0 +1,93 @@
+  public static <K, V> java.util.Map<java.lang.String, V> prefix(java.util.Map<K, V>, java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnonnull     6
+       4: aconst_null
+       5: areturn
+       6: new           #49                 // class java/util/HashMap
+       9: dup
+      10: invokespecial #51                 // Method java/util/HashMap."<init>":()V
+      13: astore_2
+      14: aload_0
+      15: invokeinterface #52,  1           // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+      20: invokeinterface #58,  1           // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      25: astore        4
+      27: goto          93
+      30: aload         4
+      32: invokeinterface #64,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      37: checkcast     #70                 // class java/util/Map$Entry
+      40: astore_3
+      41: aload_3
+      42: invokeinterface #72,  1           // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+      47: astore        5
+      49: aload_3
+      50: invokeinterface #75,  1           // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+      55: astore        6
+      57: aload_2
+      58: new           #78                 // class java/lang/StringBuilder
+      61: dup
+      62: aload_1
+      63: invokestatic  #80                 // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+      66: invokespecial #84                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+      69: bipush        46
+      71: invokevirtual #87                 // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;
+      74: aload         5
+      76: invokevirtual #91                 // Method java/lang/Object.toString:()Ljava/lang/String;
+      79: invokevirtual #92                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      82: invokevirtual #95                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      85: aload         6
+      87: invokeinterface #96,  3           // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      92: pop
+      93: aload         4
+      95: invokeinterface #100,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+     100: ifne          30
+     103: aload_2
+     104: areturn
+
+
+
+  public static <K, V> java.util.Map<java.lang.String, V> prefix(java.util.Map<K, V>, java.lang.String);
+    Code:
+       0: aload_0
+       1: ifnonnull     6
+       4: aconst_null
+       5: areturn
+       6: new           #2                  // class java/util/HashMap
+       9: dup
+      10: invokespecial #3                  // Method java/util/HashMap."<init>":()V
+      13: astore_2
+      14: aload_0
+      15: invokeinterface #5,  1            // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+      20: invokeinterface #6,  1            // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      25: astore_3
+      26: aload_3
+      27: invokeinterface #7,  1            // InterfaceMethod java/util/Iterator.hasNext:()Z
+      32: ifeq          103
+      35: aload_3
+      36: invokeinterface #8,  1            // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      41: checkcast     #9                  // class java/util/Map$Entry
+      44: astore        4
+      46: aload         4
+      48: invokeinterface #10,  1           // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+      53: astore        5
+      55: aload         4
+      57: invokeinterface #11,  1           // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+      62: astore        6
+      64: aload_2
+      65: new           #12                 // class java/lang/StringBuilder
+      68: dup
+      69: invokespecial #13                 // Method java/lang/StringBuilder."<init>":()V
+      72: aload_1
+      73: invokevirtual #14                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      76: bipush        46
+      78: invokevirtual #15                 // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;
+      81: aload         5
+      83: invokevirtual #16                 // Method java/lang/Object.toString:()Ljava/lang/String;
+      86: invokevirtual #14                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      89: invokevirtual #17                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      92: aload         6
+      94: invokeinterface #18,  3           // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      99: pop
+     100: goto          26
+     103: aload_2
+     104: areturn

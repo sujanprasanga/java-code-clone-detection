@@ -30,7 +30,7 @@ public class LocalIndex {
 		File f = fqnToFile.get(clazz);
 		String clazzHash = fqnTohashValueHash.get(clazz);
 		cdto.getMethods().forEach(m->{
-			localIndexEntry.add(new LocalIndexEntry(project, f, clazz, clazzHash, m.getSignature(), m.getBodyhash(), m.getPluginid()));
+			localIndexEntry.add(new LocalIndexEntry(project, f, clazz, clazzHash, m));
 		});
 	}
 	

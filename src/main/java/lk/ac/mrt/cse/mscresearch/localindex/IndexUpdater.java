@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.CloneFinder;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.LocalClassParser;
 import lk.ac.mrt.cse.mscresearch.remoteindex.RemoteIndex;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
@@ -33,7 +34,6 @@ public class IndexUpdater {
 	private final FilenameFilter filter = (dir, name) -> name.endsWith(".class") || dir.isDirectory();
 	private final IOUtil ioUtil = new IOUtil();
 	private final LocalClassParser classParser = new LocalClassParser();
-	private final LocalIndex li;
 	private final List<LocalIndexEntry> currentIndex;
 	
 	public static synchronized void update(String project, Set<String> dependentProjects, Set<String> dependencies, String outputLocation) {
@@ -45,8 +45,7 @@ public class IndexUpdater {
 		this.dependentProjects = dependentProjects;
 		this.dependencies = dependencies;
 		this.outputLocation = outputLocation;
-		li = new LocalIndex();
-		currentIndex = li.getLocalIndexes();
+		currentIndex = LocalIndex.getLocalIndexes();
 	}
 
 	public void update() {
@@ -63,20 +62,21 @@ public class IndexUpdater {
                                                                .map(this::decompileAndindex)
 														       .collect(Collectors.toList());
 		System.out.println(classes);
+		LocalIndex.removeDeleted();
 		for(ClassDTO cdto : classes) {
 			if(cdto == null) continue;
 //			System.err.println(cdto.getClassName());
 			updateLocalIndex(cdto, fqnToFile, updatedFqnTohashValueHash);
-			for(MethodDTO mdto : cdto.getMethods()) {
-				LocalMethodDTO lmdto = (LocalMethodDTO)mdto;
-				String[] mbody = mdto.getBody().split("\n");
-				System.out.println("\t" + mdto.getSignature());
-//				for(int i = 0; i<lmdto.getLineNumbers().length;i++) {
-//					System.out.println("\t\t" + lmdto.getLineNumbers()[i]+ " : " + mbody[i]);
-//				}
-			}
+//			for(MethodDTO mdto : cdto.getMethods()) {
+//				LocalMethodDTO lmdto = (LocalMethodDTO)mdto;
+//				String[] mbody = mdto.getBody().split("\n");
+//				System.out.println("\t" + mdto.getSignature());
+////				for(int i = 0; i<lmdto.getLineNumbers().length;i++) {
+////					System.out.println("\t\t" + lmdto.getLineNumbers()[i]+ " : " + mbody[i]);
+////				}
+//			}
 		}
-		LocalIndex.removeDeleted();
+		CloneFinder.find();
 	}
 	
 	private void updateDependecyMapping() {

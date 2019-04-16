@@ -35,6 +35,7 @@ public class LocalClassParser {
 	private MethodSplitter splitter = new MethodSplitter();
 	private final AccessibleMethodIdentifier accessibleMethodIdentifier = new AccessibleMethodIdentifier();
 	private final OpCodeTransformer opCodeTransformer = new OpCodeTransformer();
+	private final MethodPartitioner methodPartitioner = new MethodPartitioner();
 	
 	public Set<MethodDTO> extractMethods(String target, String className) {
 		final Set<MethodDTO> methods = new HashSet<>();
@@ -85,9 +86,10 @@ public class LocalClassParser {
 	}
 	
 	private Set<MethodDTO> toMethodDTO(String signature, List<OpCode> opcodes, int size) {
-		Set<MethodDTO> transformForLocal = opCodeTransformer.transformForLocal(signature, opcodes, size);
-		log.debug("transform for:" + signature);
+		Set<MethodDTO> transformForLocal = new HashSet<>(opCodeTransformer.transformForLocal(signature, opcodes, size));
+		transformForLocal.addAll(methodPartitioner.partition(signature, opcodes, size));
 		if(log.isDebugEnabled()) {
+			log.debug("transform for:" + signature);
 			transformForLocal.forEach(t->{
 				log.debug("plugin-id:" + t.getPluginid());
 				log.debug(t.getBody());
