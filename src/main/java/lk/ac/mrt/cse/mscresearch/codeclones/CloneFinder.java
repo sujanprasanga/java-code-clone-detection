@@ -66,7 +66,7 @@ public class CloneFinder {
 		return LocalIndex.isValidDependency(c.getProject(), c.getLibMapping().getArchiveHash());
 	}
 	
-	private static List<Clone> toClone(List<LocalIndexEntry> clones){
+	public static List<Clone> toClone(List<LocalIndexEntry> clones){
 		List<Clone> c = new ArrayList<>();
 		for(int i=0; i<clones.size(); i++) {
 			for(int j=i+1; j < clones.size(); j++) {

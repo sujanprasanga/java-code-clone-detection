@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class CloneModel {
 
 	private static final List<Clone> clones = new ArrayList<>();
+	private static final List<Clone> sclones = new ArrayList<>();
 //	static {
 //		Clone c = new Clone();
 //		String project = UUID.randomUUID().toString();
@@ -44,6 +45,10 @@ public class CloneModel {
 	
 	public static List<Clone> getModel(){
 		return clones;
+	}
+
+	public static List<Clone> getSegementCloneModel() {
+		return sclones;
 	}
 
 }

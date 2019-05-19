@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -32,6 +34,7 @@ public class IOUtil {
 
 	private static final Logger log = Logger.getLogger(IOUtil.class);
 	private static final Pattern hashIndexFileFormat = Pattern.compile("(?<hash>[0-9A-F]{32})=(?<class>.+)");
+	private final FilenameFilter filter = (dir, name) -> name.endsWith(".class") || dir.isDirectory();
 	
 	public String disassembleLocalClass(String className, String classpath){
 		CommandLine cmdLine = new CommandLine("javap");
@@ -210,6 +213,26 @@ public class IOUtil {
 		return sb.toString();
 	}
 	
+	public File getFile(String binLocation, String classFQN) {
+		File f = new File(binLocation);
+		return new File(f, classFQN.replaceAll("\\.", "\\\\") + ".class");
+	}
+	
+	public Set<File> getClassFiles(String outputLocation){
+		HashSet<File> classes = new HashSet<>();
+		findClasses(new File(outputLocation), classes);
+		return classes;
+	}
+	
+	private void findClasses(File f, Set<File> classes) {
+		Stream.of(f.listFiles(filter)).forEach(child-> {
+			if(child.isDirectory()) {
+				findClasses(child, classes);
+			} else {
+				classes.add(child);
+			}
+		});
+	}	
 	public static void main(String[] ar) throws IOException {
 		IOUtil ioUtil = new IOUtil();
 		String s = ioUtil.getAsString("tmp");
