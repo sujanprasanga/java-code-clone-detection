@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.ConditionalTypeLeniantTransformer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.DefaultTransformer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.FilterPrimitivesTransformer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.InstructionCountBasedTransformer;
@@ -22,12 +23,14 @@ public class OpCodeTransformer {
 		transformers.add(new TypeLeniantTransformer());
 		transformers.add(new FilterPrimitivesTransformer());
 		transformers.add(new InstructionCountBasedTransformer());
+		transformers.add(new ConditionalTypeLeniantTransformer());
 	}
 	
 	static {
 		transformers_local_segment.add(new DefaultTransformer());
 		transformers_local_segment.add(new TypeLeniantTransformer());
 		transformers_local_segment.add(new FilterPrimitivesTransformer());
+		transformers_local_segment.add(new ConditionalTypeLeniantTransformer());
 	}
 	
 	public Set<MethodDTO> transform(String signature, List<OpCode> opcodes, int size){

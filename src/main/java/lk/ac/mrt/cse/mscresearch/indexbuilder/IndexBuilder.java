@@ -12,12 +12,10 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.InstructionSorter;
-import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.ClassParser;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.MethodSplitter;
 import lk.ac.mrt.cse.mscresearch.remoting.ServerAdaptor;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.ClassDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.JarDTO;
-import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
 import lk.ac.mrt.cse.mscresearch.util.FileWriterTimerTask;
 import lk.ac.mrt.cse.mscresearch.util.Hashing;
 import lk.ac.mrt.cse.mscresearch.util.IOUtil;
@@ -27,16 +25,15 @@ public class IndexBuilder {
 
 	private static final Logger log = Logger.getLogger(IndexBuilder.class);
 	
-	private static final String temp = "D:\\development\\msc-research\\Temp\\";
+	private static final String temp = System.getenv("APPDATA") + "\\java-code-clone-detection\\jars\\";
 	private final IOUtil ioUtil = new IOUtil();
 	private final ServerAdaptor serverAdapter = new ServerAdaptor();
 	
 	public void buildIndex(File jar, String hashValue) throws Exception{
 		try {
-//			String hashValue = hashValueHasher.hashValue(jar);
-//			if(serverAdapter.isJarIndexed(hashValue)) {
-//				return;
-//			}
+			if(serverAdapter.isJarIndexed(hashValue)) {
+				return;
+			}
 			JarDTO jarDTO = new JarDTO();
 			jarDTO.setName(jar.getName());
 			jarDTO.setArtifact("NOT IMPLEMENTED YET");
@@ -44,17 +41,16 @@ public class IndexBuilder {
 			jarDTO.setClasses(buildClassIndex(hashValue, jar));
 			serverAdapter.indexJar(jarDTO);
 		} catch(Exception e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 
 	private Set<ClassDTO> buildClassIndex(String hashValue, File jar) throws Exception {
 		File f = createTempDirectory(hashValue);
 		File copy = ioUtil.copy(jar, f);
+		log.debug(jar.getAbsolutePath() + " copied to " + f.getAbsolutePath());
 		ioUtil.unzip(copy);
-		Set<ClassDTO> classes = buildClassIndexes(copy);
-//		f.delete();
-		return classes;
+        return buildClassIndexes(copy);
 	}
 	
 	private File createTempDirectory(String hashValue) throws IOException {
@@ -65,7 +61,6 @@ public class IndexBuilder {
 		}else {
 			log.debug("deirectory: " + hashValue + " exists");
 		}
-//		f.deleteOnExit();
 		return f;
 	}
 	

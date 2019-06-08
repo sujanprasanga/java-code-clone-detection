@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.Clone;
-import lk.ac.mrt.cse.mscresearch.codeclones.CloneFinder;
 import lk.ac.mrt.cse.mscresearch.indexbuilder.IndexBuilder;
 import lk.ac.mrt.cse.mscresearch.remoting.ServerAdaptor;
 import lk.ac.mrt.cse.mscresearch.util.Hashing;
@@ -33,9 +32,9 @@ public class RemoteIndex {
 	}
 	
 	private static boolean skipJar(File jar) {
-//		String jdkFiles = "\\jre\\lib\\".toLowerCase();
-//		return jar.getAbsolutePath().toLowerCase().contains(jdkFiles);
-		return false;
+		String jdkFiles = "C:\\Java\\".toLowerCase();
+		return jar.getAbsolutePath().toLowerCase().contains(jdkFiles);
+//		return false;
 	}
 
 	public static List<Clone> findClones(){
@@ -52,7 +51,7 @@ public class RemoteIndex {
 			log.debug("hashes calculated");
 			log.debug("checking indexed jar");
 			Map<String, Boolean> indexed = new ServerAdaptor().isIndexed(files.keySet());
-			System.out.println("indexed : " + indexed.toString());
+			log.debug("indexed : " + indexed.toString());
 			files.entrySet().stream().filter(e->!indexed.get(e.getKey())).forEach(RemoteIndex::indexJars);
 		}
 	}

@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
+
 import lk.ac.mrt.cse.mscresearch.codeclones.Clone.CloneType;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.AccessibleMethodIdentifier;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.MethodTokenizer;
@@ -28,6 +30,8 @@ import lk.ac.mrt.cse.mscresearch.util.PropertyUtil;
 
 public class PartialMethodCloneFinder {
 
+	private static final Logger log = Logger.getLogger(PartialMethodCloneFinder.class);
+	
 	private static final Pattern LINE_NUMBER_TABLE_START;
 	private static final Pattern LINE_NUMBER_TABLE_ENTRY;
 	
@@ -48,6 +52,8 @@ public class PartialMethodCloneFinder {
 	private String clazzHash;
 	private final int lineStart;
 	private final int lineEnd;
+
+	private List<Clone> collect;
 	
 	public PartialMethodCloneFinder(String project, String bin, String clazz, int lineStart, int lineEnd)
 	{
@@ -61,6 +67,7 @@ public class PartialMethodCloneFinder {
 	
 	
 	public void find() {
+		collect = new ArrayList<>();
 		String disassembleClass = ioUtil.disassembleLocalClass(clazz, bin);
 		file = ioUtil.getFile(bin, clazz);
 		clazzHash = Hashing.hash(file);
@@ -75,6 +82,9 @@ public class PartialMethodCloneFinder {
 				}
 			}
 		}
+		CloneModel.getSegementCloneModel().clear();
+		CloneModel.getSegementCloneModel().addAll(removeDuplicates(collect));
+		EventManager.get().fireUpdateView();
 	}
 	
 	private boolean isSelectedMethod(Map<Integer, Integer> lineNumberMapping, int lineStart, int lineEnd) {
@@ -82,7 +92,10 @@ public class PartialMethodCloneFinder {
 	}
 
 	private void find(Set<MethodDTO> methods) {
-		List<Clone> collect = new ArrayList<>();
+		
+		methods.forEach(m->{
+			log.debug("plugin: " + m.getPluginid() + " boady:\n" + m.getBody());
+		});
 		
 		methods.forEach(m->{
 			Set<String> hashes = methods.stream().map(MethodDTO::getBodyhash).collect(Collectors.toSet());
@@ -98,8 +111,6 @@ public class PartialMethodCloneFinder {
 				                               .filter(this::isValidLibClone)
                                                .collect(Collectors.toList());
 		collect.addAll(libClones);
-		CloneModel.getSegementCloneModel().addAll(removeDuplicates(collect));
-		EventManager.get().fireUpdateView();
 	}
 
 	private static Map<Integer, Integer> extractLineNumbers(String method) {
