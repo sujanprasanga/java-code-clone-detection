@@ -1,10 +1,13 @@
 package lk.ac.mrt.cse.mscresearch.codeclones;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import lk.ac.mrt.cse.mscresearch.ide.AnnotatedSegment;
 
 public class CloneModel {
 
@@ -49,6 +52,13 @@ public class CloneModel {
 
 	public static List<Clone> getSegementCloneModel() {
 		return sclones;
+	}
+
+	public static Collection<Clone> getCompleteModel() {
+		ArrayList<Clone> l = new ArrayList<>();
+		l.addAll(clones);
+		l.addAll(sclones);
+		return l;
 	}
 
 }

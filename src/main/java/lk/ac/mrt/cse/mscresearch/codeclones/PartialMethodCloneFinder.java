@@ -20,6 +20,7 @@ import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.MethodTokenizer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCode;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.OpCodeTransformer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.parsers.MethodSplitter;
+import lk.ac.mrt.cse.mscresearch.ide.AnnotationProvider;
 import lk.ac.mrt.cse.mscresearch.localindex.LocalIndex;
 import lk.ac.mrt.cse.mscresearch.localindex.LocalIndexEntry;
 import lk.ac.mrt.cse.mscresearch.remoting.CloneFinderAdaptor;
@@ -111,6 +112,9 @@ public class PartialMethodCloneFinder {
 				                               .filter(this::isValidLibClone)
                                                .collect(Collectors.toList());
 		collect.addAll(libClones);
+		CloneModel.getSegementCloneModel().addAll(removeDuplicates(collect));
+		AnnotationProvider.updateAnnotations();
+		EventManager.get().fireUpdateView();
 	}
 
 	private static Map<Integer, Integer> extractLineNumbers(String method) {

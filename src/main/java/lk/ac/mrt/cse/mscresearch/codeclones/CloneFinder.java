@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import lk.ac.mrt.cse.mscresearch.codeclones.Clone.CloneType;
+import lk.ac.mrt.cse.mscresearch.ide.AnnotationProvider;
+import lk.ac.mrt.cse.mscresearch.ide.CloneAnnotation;
 import lk.ac.mrt.cse.mscresearch.localindex.LocalIndex;
 import lk.ac.mrt.cse.mscresearch.localindex.LocalIndexEntry;
 import lk.ac.mrt.cse.mscresearch.remoting.CloneFinderAdaptor;
@@ -28,6 +30,7 @@ public class CloneFinder {
 		CloneModel.getModel().clear();
 		CloneModel.getModel().addAll(removeDuplicates(collect));
 		
+		AnnotationProvider.updateAnnotations();
 		EventManager.get().fireUpdateView();
 	}
 	
@@ -87,6 +90,7 @@ public class CloneFinder {
 		c.setTargetMethod(e2.getMethodSignature());
 		c.setType(CloneType.LOCAL);
 		c.setPluginCode(e1.getType());
+		c.setLineRange(e1.getLineRange());
 		return c;
 	}
 }

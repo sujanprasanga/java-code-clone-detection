@@ -123,7 +123,7 @@ public class IndexUpdater {
 	
 	public String toFQN(File f) {
 		String absolutePath = f.getAbsolutePath();
-		return absolutePath.substring(outputLocation.length(), absolutePath.length() - 6).replaceAll("\\\\", ".");
+		return absolutePath.substring(outputLocation.length() + 1, absolutePath.length() - 6).replaceAll("\\\\", ".");
 	}
 
 	public static void findClonesForSelectedSegment(String project, String bin, String clazzHash, int lineStart, int lineEnd) {
