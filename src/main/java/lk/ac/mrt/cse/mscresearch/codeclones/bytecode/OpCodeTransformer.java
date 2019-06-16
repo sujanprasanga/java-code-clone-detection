@@ -11,6 +11,7 @@ import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.FilterPrimitiv
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.InstructionCountBasedTransformer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.Transformer;
 import lk.ac.mrt.cse.mscresearch.codeclones.bytecode.transformers.TypeLeniantTransformer;
+import lk.ac.mrt.cse.mscresearch.localindex.LocalMethodDTO;
 import lk.ac.mrt.cse.mscresearch.remoting.dto.MethodDTO;
 
 public class OpCodeTransformer {
@@ -43,5 +44,11 @@ public class OpCodeTransformer {
 
 	public Set<MethodDTO> transformForLocalSegment(String signature, List<OpCode> opcodes, int size) {
 		return transformers_local_segment.stream().map(t->t.transformForLocalSegment(signature, opcodes, size)).collect(Collectors.toSet());
+	}
+
+	public Set<LocalMethodDTO> transformForLocalWithCompleteLineNumberRange(String signature, List<OpCode> opcodes, int size, int[] lineNumberRange) {
+		Set<LocalMethodDTO> methods = transformers.stream().map(t->t.transformForLocal(signature, opcodes, size)).collect(Collectors.toSet());
+		methods.forEach(m -> m.setLineNumbers(lineNumberRange));
+		return methods;
 	}
 }

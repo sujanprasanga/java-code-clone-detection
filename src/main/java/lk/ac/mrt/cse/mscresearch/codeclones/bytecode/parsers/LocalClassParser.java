@@ -81,20 +81,32 @@ public class LocalClassParser {
 	    if(methodName == null) {
 	    	return Collections.emptySet();
 	    }
+	    int[] lineNumberRange = getLNRange(lineNumberMapping);
 		List<OpCode> opcodes = splitter.extractMethod(method, lineNumberMapping, className);
-		return toMethodDTO(methodName, opcodes,method.length());
+		return toMethodDTO(methodName, opcodes, method.length(), lineNumberRange);
 	}
 	
-	private Set<MethodDTO> toMethodDTO(String signature, List<OpCode> opcodes, int size) {
-		Set<MethodDTO> transformForLocal = new HashSet<>(opCodeTransformer.transformForLocal(signature, opcodes, size));
-		transformForLocal.addAll(methodPartitioner.partition(signature, opcodes, size));
-		if(log.isDebugEnabled()) {
-			log.debug("transform for:" + signature);
-			transformForLocal.forEach(t->{
-				log.debug("plugin-id:" + t.getPluginid());
-				log.debug(t.getBody());
-			});
+	private int[] getLNRange(Map<Integer, Integer> lineNumberMapping) {
+		int min = Integer.MAX_VALUE;
+		int max = Integer.MIN_VALUE;
+		for(int i : lineNumberMapping.values())
+		{
+			min = i < min ? i : min ;
+			max = i > max ? i : max;
 		}
+		return new int[] {min, max};
+	}
+
+	private Set<MethodDTO> toMethodDTO(String signature, List<OpCode> opcodes, int size, int[] lineNumberRange) {
+		Set<MethodDTO> transformForLocal = new HashSet<>(opCodeTransformer.transformForLocalWithCompleteLineNumberRange(signature, opcodes, size, lineNumberRange));
+//		transformForLocal.addAll(methodPartitioner.partition(signature, opcodes, size));
+//		if(log.isDebugEnabled()) {
+//			log.debug("transform for:" + signature);
+//			transformForLocal.forEach(t->{
+//				log.debug("plugin-id:" + t.getPluginid());
+//				log.debug(t.getBody());
+//			});
+//		}
 		return transformForLocal;
 	}
 }
