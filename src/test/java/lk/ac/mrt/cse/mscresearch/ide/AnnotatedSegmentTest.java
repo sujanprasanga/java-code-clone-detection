@@ -151,4 +151,11 @@ public class AnnotatedSegmentTest {
 		String e = "copy(Map<K, V>, String) : HasMap<K, V>";
 		assertEquals(AnnotatedSegment.formatMethodName(a), e);
 	}
+	
+	@Test
+	public void test_formatMethodName2() {
+		String a = "public static <K, V> java.util.HasMap<K, V> copy(java.util.Map<K, V>, int[][]);";
+		String e = "copy(Map<K, V>, int[][]) : HasMap<K, V>";
+		assertEquals(AnnotatedSegment.formatMethodName(a), e);
+	}
 }
