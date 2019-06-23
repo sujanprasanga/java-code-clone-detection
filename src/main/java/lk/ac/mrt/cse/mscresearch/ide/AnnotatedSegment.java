@@ -2,8 +2,10 @@ package lk.ac.mrt.cse.mscresearch.ide;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -20,6 +22,7 @@ public class AnnotatedSegment {
 	private static final Pattern synchronizedModifier = Pattern.compile("^synchronized ");
 	private static final Pattern namePattern = Pattern.compile(" (?<name>[a-zA-Z\\d_$]+)\\((?<args>.*)\\)( throws .+)?;");
 	
+	private final Set<Clone> clones = new HashSet<>();
 	private final Map<Integer, CloneAnnotation> annotations;
 	private final int start;
 	private final int end;
@@ -28,6 +31,13 @@ public class AnnotatedSegment {
 		this.annotations = annotations;
 		start = annotations.keySet().stream().sorted().findFirst().get();
 		end = annotations.keySet().stream().sorted((x,y)->y-x).findFirst().get();
+		annotations.values().forEach(c-> {
+			c.getClones().forEach(clones::add);
+		});
+	}
+	
+	public Set<Clone> getClones(){
+		return clones;
 	}
 	
 	private AnnotatedSegment() {
@@ -87,18 +97,18 @@ public class AnnotatedSegment {
 	                            	 .ifPresent(y-> AnnotatedSegment.addLocalCloneText(sb, y));
 		            		   }
 		            		   );
-		annotations2.put(start, new CloneAnnotation("clone.annontation.start",0, sb.toString()));
+		annotations2.put(start, new CloneAnnotation("clone.annontation.start",0, sb.toString(), clones));
 		for(int i = start+1; i<end; i++)
 		{
-			annotations2.put(i, new CloneAnnotation("clone.annontation.body", 0, null));
+			annotations2.put(i, new CloneAnnotation("clone.annontation.body", 0, null, Collections.emptyList()));
 		}
 	}
 	
-	private static void addLocalCloneText(StringBuilder sb, Clone c) {
+	public static void addLocalCloneText(StringBuilder sb, Clone c) {
 		sb.append(formatCloneText(c.getTargetMethod(), c.getTargetClass(), c.getTargetArchive())).append("\n");
 	}
 
-	private static void addLibCloneText(StringBuilder sb, Clone c) {
+	public static void addLibCloneText(StringBuilder sb, Clone c) {
 		LibMapping l = c.getLibMapping();
 		sb.append(formatCloneText(c.getTargetMethod(), l.getClazz(), formatArchiveName(l.getArchiveName()))).append("\n");
 	}
