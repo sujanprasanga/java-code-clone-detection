@@ -1,6 +1,6 @@
 # Compiled source #
 ###################
-*.class
+#*.class
 *.jar
 *.war
 *.ear
